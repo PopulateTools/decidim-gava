@@ -15,7 +15,11 @@ module DecidimBarcelona
     config.time_zone = "Europe/Madrid"
 
     # Locales
-    config.i18n.available_locales = %w(ca es)
+    if Rails.env.development? # TODO: otherwise dev server does not start
+      config.i18n.available_locales = %w(ca es en)
+    else
+      config.i18n.available_locales = %w(ca es)
+    end
     config.i18n.default_locale = :ca
   end
 end

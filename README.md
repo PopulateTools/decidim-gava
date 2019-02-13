@@ -44,6 +44,8 @@ psql
 ALTER USER decidim-gava WITH SUPERUSER;
 ```
 
+Create and migrate the DB:
+
 ```
 bin/rails db:create db:migrate
 bin/rails db:seed

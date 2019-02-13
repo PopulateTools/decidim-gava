@@ -7,7 +7,12 @@ Decidim.configure do |config|
   config.authorization_handlers = [CensusAuthorizationHandler]
   config.maximum_attachment_size = 150.megabytes
 
-  config.available_locales = %i(ca es)
+  # TODO: investigate why Faker fails if en is not available
+  if Rails.env.development?
+    config.available_locales = %i(ca es en)
+  else
+    config.available_locales = %i(ca es)
+  end
 
   if Rails.application.secrets.geocoder
     config.geocoder = {
