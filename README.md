@@ -46,9 +46,9 @@ ALTER USER decidim-gava WITH SUPERUSER;
 
 Create and migrate the DB:
 
-```
+```bash
 bin/rails db:create db:migrate
-bin/rails db:seed
+bin/rails db:seed # WARNING: this is not idempotent. If a unqueness validations fails, drop and re-create
 ```
 
 ## Licence

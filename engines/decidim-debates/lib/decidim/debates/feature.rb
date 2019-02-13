@@ -21,12 +21,16 @@ Decidim.register_feature(:debates) do |feature|
 
   feature.seeds do
     Decidim::ParticipatoryProcess.all.each do |process|
+      next # TODO: this seeder is broken, skip it for the moment
+
       next unless process.steps.any?
 
       feature = Decidim::Feature.create!(
         name: Decidim::Features::Namer.new(process.organization.available_locales, :debates).i18n_name,
         manifest_name: :debates,
-        participatory_process: process
+        # WARNING: This relation was broken
+        # participatory_process: process
+        participatory_space: process
       )
 
       3.times do
