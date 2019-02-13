@@ -1,0 +1,24 @@
+# Config files
+config/database.yml
+config/application.yml
+
+# Bundler config.
+/.bundle
+
+# Logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+/node_modules
+/yarn-error.log
+
+.byebug_history
+
+# Ignore public uploads
+public/uploads
+
+.env
+.rbenv-vars
+.rspec-failures

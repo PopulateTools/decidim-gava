@@ -16,12 +16,37 @@ This is the opensource code repository for "decidim-barcelona", based on [Decidi
 
 ## Development environment setup
 
-You can setup everything with Docker & Docker compose, run:
+Copy config files:
+
+```bash
+cp config/database.yml.example config/database.yml
+cp .env.example .env
+ln -s .env .rbenv-vars
+```
+
+Install dependencies:
+
+```bash
+bundle
+```
+
+**Setup database:**
+
+```bash
+createuser decidim-gava
+```
+
+Give this user admin privileges:
+
+```bash
+psql
+# And then run:
+ALTER USER decidim-gava WITH SUPERUSER;
+```
 
 ```
-docker-compose build
-docker-compose run --rm app bundle exec rake db:create db:schema:load db:seed
-docker-compose up
+bin/rails db:create db:migrate
+bin/rails db:seed
 ```
 
 ## Licence
