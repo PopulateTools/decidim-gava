@@ -9,13 +9,13 @@ gem "decidim-debates", path: "engines/decidim-debates"
 gem 'uglifier', '>= 1.3.0'
 gem 'figaro', '>= 1.1.1'
 gem "rollbar"
+gem "progressbar"
 
 group :development, :test do
   gem 'byebug', platform: :mri
 end
 
 group :development do
-  gem "progressbar"
   gem 'rainbow', "~>2.2.0"
   #gem "decidim-dev", git: "https://github.com/AjuntamentdeBarcelona/decidim.git"
   gem "decidim-dev", '~> 0.8.2'
