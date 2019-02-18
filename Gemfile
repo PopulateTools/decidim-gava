@@ -29,6 +29,10 @@ group :development do
   gem 'capistrano-bundler', '~> 1.2'
 end
 
+group :development, :staging do
+  gem "letter_opener"
+end
+
 group :production do
   gem "puma"
   gem "sidekiq"
