@@ -3,7 +3,7 @@ Rails.application.configure do
 
   # Code is not reloaded between requests.
   config.cache_classes = true
-  config.secret_key_base = ENV["SECRET_KEY_BASE"] 
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -24,8 +24,8 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = true  #ENV['RAILS_SERVE_STATIC_FILES'].present? 
-   
+  config.public_file_server.enabled = true  #ENV['RAILS_SERVE_STATIC_FILES'].present?
+
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = Uglifier.new(:harmony => true)
 
@@ -61,16 +61,6 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues per environment)
-  # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "decidim_gava_app_#{Rails.env}"
-  config.action_mailer.perform_caching = false
-  config.action_mailer.raise_delivery_errors = false
-
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
@@ -80,16 +70,6 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.action_mailer.smtp_settings = {
-    :address        => Rails.application.secrets.smtp_address,
-    :port           => Rails.application.secrets.smtp_port,
-    :authentication => Rails.application.secrets.smtp_authentication,
-    :user_name      => Rails.application.secrets.smtp_username,
-    :password       => Rails.application.secrets.smtp_password,
-    :domain         => Rails.application.secrets.smtp_domain,
-    :enable_starttls_auto => Rails.application.secrets.smtp_starttls_auto,
-    :openssl_verify_mode => 'none'
-  }
 
   if Rails.application.secrets.sendgrid
     config.action_mailer.default_options = {
@@ -102,11 +82,6 @@ Rails.application.configure do
     }
   end
 
-
-  # Use a different logger for distributed setups.
-  # require 'syslog/logger'
-  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
-
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
@@ -115,5 +90,22 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-end
 
+  # Background Processing
+  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_name_prefix = "decidim-gava_#{Rails.env}"
+
+  # Mailing
+  config.action_mailer.perform_caching = true
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.smtp_settings = {
+    :address        => Rails.application.secrets.smtp_address,
+    :port           => Rails.application.secrets.smtp_port,
+    :authentication => Rails.application.secrets.smtp_authentication,
+    :user_name      => Rails.application.secrets.smtp_username,
+    :password       => Rails.application.secrets.smtp_password,
+    :domain         => Rails.application.secrets.smtp_domain,
+    :enable_starttls_auto => Rails.application.secrets.smtp_starttls_auto,
+    :openssl_verify_mode => 'none'
+  }
+end

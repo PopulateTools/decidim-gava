@@ -2,14 +2,15 @@ source "https://rubygems.org"
 
 ruby '2.4.2'
 
-#gem "decidim", git: "https://github.com/AjuntamentdeBarcelona/decidim.git"
-gem "decidim", '~> 0.8.2'
-gem "decidim-debates", path: "engines/decidim-debates"
+DECIDIM_VERSION = "0.8.4"
 
+gem "decidim", DECIDIM_VERSION
+gem "decidim-debates", path: "engines/decidim-debates"
 gem 'uglifier', '>= 1.3.0'
 gem 'figaro', '>= 1.1.1'
 gem "rollbar"
 gem "progressbar"
+gem "sidekiq", "~> 5.2"
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -17,8 +18,7 @@ end
 
 group :development do
   gem 'rainbow', "~>2.2.0"
-  #gem "decidim-dev", git: "https://github.com/AjuntamentdeBarcelona/decidim.git"
-  gem "decidim-dev", '~> 0.8.2'
+  gem "decidim-dev", DECIDIM_VERSION
   gem 'web-console'
   gem 'listen'
   gem 'spring'
@@ -35,7 +35,6 @@ end
 
 group :production do
   gem "puma"
-  gem "sidekiq"
   gem "fog-aws"
   gem "newrelic_rpm"
   gem "dalli"
