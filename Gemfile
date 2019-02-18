@@ -30,7 +30,7 @@ group :development do
 end
 
 group :development, :staging do
-  gem "letter_opener"
+  gem "letter_opener_web", "~> 1.3.0"
 end
 
 group :production do
