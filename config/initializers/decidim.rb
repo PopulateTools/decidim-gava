@@ -3,7 +3,7 @@ require_relative "../../app/services/census_authorization_handler"
 
 Decidim.configure do |config|
   config.application_name = "Decidim Gavà"
-  config.mailer_sender    = Rails.application.secrets.email
+  config.mailer_sender = Rails.application.secrets.mailer_sender
   config.authorization_handlers = [CensusAuthorizationHandler]
   config.maximum_attachment_size = 150.megabytes
 
@@ -21,7 +21,6 @@ Decidim.configure do |config|
       here_app_code: Rails.application.secrets.geocoder[:here_app_code]
     }
   end
-
 
 end
 

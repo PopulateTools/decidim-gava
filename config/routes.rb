@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "sidekiq/web"
 
 Rails.application.routes.draw do
@@ -43,8 +44,8 @@ Rails.application.routes.draw do
     }, constraints: { feature_name: Regexp.new(feature_translations.keys.join("|")) }
   end
 
-  authenticate :user, lambda { |u| u.roles.include?("admin") } do
-    mount Sidekiq::Web => '/sidekiq'
+  authenticate :user, ->(user) { user.admin } do
+    mount Sidekiq::Web => '/admin/sidekiq'
   end
 
   mount Decidim::Core::Engine => "/"
