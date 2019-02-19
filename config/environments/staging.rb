@@ -84,9 +84,6 @@ Rails.application.configure do
 
   ## Mailing
   config.action_mailer.delivery_method = :letter_opener_web
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_caching = false
   config.action_mailer.smtp_settings = {
     address: Rails.application.secrets.smtp_address,
     port:    Rails.application.secrets.smtp_port,

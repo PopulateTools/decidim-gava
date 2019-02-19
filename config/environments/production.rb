@@ -95,8 +95,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidekiq
 
   # Mailing
-  config.action_mailer.perform_caching = true
-  config.action_mailer.raise_delivery_errors = false
   config.action_mailer.smtp_settings = {
     :address        => Rails.application.secrets.smtp_address,
     :port           => Rails.application.secrets.smtp_port,

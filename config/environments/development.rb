@@ -55,7 +55,4 @@ Rails.application.configure do
 
   ## Mailing
   config.action_mailer.delivery_method = :letter_opener_web
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.perform_caching = false
 end
