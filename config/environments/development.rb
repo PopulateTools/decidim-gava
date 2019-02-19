@@ -52,7 +52,6 @@ Rails.application.configure do
 
   # Background Processing
   config.active_job.queue_adapter = :sidekiq
-  config.active_job.queue_name_prefix = "decidim-gava_#{Rails.env}"
 
   ## Mailing
   config.action_mailer.delivery_method = :letter_opener
