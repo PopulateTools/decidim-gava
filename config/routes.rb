@@ -44,9 +44,11 @@ Rails.application.routes.draw do
     }, constraints: { feature_name: Regexp.new(feature_translations.keys.join("|")) }
   end
 
+  authenticate :user, ->(user) { user.admin } do
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
+
   mount Decidim::Core::Engine => "/"
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development? || Rails.env.staging?
-
-  mount Sidekiq::Web => '/sidekiq'
 end
