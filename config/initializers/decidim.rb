@@ -4,7 +4,6 @@ require_relative "../../app/services/census_authorization_handler"
 Decidim.configure do |config|
   config.application_name = "Decidim Gavà"
   config.mailer_sender = Rails.application.secrets.mailer_sender
-  config.authorization_handlers = [CensusAuthorizationHandler]
   config.maximum_attachment_size = 150.megabytes
 
   # TODO: investigate why Faker fails if en is not available
