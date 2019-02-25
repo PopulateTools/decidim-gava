@@ -5,7 +5,6 @@ ruby '2.4.2'
 DECIDIM_VERSION = "0.9.0"
 
 gem "decidim", DECIDIM_VERSION
-gem "decidim-debates", path: "engines/decidim-debates"
 gem 'uglifier', '>= 1.3.0'
 gem 'figaro', '>= 1.1.1'
 gem "rollbar"
