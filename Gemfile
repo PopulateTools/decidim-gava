@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby '2.4.2'
 
-DECIDIM_VERSION = "0.8.4"
+DECIDIM_VERSION = "0.9.0"
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-debates", path: "engines/decidim-debates"
