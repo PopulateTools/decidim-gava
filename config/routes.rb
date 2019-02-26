@@ -4,12 +4,12 @@ require "sidekiq/web"
 
 Rails.application.routes.draw do
 
-  feature_translations = {
-    action_plans: [:results, Decidim::Accountability::Result],
-    meetings: [:meetings, Decidim::Meetings::Meeting],
-    proposals: [:proposals, Decidim::Proposals::Proposal],
-    debates: [:debates, Decidim::Debates::Debate]
-  }
+  # feature_translations = {
+  #   action_plans: [:results, Decidim::Accountability::Result],
+  #   meetings: [:meetings, Decidim::Meetings::Meeting],
+  #   proposals: [:proposals, Decidim::Proposals::Proposal],
+  #   debates: [:debates, Decidim::Debates::Debate]
+  # }
 
   # constraints host: "participa.gavaciutat.cat" do
   #   get "/:process_slug/:step_id/:feature_name/(:resource_id)", to: redirect { |params, _request|
