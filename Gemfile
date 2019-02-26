@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby '2.4.2'
 
-DECIDIM_VERSION = "0.12.0"
+DECIDIM_VERSION = "0.12.2"
 
 gem "decidim", DECIDIM_VERSION
 gem 'uglifier', '>= 1.3.0'
