@@ -1,7 +1,5 @@
 source "https://rubygems.org"
 
-ruby '2.4.2'
-
 DECIDIM_VERSION = "0.16.0"
 
 gem "decidim", DECIDIM_VERSION
