@@ -9,7 +9,9 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
   attribute :document_number, String
   validates :document_number, format: { with: /\A[A-z0-9]*\z/ }, presence: true
+  attribute :date_of_birth, Date
 
+  validates :date_of_birth, presence: true
   validate :registered_in_town
   validate :district_is_blank_or_over_16
 
