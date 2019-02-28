@@ -97,7 +97,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   def census_date_of_birth_coincidence
-    errors.add(:date_of_birth, I18n.t("census_authorization_handler.invalid_date_of_birth")) unless first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
+    errors.add(:date_of_birth, I18n.t("census_authorization_handler.invalid_date_of_birth")) unless first_person_element&.text&.blank? || first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
   end
 
   def response
