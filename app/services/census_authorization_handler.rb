@@ -110,11 +110,11 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   def maybe_stubbed_response
-    if document_number.match(/\+$/)
+    if document_number.match(/\+$/) && !Rails.env.production?
       OpenStruct.new(body: stubbed_body(date_of_birth))
-    elsif document_number.match(/-$/)
+    elsif document_number.match(/-$/) && !Rails.env.production?
       OpenStruct.new(body: stubbed_body(Date.parse("2010-01-01")))
-    elsif document_number.match(/!$/)
+    elsif document_number.match(/!$/) && !Rails.env.production?
       OpenStruct.new(body: stubbed_fail_body)
     else
       Faraday.new(:url => Rails.application.secrets.census_url).get do |request|
