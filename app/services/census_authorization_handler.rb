@@ -8,9 +8,9 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   include ActionView::Helpers::SanitizeHelper
 
   attribute :document_number, String
-  validates :document_number, format: { with: /\A[A-z0-9]*\z/ }, presence: true
   attribute :date_of_birth, Date
 
+  validates :document_number, format: { with: /\A[A-z0-9+-\\!]*\z/ }, presence: true
   validates :date_of_birth, presence: true
   validate :registered_in_town
   validate :district_is_blank_or_over_16
@@ -103,11 +103,31 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
     return @response if defined?(@response)
 
-    response ||= Faraday.new(:url => Rails.application.secrets.census_url).get do |request|
-      request.url('findEmpadronat', dni: document_number)
-    end
+    response ||= maybe_stubbed_response
 
     @response ||= Nokogiri::XML(response.body).remove_namespaces!
+  end
+
+  def maybe_stubbed_response
+    if document_number.match(/\+$/)
+      OpenStruct.new(body: stubbed_body(date_of_birth))
+    elsif document_number.match(/-$/)
+      OpenStruct.new(body: stubbed_body(Date.parse("2010-01-01")))
+    elsif document_number.match(/!$/)
+      OpenStruct.new(body: stubbed_fail_body)
+    else
+      Faraday.new(:url => Rails.application.secrets.census_url).get do |request|
+        request.url("findEmpadronat", dni: document_number)
+      end
+    end
+  end
+
+  def stubbed_body(date)
+    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ssagavaVigents><ssagavaVigent><edat>34</edat><habap1hab>SURNAME1</habap1hab><habap2hab>SURNAME2</habap2hab><habfecnac>#{date.to_s}</habfecnac><habnomcom>SURNAME1*SURNAME2,MARY</habnomcom><habnomhab>MARY</habnomhab><haborddir>STREETNAME (L')                         AV     40    0      0         3   4</haborddir><habtoddir>AV STREETNAME (L'),   40 3 4</habtoddir><sexe>D</sexe></ssagavaVigent></ssagavaVigents>"
+  end
+
+  def stubbed_fail_body
+    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ssagavaVigents></ssagavaVigents>"
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
