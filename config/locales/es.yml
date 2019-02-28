@@ -31,6 +31,7 @@ es:
         fields:
           document_number: Número de documento
           document_type: Tipo de documento
+          maximum_age: Edad máxima
           postal_code: Código postal
           date_of_birth: Fecha de nacimiento
           scope_id: Distrito

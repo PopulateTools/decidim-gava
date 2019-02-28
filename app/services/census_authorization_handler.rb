@@ -110,4 +110,41 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     @response ||= Nokogiri::XML(response.body).remove_namespaces!
   end
 
+  class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
+    attr_reader :date_of_birth, :maximum_age
+
+    # Overrides the parent class method, but it still uses it to keep the base behavior
+    def authorize
+      raw_date_of_birth = authorization&.metadata&.fetch("date_of_birth")
+      @maximum_age ||= options.delete("maximum_age")
+      @date_of_birth ||= raw_date_of_birth ? Date.parse(raw_date_of_birth) : nil
+
+      status_code, data = *super
+
+      if status_code == :ok
+        if date_of_birth.blank?
+          status_code = :incomplete
+          data = { fields: ["date_of_birth"], action: :reauthorize, cancel: true }
+        elsif wrong_age
+          status_code = :unauthorized
+          data[:fields] = { "maximum_age" => maximum_age }
+        end
+      end
+
+      [status_code, data]
+    end
+
+    def wrong_age
+      return unless maximum_age.to_i <= 0
+
+      maximum_age.to_i.years.ago > date_of_birth
+    end
+
+    def missing_fields
+      @missing_fields ||= options.keys.each_with_object([]) do |field, missing|
+        missing << field if authorization.metadata&.fetch(field).blank?
+        missing
+      end
+    end
+  end
 end

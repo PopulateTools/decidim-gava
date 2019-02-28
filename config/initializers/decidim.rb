@@ -23,7 +23,11 @@ Decidim.configure do |config|
 
 end
 
-
 Decidim::Verifications.register_workflow(:census_authorization_handler) do |auth|
   auth.form = "CensusAuthorizationHandler"
+  auth.action_authorizer = "CensusAuthorizationHandler::ActionAuthorizer"
+
+  auth.options do |options|
+    options.attribute :maximum_age, type: :integer, required: false
+  end
 end

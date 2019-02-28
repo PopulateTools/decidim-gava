@@ -31,6 +31,7 @@ ca:
         fields:
           document_number: Número de document
           document_type: Tipus de document
+          maximum_age: Edat màxima
           postal_code: Codi postal
           date_of_birth: Data de naixement
           scope: Districte
