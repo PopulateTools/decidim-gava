@@ -107,6 +107,8 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
     response ||= maybe_stubbed_response
 
+    log_document_request(response.body)
+
     @response ||= Nokogiri::XML(response.body).remove_namespaces!
   end
 
@@ -136,6 +138,17 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     Rails.env.production?
   end
 
+  def log_document_request(response_body)
+    compact_document = document_number.gsub(/\s+/, "").upcase
+    Rails.logger.debug "==========="
+    Rails.logger.debug "Document hash: #{unique_id}"
+    Rails.logger.debug "Document filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")}"
+    Rails.logger.debug "Date of birth: #{date_of_birth}"
+    Rails.logger.debug "API response:"
+    Rails.logger.debug response_body
+    Rails.logger.debug "==========="
+  end
+
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
     attr_reader :date_of_birth, :maximum_age, :minimum_age
 
@@ -160,6 +173,8 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
         end
       end
 
+      log_authorization_result(status_code, data)
+
       [status_code, data]
     end
 
@@ -180,6 +195,17 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
         missing << field if authorization.metadata&.fetch(field).blank?
         missing
       end
+    end
+
+    def log_authorization_result(status_code, data)
+      Rails.logger.debug "==========="
+      Rails.logger.debug "code: #{status_code}"
+      Rails.logger.debug "data: #{data.pretty_inspect}"
+      Rails.logger.debug "Date of birth: #{date_of_birth}"
+      Rails.logger.debug "Minimum age setting: #{minimum_age}"
+      Rails.logger.debug "Maximum age setting: #{maximum_age}"
+      Rails.logger.debug "Authorization: #{authorization.pretty_inspect}"
+      Rails.logger.debug "==========="
     end
   end
 end
