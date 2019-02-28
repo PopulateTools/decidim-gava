@@ -29,5 +29,6 @@ Decidim::Verifications.register_workflow(:census_authorization_handler) do |auth
 
   auth.options do |options|
     options.attribute :maximum_age, type: :integer, required: false
+    options.attribute :minimum_age, type: :integer, required: false
   end
 end

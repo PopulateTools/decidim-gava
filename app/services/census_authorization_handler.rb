@@ -132,12 +132,13 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
-    attr_reader :date_of_birth, :maximum_age
+    attr_reader :date_of_birth, :maximum_age, :minimum_age
 
     # Overrides the parent class method, but it still uses it to keep the base behavior
     def authorize
       raw_date_of_birth = authorization&.metadata&.fetch("date_of_birth")
       @maximum_age ||= options.delete("maximum_age")
+      @minimum_age ||= options.delete("minimum_age")
       @date_of_birth ||= raw_date_of_birth ? Date.parse(raw_date_of_birth) : nil
 
       status_code, data = *super
@@ -148,7 +149,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
           data = { fields: ["date_of_birth"], action: :reauthorize, cancel: true }
         elsif wrong_age
           status_code = :unauthorized
-          data[:fields] = { "maximum_age" => maximum_age }
+          data[:fields] = { "maximum_age" => maximum_age, "minimum_age" => minimum_age }
         end
       end
 
@@ -157,8 +158,9 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
     def wrong_age
       return unless maximum_age.to_i <= 0
+      return unless minimum_age.to_i <= 0
 
-      maximum_age.to_i.years.ago > date_of_birth
+      maximum_age.to_i.years.ago > date_of_birth || minimum_age.to_i.years.ago < date_of_birth
     end
 
     def missing_fields
