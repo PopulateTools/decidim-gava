@@ -14,6 +14,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   validates :date_of_birth, presence: true
   validate :registered_in_town
   validate :district_is_blank_or_over_16
+  validate :census_date_of_birth_coincidence
 
   def self.from_params(params, additional_params = {})
     instance = super(params, additional_params)
@@ -83,10 +84,18 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     response.xpath('//ssagavaVigents//ssagavaVigent//edat').first
   end
 
+  def first_date_of_birth_element
+    response.xpath("//ssagavaVigents//ssagavaVigent//habfecnac").first
+  end
+
   def district_is_blank_or_over_16
     return nil if response.blank?
     return nil if errors.any? # Don't need to check anything if there are errors already
     errors.add(:base, 'Menor de 16 anys') unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
+  end
+
+  def census_date_of_birth_coincidence
+    errors.add(:date_of_birth, I18n.t("census_authorization_handler.invalid_date_of_birth")) unless first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
   end
 
   def response

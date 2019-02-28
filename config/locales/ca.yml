@@ -1,5 +1,6 @@
 ca:
   census_authorization_handler:
+    invalid_date_of_birth: Data de naixement incorrecta
     invalid_document: Número de document incorrecte
   activemodel:
     attributes:
