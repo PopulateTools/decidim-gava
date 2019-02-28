@@ -11,7 +11,8 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   attribute :document_number, String
   attribute :date_of_birth, Date
 
-  validates :document_number, format: { with: /\A[A-z0-9+-\\!]*\z/ }, presence: true
+  validates :document_number, format: { with: /\A[A-z0-9+-\\!]*\z/ }, presence: true, unless: :production_env?
+  validates :document_number, format: { with: /\A[A-z0-9]*\z/ }, presence: true, if: :production_env?
   validates :date_of_birth, presence: true
   validate :registered_in_town
   validate :district_is_blank_or_over_16
@@ -110,11 +111,11 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   def maybe_stubbed_response
-    if document_number.match(/\+$/) && !Rails.env.production?
+    if document_number.match(/\+$/) && !production_env?
       OpenStruct.new(body: stubbed_body(date_of_birth))
-    elsif document_number.match(/-$/) && !Rails.env.production?
+    elsif document_number.match(/-$/) && !production_env?
       OpenStruct.new(body: stubbed_body(Date.parse("2010-01-01")))
-    elsif document_number.match(/!$/) && !Rails.env.production?
+    elsif document_number.match(/!$/) && !production_env?
       OpenStruct.new(body: stubbed_fail_body)
     else
       Faraday.new(:url => Rails.application.secrets.census_url).get do |request|
@@ -129,6 +130,10 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
   def stubbed_fail_body
     "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ssagavaVigents></ssagavaVigents>"
+  end
+
+  def production_env?
+    Rails.env.production?
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
