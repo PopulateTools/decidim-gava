@@ -38,6 +38,9 @@ ca:
           scope: Districte
         name: El padró
         explanation: Autorització
+        unauthorized:
+          maximum_age: La teva edat està per sobre de l'edat màxima permesa de %{value} anys
+          minimum_age: La teva edat està per sota de l'edat mínima permesa de %{value} anys
     census_authorization_handler:
       document_types:
         dni: DNI

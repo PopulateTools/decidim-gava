@@ -147,25 +147,23 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
         if date_of_birth.blank?
           status_code = :incomplete
           data = { fields: ["date_of_birth"], action: :reauthorize, cancel: true }
-        elsif wrong_age
+        elsif wrong_age_attribute.present?
           status_code = :unauthorized
-          data[:fields] = { "maximum_age" => maximum_age, "minimum_age" => minimum_age }
+          data[:extra_explanation] = { key: wrong_age_attribute,
+                                       params: { scope: "decidim.authorization_handlers.census_authorization_handler.unauthorized",
+                                                 value: send(wrong_age_attribute) } }
         end
       end
 
       [status_code, data]
     end
 
-    def wrong_age
-      return false if maximum_age.to_i.zero? && minimum_age.to_i.zero?
-
-      if maximum_age.to_i.zero?
-        minimum_age.to_i.years.ago < date_of_birth
-      elsif minimum_age.to_i.zero?
-        maximum_age.to_i.years.ago > date_of_birth
-      else
-        maximum_age.to_i.years.ago > date_of_birth || minimum_age.to_i.years.ago < date_of_birth
-      end
+    def wrong_age_attribute
+      @wrong_age_attribute ||= if maximum_age.to_i > 0 && maximum_age.to_i.years.ago > date_of_birth
+                                 "maximum_age"
+                               elsif minimum_age.to_i > 0 && minimum_age.to_i.years.ago < date_of_birth
+                                 "minimum_age"
+                               end
     end
 
     def missing_fields

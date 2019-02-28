@@ -38,6 +38,9 @@ es:
           scope_id: Distrito
         name: El padrón
         explanation: Autoritzación
+        unauthorized:
+          maximum_age: Tu edad está por encima de la edad máxima permitida de %{value} años
+          minimum_age: Tu edad está por debajo de la edad mínima permitida de %{value} años
     census_authorization_handler:
       document_types:
         dni: DNI
