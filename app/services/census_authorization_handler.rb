@@ -157,8 +157,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     end
 
     def wrong_age
-      return unless maximum_age.to_i <= 0
-      return unless minimum_age.to_i <= 0
+      return true if maximum_age.to_i <= 0 || minimum_age.to_i <= 0
 
       maximum_age.to_i.years.ago > date_of_birth || minimum_age.to_i.years.ago < date_of_birth
     end
