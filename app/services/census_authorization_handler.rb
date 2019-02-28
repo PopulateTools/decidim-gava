@@ -143,7 +143,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
       status_code, data = *super
 
-      if status_code == :ok
+      if has_age_options? && status_code == :ok
         if date_of_birth.blank?
           status_code = :incomplete
           data = { fields: ["date_of_birth"], action: :reauthorize, cancel: true }
@@ -164,6 +164,10 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
                                elsif minimum_age.to_i > 0 && minimum_age.to_i.years.ago < date_of_birth
                                  "minimum_age"
                                end
+    end
+
+    def has_age_options?
+      minimum_age.to_i > 0 || maximum_age.to_i > 0
     end
 
     def missing_fields
