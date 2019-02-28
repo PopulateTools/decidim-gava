@@ -157,9 +157,15 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     end
 
     def wrong_age
-      return true if maximum_age.to_i <= 0 || minimum_age.to_i <= 0
+      return false if maximum_age.to_i.zero? && minimum_age.to_i.zero?
 
-      maximum_age.to_i.years.ago > date_of_birth || minimum_age.to_i.years.ago < date_of_birth
+      if maximum_age.to_i.zero?
+        minimum_age.to_i.years.ago < date_of_birth
+      elsif minimum_age.to_i.zero?
+        maximum_age.to_i.years.ago > date_of_birth
+      else
+        maximum_age.to_i.years.ago > date_of_birth || minimum_age.to_i.years.ago < date_of_birth
+      end
     end
 
     def missing_fields
