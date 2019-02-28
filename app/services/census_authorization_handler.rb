@@ -40,7 +40,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   # You must return a Hash that will be serialized to the authorization when
   # it's created, and available though authorization.metadata
   def metadata
-    #super.merge(postal_code: postal_code, scope: scope.name)
+    super.merge(date_of_birth: Date.parse(first_date_of_birth_element.text).to_s)
   end
 
   def scope
