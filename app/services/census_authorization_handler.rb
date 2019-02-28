@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Checks the authorization against the census for Barcelona.
 require "digest/md5"
 
@@ -69,19 +70,19 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
   def registered_in_town
     return nil if response.blank?
-    errors.add(:base, 'No empadronat') unless first_person_element.present? && first_person_element.text != ""
+    errors.add(:base, "No empadronat") unless first_person_element.present? && first_person_element.text != ""
   end
 
   def first_person_element
-    response.xpath('//ssagavaVigents').first
+    response.xpath("//ssagavaVigents").first
   end
 
   def first_district_element
-    response.xpath('//ssagavaVigents//ssagavaVigent//barri').first
+    response.xpath("//ssagavaVigents//ssagavaVigent//barri").first
   end
 
   def first_age_element
-    response.xpath('//ssagavaVigents//ssagavaVigent//edat').first
+    response.xpath("//ssagavaVigents//ssagavaVigent//edat").first
   end
 
   def first_date_of_birth_element
@@ -91,7 +92,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def district_is_blank_or_over_16
     return nil if response.blank?
     return nil if errors.any? # Don't need to check anything if there are errors already
-    errors.add(:base, 'Menor de 16 anys') unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
+    errors.add(:base, "Menor de 16 anys") unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
   end
 
   def census_date_of_birth_coincidence

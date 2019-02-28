@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative "../../app/services/census_authorization_handler"
 
 Decidim.configure do |config|
@@ -20,7 +21,6 @@ Decidim.configure do |config|
       here_app_code: Rails.application.secrets.geocoder[:here_app_code]
     }
   end
-
 end
 
 Decidim::Verifications.register_workflow(:census_authorization_handler) do |auth|
