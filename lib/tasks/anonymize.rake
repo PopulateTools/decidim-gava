@@ -92,9 +92,7 @@ namespace :anonymize do
   task user_groups: [:check, :environment] do
     with_progress Decidim::UserGroup.all, name: "user groups" do |user_group|
       user_group.update_columns(
-        name: "User Group #{user_group.id}",
-        document_number: "document-#{user_group.id}",
-        phone: "123456789"
+        name: "User Group #{user_group.id}"
       )
     end
   end
@@ -114,12 +112,14 @@ namespace :anonymize do
     ::Decidim::User.create!(default_user_attributes.merge(
       email: "user@decidim.dev",
       name: "Regular User",
+      nickname: "regular-user",
       admin: false
     ))
 
     ::Decidim::User.create!(default_user_attributes.merge(
       email: "admin@decidim.dev",
       name: "Admin User",
+      nickname: "admin-user",
       admin: true
     ))
 
@@ -132,7 +132,7 @@ namespace :anonymize do
 
   task update_organization_domain: [:check, :environment] do
     if Rails.env.development?
-      default_organization.update_attributes!(host: "decidim.test")
+      default_organization.update_attributes!(host: "localhost")
     elsif Rails.env.staging?
       default_organization.update_attributes!(host: "gava.populate.tools")
     end
