@@ -107,7 +107,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
     response ||= maybe_stubbed_response
 
-    log_document_request(response.body)
+    log_census_request(response)
 
     @response ||= Nokogiri::XML(response.body).remove_namespaces!
   end
@@ -138,15 +138,11 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     Rails.env.production?
   end
 
-  def log_document_request(response_body)
+  def log_census_request(response)
     compact_document = document_number.gsub(/\s+/, "").upcase
-    Rails.logger.debug "==========="
-    Rails.logger.debug "Document hash: #{unique_id}"
-    Rails.logger.debug "Document filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")}"
-    Rails.logger.debug "Date of birth: #{date_of_birth}"
-    Rails.logger.debug "API response:"
-    Rails.logger.debug response_body
-    Rails.logger.debug "==========="
+
+    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth}"
+    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{response.body}"
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
