@@ -21,5 +21,7 @@ module DecidimBarcelona
       config.i18n.available_locales = %w(ca es)
     end
     config.i18n.default_locale = :ca
+
+    config.i18n.enforce_available_locales = false
   end
 end
