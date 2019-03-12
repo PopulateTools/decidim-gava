@@ -67,7 +67,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
   def registered_in_town
     return nil if response.blank?
-    errors.add(:base, "No empadronat") unless first_person_element.present? && first_person_element.text != ""
+    errors.add(:document_number, i18_error_msg(:not_in_census)) unless first_person_element.present? && first_person_element.text != ""
   end
 
   def first_person_element
@@ -89,13 +89,18 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def district_is_blank_or_over_16
     return nil if response.blank?
     return nil if errors.any? # Don't need to check anything if there are errors already
-    errors.add(:base, "Menor de 16 anys") unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
+
+    unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
+      errors.add(:date_of_birth, i18_error_msg(:not_old_enough))
+    end
   end
 
   def census_date_of_birth_coincidence
-    errors.add(:date_of_birth, I18n.t("census_authorization_handler.invalid_date_of_birth")) unless first_person_element&.text&.blank? || first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
     return if (errors.keys - [:date_of_birth]).any? # Don't add more errors if user is not in census
 
+    unless first_person_element&.text&.blank? || first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
+      errors.add(:date_of_birth, i18_error_msg(:invalid_date_of_birth))
+    end
   end
 
   def response
@@ -141,6 +146,10 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
     Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth}"
     Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{response.body}"
+  end
+
+  def i18_error_msg(error_key)
+    I18n.t("census_authorization_handler.#{error_key}")
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
