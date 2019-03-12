@@ -67,6 +67,8 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
   def registered_in_town
     return nil if response.blank?
+    return if errors.key?(:document_number) # Don't need to check if document format is invalid
+
     errors.add(:document_number, i18_error_msg(:not_in_census)) unless first_person_element.present? && first_person_element.text != ""
   end
 
