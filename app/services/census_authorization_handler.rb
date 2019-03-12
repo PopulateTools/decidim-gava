@@ -1,18 +1,30 @@
 # frozen_string_literal: true
 
-# Checks the authorization against the census for Barcelona.
 require "digest/md5"
 
-# This class performs a check against the official census database in order
-# to verify the citizen's residence.
 class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   include ActionView::Helpers::SanitizeHelper
+
+  DNI_REGEXP = /\d{8}[a-zA-Z]/
+  NIE_REGEXP = /[a-zA-Z]\d{7}[a-zA-Z]/
+  DOCUMENT_REGEXP_PROD = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})\z/
+  DOCUMENT_REGEXP_TEST = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})(\+|-|!)?\z/
 
   attribute :document_number, String
   attribute :date_of_birth, Date
 
-  validates :document_number, format: { with: /\A[A-z0-9+-\\!]*\z/ }, presence: true, unless: :production_env?
-  validates :document_number, format: { with: /\A[A-z0-9]*\z/ }, presence: true, if: :production_env?
+  validates(
+    :document_number,
+    format: { with: DOCUMENT_REGEXP_TEST },
+    presence: true,
+    unless: :production_env?
+  )
+  validates(
+    :document_number,
+    format: { with: DOCUMENT_REGEXP_PROD },
+    presence: true,
+    if: :production_env?
+  )
   validates :date_of_birth, presence: true
   validate :registered_in_town
   validate :district_is_blank_or_over_16
