@@ -7,7 +7,7 @@ ca:
   activemodel:
     attributes:
       census_authorization_handler:
-        document_number: Número de document
+        document_number: "DNI o NIE (ex: 12345678A, X1234567A)"
         document_type: Tipus de document
         postal_code: Codi postal
         date_of_birth: Data de naixement
