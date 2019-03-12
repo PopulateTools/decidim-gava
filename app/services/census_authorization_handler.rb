@@ -57,16 +57,6 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     super.merge(date_of_birth: Date.parse(first_date_of_birth_element.text).to_s)
   end
 
-  def scope
-    Decidim::Scope.find(scope_id)
-  end
-
-  def census_document_types
-    %i(dni nie passport).map do |type|
-      [I18n.t(type, scope: "decidim.census_authorization_handler.document_types"), type]
-    end
-  end
-
   def unique_id
     Digest::MD5.hexdigest(
       "#{document_number}-#{Rails.application.secrets.secret_key_base}"
@@ -74,12 +64,6 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   private
-
-  def document_type_valid
-    return nil if response.blank?
-
-    #errors.add(:document_number, I18n.t("census_authorization_handler.invalid_document")) unless response.xpath("//codiRetorn").text == "01"
-  end
 
   def registered_in_town
     return nil if response.blank?
