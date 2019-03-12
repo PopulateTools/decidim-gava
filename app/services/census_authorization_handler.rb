@@ -133,7 +133,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
       OpenStruct.new(body: stubbed_fail_body)
     else
       Faraday.new(:url => Rails.application.secrets.census_url).get do |request|
-        request.url("findEmpadronat", dni: document_number)
+        request.url("findEmpadronat", dni: document_number.upcase)
       end
     end
   end
