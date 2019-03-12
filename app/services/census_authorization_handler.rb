@@ -1,18 +1,30 @@
 # frozen_string_literal: true
 
-# Checks the authorization against the census for Barcelona.
 require "digest/md5"
 
-# This class performs a check against the official census database in order
-# to verify the citizen's residence.
 class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   include ActionView::Helpers::SanitizeHelper
+
+  DNI_REGEXP = /\d{8}[a-zA-Z]/
+  NIE_REGEXP = /[a-zA-Z]\d{7}[a-zA-Z]/
+  DOCUMENT_REGEXP_PROD = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})\z/
+  DOCUMENT_REGEXP_TEST = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})(\+|-|!)?\z/
 
   attribute :document_number, String
   attribute :date_of_birth, Date
 
-  validates :document_number, format: { with: /\A[A-z0-9+-\\!]*\z/ }, presence: true, unless: :production_env?
-  validates :document_number, format: { with: /\A[A-z0-9]*\z/ }, presence: true, if: :production_env?
+  validates(
+    :document_number,
+    format: { with: DOCUMENT_REGEXP_TEST },
+    presence: true,
+    unless: :production_env?
+  )
+  validates(
+    :document_number,
+    format: { with: DOCUMENT_REGEXP_PROD },
+    presence: true,
+    if: :production_env?
+  )
   validates :date_of_birth, presence: true
   validate :registered_in_town
   validate :district_is_blank_or_over_16
@@ -45,16 +57,6 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     super.merge(date_of_birth: Date.parse(first_date_of_birth_element.text).to_s)
   end
 
-  def scope
-    Decidim::Scope.find(scope_id)
-  end
-
-  def census_document_types
-    %i(dni nie passport).map do |type|
-      [I18n.t(type, scope: "decidim.census_authorization_handler.document_types"), type]
-    end
-  end
-
   def unique_id
     Digest::MD5.hexdigest(
       "#{document_number}-#{Rails.application.secrets.secret_key_base}"
@@ -63,15 +65,11 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
   private
 
-  def document_type_valid
-    return nil if response.blank?
-
-    #errors.add(:document_number, I18n.t("census_authorization_handler.invalid_document")) unless response.xpath("//codiRetorn").text == "01"
-  end
-
   def registered_in_town
     return nil if response.blank?
-    errors.add(:base, "No empadronat") unless first_person_element.present? && first_person_element.text != ""
+    return if errors.key?(:document_number) # Don't need to check if document format is invalid
+
+    errors.add(:document_number, i18_error_msg(:not_in_census)) unless first_person_element.present? && first_person_element.text != ""
   end
 
   def first_person_element
@@ -93,11 +91,18 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def district_is_blank_or_over_16
     return nil if response.blank?
     return nil if errors.any? # Don't need to check anything if there are errors already
-    errors.add(:base, "Menor de 16 anys") unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
+
+    unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
+      errors.add(:date_of_birth, i18_error_msg(:not_old_enough))
+    end
   end
 
   def census_date_of_birth_coincidence
-    errors.add(:date_of_birth, I18n.t("census_authorization_handler.invalid_date_of_birth")) unless first_person_element&.text&.blank? || first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
+    return if (errors.keys - [:date_of_birth]).any? # Don't add more errors if user is not in census
+
+    unless first_person_element&.text&.blank? || first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
+      errors.add(:date_of_birth, i18_error_msg(:invalid_date_of_birth))
+    end
   end
 
   def response
@@ -121,7 +126,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
       OpenStruct.new(body: stubbed_fail_body)
     else
       Faraday.new(:url => Rails.application.secrets.census_url).get do |request|
-        request.url("findEmpadronat", dni: document_number)
+        request.url("findEmpadronat", dni: document_number.upcase)
       end
     end
   end
@@ -141,8 +146,23 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def log_census_request(response)
     compact_document = document_number.gsub(/\s+/, "").upcase
 
-    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth}"
-    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{response.body}"
+    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth.year}-**-#{date_of_birth.day}"
+    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{obfuscated_response_body(response)}"
+  end
+
+  def i18_error_msg(error_key)
+    I18n.t("census_authorization_handler.#{error_key}")
+  end
+
+  def obfuscated_response_body(response)
+    response.body.gsub(/<edat>.*<\/edat>/, "<edat>**</edat>")
+                 .gsub(/<haborddir>.*<\/haborddir>/, "<haborddir>*****</haborddir>")
+                 .gsub(/<habtoddir>.*<\/habtoddir>/, "<habtoddir>*****</habtoddir>")
+                 .gsub(/<sexe>.*<\/sexe>/, "<sexe>*</sexe>")
+                 .gsub(/<habap2hab>.*<\/habap2hab>/, "<habap2hab>*****</habap2hab>")
+                 .gsub(/<habfecnac>.*<\/habfecnac>/, "<habfecnac>****-**-**</habfecnac>")
+                 .gsub(/<habnomcom>.*<\/habnomcom>/, "<habnomcom>*****</habnomcom>")
+                 .gsub(/<habnomhab>.*<\/habnomhab>/, "<habnomhab>*****</habnomhab>")
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
