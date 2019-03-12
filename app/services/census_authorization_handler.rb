@@ -144,12 +144,23 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def log_census_request(response)
     compact_document = document_number.gsub(/\s+/, "").upcase
 
-    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth}"
-    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{response.body}"
+    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth.year}-**-#{date_of_birth.day}"
+    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{obfuscated_response_body(response)}"
   end
 
   def i18_error_msg(error_key)
     I18n.t("census_authorization_handler.#{error_key}")
+  end
+
+  def obfuscated_response_body(response)
+    response.body.gsub(/<edat>.*<\/edat>/, "<edat>**</edat>")
+                 .gsub(/<haborddir>.*<\/haborddir>/, "<haborddir>*****</haborddir>")
+                 .gsub(/<habtoddir>.*<\/habtoddir>/, "<habtoddir>*****</habtoddir>")
+                 .gsub(/<sexe>.*<\/sexe>/, "<sexe>*</sexe>")
+                 .gsub(/<habap2hab>.*<\/habap2hab>/, "<habap2hab>*****</habap2hab>")
+                 .gsub(/<habfecnac>.*<\/habfecnac>/, "<habfecnac>****-**-**</habfecnac>")
+                 .gsub(/<habnomcom>.*<\/habnomcom>/, "<habnomcom>*****</habnomcom>")
+                 .gsub(/<habnomhab>.*<\/habnomhab>/, "<habnomhab>*****</habnomhab>")
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer
