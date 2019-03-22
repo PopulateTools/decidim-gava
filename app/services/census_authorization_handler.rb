@@ -153,7 +153,9 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
     # Overrides the parent class method, but it still uses it to keep the base behavior
     def authorize
-      raw_date_of_birth = authorization&.metadata&.fetch("date_of_birth")
+      authorization_metadata = authorization&.metadata
+      raw_date_of_birth = authorization_metadata ? authorization_metadata["date_of_birth"] : nil
+
       @maximum_age ||= options.delete("maximum_age")
       @minimum_age ||= options.delete("minimum_age")
       @date_of_birth ||= raw_date_of_birth ? Date.parse(raw_date_of_birth) : nil
