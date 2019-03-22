@@ -2,6 +2,10 @@
 
 module CensusClient
   class Response
+    FORCE_SUCCESS_REGEX = /\+$/
+    FORCE_FAILURE_REGEX = /!$/
+    FORCE_SUCCESS_NO_BIRTHDATE_REGEX = /-$/
+
     attr_accessor(
       :barri,
       :date_of_birth,
@@ -13,7 +17,7 @@ module CensusClient
     def initialize(params = {})
       self.document_number = params[:document_number].upcase
       self.date_of_birth = params[:date_of_birth]
-      self.raw_response = make_request
+      self.raw_response = census_response
       self.raw_response_body = Nokogiri::XML(raw_response.body).remove_namespaces!
 
       first_barri_node = raw_response_body.xpath("//ssagavaVigents//ssagavaVigent//barri").first
@@ -80,22 +84,24 @@ TEXT
 
     private
 
-    def make_request
-      if document_number.match(/\+$/) && !production_env?
+    def census_response
+      if Rails.env.production?
+        make_request
+      elsif document_number.match?(FORCE_SUCCESS_REGEX)
         OpenStruct.new(body: self.class.registered_stubbed_body(date_of_birth))
-      elsif document_number.match(/-$/) && !production_env?
-        OpenStruct.new(body: self.class.registered_stubbed_body(Date.parse("2010-01-01")))
-      elsif document_number.match(/!$/) && !production_env?
+      elsif document_number.match?(FORCE_SUCCESS_NO_BIRTHDATE_REGEX)
+        OpenStruct.new(body: self.class.registered_stubbed_body_no_birthdate)
+      elsif document_number.match?(FORCE_FAILURE_REGEX)
         OpenStruct.new(body: self.class.not_registered_stubbed_body)
       else
-        Faraday.new(url: Rails.application.secrets.census_url).get do |request|
-          request.url("findEmpadronat", dni: document_number)
-        end
+        make_request
       end
     end
 
-    def production_env?
-      Rails.env.production?
+    def make_request
+      Faraday.new(url: Rails.application.secrets.census_url).get do |request|
+        request.url("findEmpadronat", dni: document_number)
+      end
     end
   end
 end
