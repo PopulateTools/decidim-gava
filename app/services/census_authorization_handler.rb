@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "digest/md5"
+require "census_client/response"
 
 class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   include ActionView::Helpers::SanitizeHelper
@@ -54,7 +55,13 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   # You must return a Hash that will be serialized to the authorization when
   # it's created, and available though authorization.metadata
   def metadata
-    super.merge(date_of_birth: Date.parse(first_date_of_birth_element.text).to_s)
+    if first_date_of_birth_element
+      super.merge(
+        date_of_birth: Date.parse(first_date_of_birth_element.text).to_s
+      )
+    else
+      super
+    end
   end
 
   def unique_id
@@ -66,18 +73,13 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   private
 
   def registered_in_town
-    return nil if response.blank?
-    return if errors.key?(:document_number) # Don't need to check if document format is invalid
+    return if errors.any? || response.blank?
 
     errors.add(:document_number, i18_error_msg(:not_in_census)) unless first_person_element.present? && first_person_element.text != ""
   end
 
   def first_person_element
     response.xpath("//ssagavaVigents").first
-  end
-
-  def first_district_element
-    response.xpath("//ssagavaVigents//ssagavaVigent//barri").first
   end
 
   def first_age_element
@@ -89,16 +91,16 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   def district_is_blank_or_over_16
-    return nil if response.blank?
-    return nil if errors.any? # Don't need to check anything if there are errors already
+    return if errors.any? || response.blank?
+    return if @response_wrapper.district_not_registered?
 
-    unless first_district_element.present? && first_district_element.text == "-" || first_age_element.present? && first_age_element.text.to_i > 15
-      errors.add(:date_of_birth, i18_error_msg(:not_old_enough))
-    end
+    old_enough = first_age_element.present? && first_age_element.text.to_i > 15
+
+    errors.add(:date_of_birth, i18_error_msg(:not_old_enough)) unless old_enough
   end
 
   def census_date_of_birth_coincidence
-    return if (errors.keys - [:date_of_birth]).any? # Don't add more errors if user is not in census
+    return if errors.any? || @response_wrapper.district_not_registered?
 
     unless first_person_element&.text&.blank? || first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
       errors.add(:date_of_birth, i18_error_msg(:invalid_date_of_birth))
@@ -106,37 +108,18 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   def response
-    return nil if document_number.blank?
+    return if errors.any?
 
-    return @response if defined?(@response)
+    @response ||= begin
+      @response_wrapper ||= CensusClient::Response.new(
+        document_number: document_number,
+        date_of_birth: date_of_birth
+      )
 
-    response ||= maybe_stubbed_response
+      log_census_request(@response_wrapper.raw_response)
 
-    log_census_request(response)
-
-    @response ||= Nokogiri::XML(response.body).remove_namespaces!
-  end
-
-  def maybe_stubbed_response
-    if document_number.match(/\+$/) && !production_env?
-      OpenStruct.new(body: stubbed_body(date_of_birth))
-    elsif document_number.match(/-$/) && !production_env?
-      OpenStruct.new(body: stubbed_body(Date.parse("2010-01-01")))
-    elsif document_number.match(/!$/) && !production_env?
-      OpenStruct.new(body: stubbed_fail_body)
-    else
-      Faraday.new(:url => Rails.application.secrets.census_url).get do |request|
-        request.url("findEmpadronat", dni: document_number.upcase)
-      end
+      @response_wrapper.raw_response_body
     end
-  end
-
-  def stubbed_body(date)
-    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ssagavaVigents><ssagavaVigent><edat>34</edat><habap1hab>SURNAME1</habap1hab><habap2hab>SURNAME2</habap2hab><habfecnac>#{date.to_s}</habfecnac><habnomcom>SURNAME1*SURNAME2,MARY</habnomcom><habnomhab>MARY</habnomhab><haborddir>STREETNAME (L')                         AV     40    0      0         3   4</haborddir><habtoddir>AV STREETNAME (L'),   40 3 4</habtoddir><sexe>D</sexe></ssagavaVigent></ssagavaVigents>"
-  end
-
-  def stubbed_fail_body
-    "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ssagavaVigents></ssagavaVigents>"
   end
 
   def production_env?
@@ -146,7 +129,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def log_census_request(response)
     compact_document = document_number.gsub(/\s+/, "").upcase
 
-    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth.year}-**-#{date_of_birth.day}"
+    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth.try(:year)}-**-#{date_of_birth.try(:day)}"
     Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{obfuscated_response_body(response)}"
   end
 
@@ -195,15 +178,15 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
     end
 
     def wrong_age_attribute
-      @wrong_age_attribute ||= if maximum_age.to_i > 0 && maximum_age.to_i.years.ago > date_of_birth
+      @wrong_age_attribute ||= if maximum_age.to_i.positive? && maximum_age.to_i.years.ago > date_of_birth
                                  "maximum_age"
-                               elsif minimum_age.to_i > 0 && minimum_age.to_i.years.ago < date_of_birth
+                               elsif minimum_age.to_i.positive? && minimum_age.to_i.years.ago < date_of_birth
                                  "minimum_age"
                                end
     end
 
     def has_age_options?
-      minimum_age.to_i > 0 || maximum_age.to_i > 0
+      minimum_age.to_i.positive? || maximum_age.to_i.positive?
     end
 
     def missing_fields
