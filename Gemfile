@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-DECIDIM_VERSION = "0.16.0"
+DECIDIM_VERSION = "0.16.1"
 
 gem "decidim", DECIDIM_VERSION
 gem 'uglifier', '>= 1.3.0'
