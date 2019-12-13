@@ -8,6 +8,7 @@ gem 'figaro', '>= 1.1.1'
 gem "rollbar"
 gem "progressbar"
 gem "sidekiq", "~> 5.2"
+gem "data_migrate"
 
 group :development, :test do
   gem 'byebug', platform: :mri
