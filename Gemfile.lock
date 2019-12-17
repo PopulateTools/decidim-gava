@@ -1,3 +1,9 @@
+PATH
+  remote: decidim-module-gava_engine
+  specs:
+    decidim-gava_engine (0.19.1)
+      decidim-core (= 0.19.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -792,6 +798,7 @@ DEPENDENCIES
   database_cleaner
   decidim (= 0.19.1)
   decidim-dev (= 0.19.1)
+  decidim-gava_engine!
   faker
   figaro (>= 1.1.1)
   fog-aws
