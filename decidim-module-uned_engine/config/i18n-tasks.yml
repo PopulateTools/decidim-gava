@@ -1,0 +1,10 @@
+---
+
+base_locale: en
+locales: [en]
+
+ignore_unused:
+  - "decidim.components.uned_engine.name"
+
+ignore_missing:
+  - decidim.participatory_processes.scopes.global
