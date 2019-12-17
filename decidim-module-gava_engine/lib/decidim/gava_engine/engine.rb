@@ -16,7 +16,7 @@ module Decidim
       end
 
       initializer "decidim_gava_engine.assets" do |app|
-        app.config.assets.precompile += %w[decidim_gava_engine_manifest.js decidim_gava_engine_manifest.css]
+        app.config.assets.precompile += %w[decidim_gava_engine_manifest.js decidim_gava_engine_manifest.scss]
       end
     end
   end
