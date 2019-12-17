@@ -27,6 +27,7 @@ group :development do
   gem "capistrano"
   gem "capistrano3-puma"
   gem "capistrano-bundler", "~> 1.2"
+  gem "puma"
 end
 
 group :development, :staging do
@@ -34,7 +35,6 @@ group :development, :staging do
 end
 
 group :production do
-  gem "puma"
   gem "fog-aws"
   gem "newrelic_rpm"
   gem "dalli"
