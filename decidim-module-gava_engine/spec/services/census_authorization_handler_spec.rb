@@ -15,7 +15,7 @@ describe CensusAuthorizationHandler do
 
   let(:census_url) { Rails.application.secrets.census_url }
   let(:stubbed_response) { CensusClient::Response.registered_stubbed_body(date_of_birth) }
-  let(:user) { create(:user) }
+  let(:user) { create(:user, nickname: "nickname") }
   let(:subject) { handler }
   let(:handler) { described_class.from_params(params) }
   let(:handler_errors) { handler.valid?; handler.errors }
