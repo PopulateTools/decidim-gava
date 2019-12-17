@@ -1,103 +1,22 @@
-<div id="uned-poll-participa-content-1" class="uned-poll-slider-participa-content">
-  <h3 class="uned-poll-slider-participa-title">Cautela 1</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
-  </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
+<% 8.times do |i| %>
+  <div id="uned-poll-participa-content-<%= i + 1 %>"
+       class="uned-poll-slider-participa-content <%= (i + 1) == 1 ? nil : 'is-disable' %>">
 
-<div id="uned-poll-participa-content-2" class="uned-poll-slider-participa-content is-disable">
-  <h3 class="uned-poll-slider-participa-title">Cautela 2</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
-  </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
+    <h3 class="uned-poll-slider-participa-title">Cautela <%= i + 1 %></h3>
+    <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
 
-<div id="uned-poll-participa-content-3" class="uned-poll-slider-participa-content is-disable">
-  <h3 class="uned-poll-slider-participa-title">Cautela 3</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
-  </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
+    <div class="uned-poll-slider-participa-left">
+      <p class="uned-poll-slider-participa-left-text">
+        Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos:
+        tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del
+        bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.
+      </p>
+    </div>
 
-<div id="uned-poll-participa-content-4" class="uned-poll-slider-participa-content is-disable">
-  <h3 class="uned-poll-slider-participa-title">Cautela 4</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
+    <div class="uned-poll-slider-participa-right">
+      <button class="uned-poll-slider-participa-button-right">APOYAR</button>
+      <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
+      <button class="uned-poll-slider-participa-button-comments"><%= rand(1..30) %> comentarios</button>
+    </div>
   </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
-
-<div id="uned-poll-participa-content-5" class="uned-poll-slider-participa-content is-disable">
-  <h3 class="uned-poll-slider-participa-title">Cautela 5</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
-  </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
-
-<div id="uned-poll-participa-content-6" class="uned-poll-slider-participa-content is-disable">
-  <h3 class="uned-poll-slider-participa-title">Cautela 6</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
-  </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
-
-<div id="uned-poll-participa-content-7" class="uned-poll-slider-participa-content is-disable">
-  <h3 class="uned-poll-slider-participa-title">Cautela 7</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
-  </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
-
-<div id="uned-poll-participa-content-8" class="uned-poll-slider-participa-content is-disable">
-  <h3 class="uned-poll-slider-participa-title">Cautela 8</h3>
-  <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
-  <div class="uned-poll-slider-participa-left">
-    <p class="uned-poll-slider-participa-left-text">Una voluntad expresa de cuidado guiará en todo momento las actuaciones de la UNED respecto al uso de los datos: tendrá cuidado de que no se haga un mal uso de ellos (primum nil nocere) y cuidará, a través de ellos, del bienestar de los miembros de la comunidad universitaria, particularmente del de los colectivos más vulnerables.</p>
-  </div>
-  <div class="uned-poll-slider-participa-right">
-    <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-    <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
-    <button class="uned-poll-slider-participa-button-comments">12 comentarios</button>
-  </div>
-</div>
+<% end %>
