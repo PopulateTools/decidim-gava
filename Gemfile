@@ -48,3 +48,4 @@ end
 
 # Site engines
 gem "decidim-gava_engine", path: "decidim-module-gava_engine"
+gem "decidim-uned_engine", path: "decidim-module-uned_engine"

@@ -4,6 +4,12 @@ PATH
     decidim-gava_engine (0.19.1)
       decidim-core (= 0.19.1)
 
+PATH
+  remote: decidim-module-uned_engine
+  specs:
+    decidim-uned_engine (0.19.1)
+      decidim-core (= 0.19.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -799,6 +805,7 @@ DEPENDENCIES
   decidim (= 0.19.1)
   decidim-dev (= 0.19.1)
   decidim-gava_engine!
+  decidim-uned_engine!
   faker
   figaro (>= 1.1.1)
   fog-aws
