@@ -16,7 +16,16 @@ module Decidim
       end
 
       initializer "decidim_uned_engine.assets" do |app|
-        app.config.assets.precompile += %w[decidim_uned_engine_manifest.js decidim_uned_engine_manifest.css]
+        app.config.assets.precompile += %w(
+          decidim_uned_engine_manifest.js
+          decidim_uned_engine_manifest.scss
+          arrow-left.svg
+          arrow-left-bottom.svg
+          arrow-right.svg
+          arrow-right-bottom.svg
+          logo-uned.png
+          uned-header-image.png
+        )
       end
     end
   end
