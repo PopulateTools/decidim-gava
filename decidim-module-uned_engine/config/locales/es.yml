@@ -1,0 +1,6 @@
+---
+es:
+  decidim:
+    components:
+      uned_engine:
+        name: UnedEngine
