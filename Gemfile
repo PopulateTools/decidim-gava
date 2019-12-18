@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-DECIDIM_VERSION = "0.16.0"
+DECIDIM_VERSION = "0.19.1"
 
 gem "decidim", DECIDIM_VERSION
 gem 'uglifier', '>= 1.3.0'
@@ -8,6 +8,7 @@ gem 'figaro', '>= 1.1.1'
 gem "rollbar"
 gem "progressbar"
 gem "sidekiq", "~> 5.2"
+gem "data_migrate"
 
 group :development, :test do
   gem 'byebug', platform: :mri
