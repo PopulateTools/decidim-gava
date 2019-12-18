@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_action :prepend_organization_views
 
+  include Decidim::NeedsOrganization
+
   private
 
   def prepend_organization_views

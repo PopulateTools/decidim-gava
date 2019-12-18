@@ -109,8 +109,51 @@
 
         <div id="uned-poll-slider-content-text-5" class="uned-poll-slider-content is-disable">
           <div class="uned-poll-slider-participa">
-              <%= render "care_proposals/list" %>
-              <%= render "care_proposals/inner_navigation" %>
+            <% Decidim::UnedEngine::QueryHelper.care_proposals(current_organization).each_with_index do |proposal, idx| %>
+              <% position = idx + 1 %>
+
+              <div id="uned-poll-participa-content-<%= position %>"
+                  class="uned-poll-slider-participa-content <%= position == 1 ? nil : 'is-disable' %>">
+
+                <h3 class="uned-poll-slider-participa-title"><%= proposal.custom_title %></h3>
+                <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
+
+                <div class="uned-poll-slider-participa-left">
+                  <p class="uned-poll-slider-participa-left-text"><%= proposal.body %></p>
+                </div>
+
+                <div class="uned-poll-slider-participa-right">
+                  <button class="uned-poll-slider-participa-button-right">APOYAR</button>
+                  <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
+                  <button class="uned-poll-slider-participa-button-comments"><%= proposal.comments.count %> comentarios</button>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="uned-poll-slider-participa-buttons">
+              <% Decidim::UnedEngine::QueryHelper.care_proposals(current_organization).each_with_index do |proposal, idx| %>
+                <% position = idx + 1 %>
+
+                <button id="uned-poll-buttons-slider-participa-<%= position %>"
+                        class="uned-poll-slider-participa-button-container <%= position > 2 ? 'is-disable' : nil %>">
+
+                    <% if position > 1 %>
+                      <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-next">SIGUIENTE</span>
+                    <% end %>
+
+                    <% if position < Decidim::UnedEngine::QueryHelper.care_proposals_count(current_organization) %>
+                      <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-prev <%= position == 1 ? 'is-disable' : nil %>">ANTERIOR</span>
+                      <img src="<%= asset_path 'arrow-left-bottom.svg' %>" alt="" class="uned-poll-buttons-bottom-arrow uned-poll-buttons-bottom-arrow-left <%= position == 1 ? 'is-disable' : nil %>">
+                    <% end %>
+
+                    <% if position > 1 %>
+                      <img src="<%= asset_path 'arrow-right-bottom.svg' %>" alt="" class="uned-poll-buttons-bottom-arrow uned-poll-buttons-bottom-arrow-right">
+                    <% end %>
+
+                  <span class="uned-poll-buttons-bottom-text-bottom">PARTICIPA <%= position %></span>
+                </button>
+              <% end %>
+            </div>
           </div>
         </div>
 
