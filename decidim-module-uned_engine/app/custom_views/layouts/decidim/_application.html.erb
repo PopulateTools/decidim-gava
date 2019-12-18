@@ -18,7 +18,9 @@
   </head>
 
   <body>
-    <%= render partial: "layouts/decidim/uned_modal" %>
+    <% if request.path == "/" %>
+      <%= render partial: "layouts/decidim/uned_modal" %>
+    <% end %>
     <%= render partial: "layouts/decidim/impersonation_warning" %>
     <%= render partial: "layouts/decidim/cookie_warning" %>
     <%= render partial: "layouts/decidim/omnipresent_banner" %>
