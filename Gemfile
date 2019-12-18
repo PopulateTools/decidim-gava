@@ -28,6 +28,7 @@ group :development do
   gem "capistrano3-puma"
   gem "capistrano-bundler", "~> 1.2"
   gem "puma"
+  gem "pry-remote"
 end
 
 group :development, :staging do

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine/query_helper"
+
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 

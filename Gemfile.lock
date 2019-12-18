@@ -125,6 +125,7 @@ GEM
       cells (>= 4.1.6, < 5.0.0)
     charlock_holmes (0.7.7)
     childprocess (3.0.0)
+    coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     coffee-rails (5.0.0)
@@ -575,6 +576,12 @@ GEM
       actionmailer (>= 3)
       premailer (~> 1.7, >= 1.7.9)
     progressbar (1.10.1)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
     public_suffix (4.0.1)
     puma (3.12.2)
     rack (2.0.7)
@@ -720,6 +727,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    slop (3.6.0)
     smart_properties (1.15.0)
     social-share-button (1.2.1)
       coffee-rails
@@ -814,6 +822,7 @@ DEPENDENCIES
   listen
   newrelic_rpm
   progressbar
+  pry-remote
   puma
   rack-host-redirect
   rainbow (~> 2.2.0)
