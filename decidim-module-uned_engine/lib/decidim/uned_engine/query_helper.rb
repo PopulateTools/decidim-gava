@@ -5,7 +5,7 @@ module Decidim
     class QueryHelper
       def self.care_proposals(organization)
         Decidim::Proposals::Proposal.select(
-          "id, (regexp_matches(title, 'Cautela \\d{1,3}'))[1] AS custom_title, body"
+          "*, (regexp_matches(title, 'Cautela \\d{1,3}'))[1] AS custom_title"
         ).where(
           component: component(organization)
         ).order("(regexp_matches(title, '\\d{1,3}'))[1] asc")
