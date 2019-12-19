@@ -9,5 +9,6 @@ module Decidim
   # This namespace holds the logic of the `UnedEngine` component. This component
   # allows users to create uned_engine in a participatory space.
   module UnedEngine
+    UNED_ENGINE_ID = "decidim-module-uned_engine"
   end
 end
