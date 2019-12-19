@@ -62,8 +62,8 @@ class ApplicationController < ActionController::Base
       organization: current_organization,
       password: random_password,
       password_confirmation: random_password,
-      newsletter_notifications: false,  # TODO: ask
-      email_on_notification: false,     # TODO: ask
+      newsletter_notifications: true,
+      email_on_notification: true,
       confirmed_at: Time.zone.now,
       tos_agreement: true
     )
