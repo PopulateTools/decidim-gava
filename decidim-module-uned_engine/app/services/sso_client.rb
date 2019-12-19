@@ -9,35 +9,46 @@ module Decidim
 
       WDSL_URL = Rails.application.secrets[:uned][:sso_wsdl_url]
       APP_ID = Rails.application.secrets[:uned][:sso_app_id]
+      SSO_URL = "https://sso.uned.es/sso/index.aspx"
 
       def self.log(message)
         Rails.logger.info("[SSO] #{message}")
       end
 
       class Response
+        attr_accessor(
+          :response_body,
+          :user_attributes,
+          :user_email,
+          :user_nickname,
+          :error
+        )
+
         def initialize(response)
           @response_body = response.body
-          @user_attributes = @response_body[:autorizar_ext_response][:usuario] if @response_body[:autorizar_ext_response][:usuario]
+          @user_attributes = response_body[:autorizar_ext_response][:usuario]
+
+          if user_attributes
+            @user_nickname = user_attributes[:id]
+            @user_email = user_attributes[:email]
+            @error = user_attributes[:error]
+          end
         end
 
         def success?
-          @response_body[:autorizar_ext_response][:autorizar_ext_result]
-        end
-
-        def user_email
-          @user_attributes[:email]
-        end
-
-        def user_nickname
-          @user_attributes[:id]
+          response_body[:autorizar_ext_response][:autorizar_ext_result]
         end
 
         def student?
-          @user_attributes[:es_alumno]
+          user_attributes[:es_alumno]
+        end
+
+        def cookie_expired?
+          error == "TIMEOUT"
         end
 
         def summary
-          { success: success?, student: student?, error: @user_attributes[:error], mantenimiento: @user_attributes[:mantenimiento] }
+          { success: success?, student: student?, error: error, mantenimiento: user_attributes[:mantenimiento] }
         end
       end
 

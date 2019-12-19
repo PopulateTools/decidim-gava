@@ -49,7 +49,11 @@ class ApplicationController < ActionController::Base
     sso_client = Decidim::UnedEngine::SSOClient.new
     response = sso_client.check_user(cookies["usuarioUNEDv2"])
 
-    unless response.success? && response.student?
+    if response.cookie_expired?
+      Decidim::UnedEngine::SSOClient.log("Signing out user: cookie expired")
+      sign_out(current_user)
+      return
+    elsif !response.success? || !response.student?
       Decidim::UnedEngine::SSOClient.log("Can't verify user - #{response.summary}")
       return
     end
@@ -60,6 +64,8 @@ class ApplicationController < ActionController::Base
       Decidim::UnedEngine::SSOClient.log("User #{response.user_nickname} not found. Creating a new one.")
       user = create_uned_user(response)
     end
+
+    Decidim::UnedEngine::SSOClient.log("Signing in user #{response.user_nickname}")
 
     sign_in(user)
   end
