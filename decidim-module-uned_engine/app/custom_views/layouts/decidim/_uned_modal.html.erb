@@ -1,5 +1,6 @@
-<section class="uned-poll">
+<section id="uned-poll" class="uned-poll">
   <section class="uned-poll-content">
+    <button id="uned-poll-close">CLOSE</button>
     <article class="uned-poll-content-header">
       <img class="uned-poll-content-header-img" src="<%= asset_path 'uned-header-image.png' %>">
       <img class="uned-poll-content-header-logoimg" src="<%= asset_path 'logo-uned.png' %>">
@@ -124,7 +125,7 @@
 
                 <div class="uned-poll-slider-participa-right">
                   <button class="uned-poll-slider-participa-button-right">APOYAR</button>
-                  <button class="uned-poll-slider-participa-button-right is-hidden">DEBATIR</button>
+                  <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
                   <button class="uned-poll-slider-participa-button-comments"><%= proposal.comments.count %> comentarios</button>
                 </div>
               </div>
@@ -135,7 +136,7 @@
                 <% position = idx + 1 %>
 
                 <button id="uned-poll-buttons-slider-participa-<%= position %>"
-                        class="uned-poll-slider-participa-button-container <%= position > 2 ? 'is-hidden' : nil %>">
+                        class="uned-poll-slider-participa-button-container <%= position > 2 ? 'is-hidden' : nil %> <%= position == 1 ? 'first-button' : nil %>">
 
                     <% if position > 1 %>
                       <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-next">SIGUIENTE</span>

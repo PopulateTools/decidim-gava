@@ -1,5 +1,15 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+  function closeModal() {
+    const modal = document.getElementById('uned-poll')
+    modal.classList.add('is-hidden')
+  }
+
+  const closeButton = document.getElementById('uned-poll-close');
+  closeButton.addEventListener('click', () => {
+    closeModal()
+  })
+
   const bottomButtons = document.querySelectorAll(".uned-poll-button-container")
   const topButtons = document.querySelectorAll(".uned-poll-buttons-top-slider")
   const participaButtons = document.querySelectorAll(".uned-poll-slider-participa-button-container")
@@ -123,7 +133,6 @@ document.addEventListener("DOMContentLoaded", function() {
   function buttonInside(e) {
 
     e.target.classList.remove('is-hidden');
-
     let {idNumber, idNumberPrev, idNumberNext} = extractId(e)
 
     const buttonBottomActive = document.getElementById(`uned-poll-buttons-slider-participa-${idNumber}`)
@@ -138,28 +147,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     participaButtons.forEach(container => container.classList.add('is-hidden'))
 
-    if(e.target.classList.contains('is-active-last') && e.target.id !== 'uned-poll-buttons-slider-participa-1') {
+    const participaLastElement = participaButtons.length
+    const participaFirstElement = 1
 
-      participaButtons.forEach(button => button.classList.remove('is-active-last'))
-      buttonBottomActivePrev.classList.remove('is-hidden', 'is-active-last')
+    if(e.target.classList.contains('is-active-last') && e.target.id !== `uned-poll-buttons-slider-participa-${participaFirstElement}`) {
+      participaButtons.forEach(button => button.classList.remove('is-active-last', 'last-button'))
+      buttonBottomActivePrev.classList.remove('is-hidden')
       buttonBottomActiveNext.classList.remove('is-hidden')
       buttonBottomActivePrev.classList.add('is-active-last')
 
-    } else if(e.target.id === 'uned-poll-buttons-slider-participa-1') {
-
+    } else if(e.target.id === `uned-poll-buttons-slider-participa-${participaFirstElement}`) {
+      participaButtons.forEach(button => button.classList.remove('last-button'))
       buttonBottomActive.classList.remove('is-hidden')
       buttonBottomActiveNext.classList.remove('is-hidden')
       buttonBottomActive.classList.add('first-button')
 
-    } else if(e.target.id === 'uned-poll-buttons-slider-participa-8') {
-
+    } else if(e.target.id === `uned-poll-buttons-slider-participa-${participaLastElement}`) {
+      participaButtons.forEach(button => button.classList.remove('first-button'))
       buttonBottomActivePrev.classList.remove('is-hidden')
       buttonBottomActive.classList.remove('is-hidden')
       buttonBottomActive.classList.add('last-button')
       buttonBottomActivePrev.classList.add('is-active-last')
 
     } else {
-      participaButtons.forEach(button => button.classList.remove('is-active-last'))
+      participaButtons.forEach(button => button.classList.remove('is-active-last', 'last-button', 'first-button'))
       buttonBottomActivePrev.classList.remove('is-hidden')
       buttonBottomActivePrev.classList.add('is-active-last')
       buttonBottomActiveNext.classList.remove('is-hidden')
