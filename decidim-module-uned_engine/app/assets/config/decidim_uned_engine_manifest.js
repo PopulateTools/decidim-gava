@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const bottomButtons = document.querySelectorAll(".uned-poll-button-container")
   const topButtons = document.querySelectorAll(".uned-poll-buttons-top-slider")
+  const participaButtons = document.querySelectorAll(".uned-poll-slider-participa-button-container")
 
   topButtons.forEach(button => button.addEventListener('click', () => {
     buttonTop(event)
@@ -9,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   bottomButtons.forEach(button => button.addEventListener('click', () => {
     buttonBottom(event)
+  }));
+
+  participaButtons.forEach(button => button.addEventListener('click', () => {
+    buttonInside(event)
   }));
 
   let extractId = function(e) {
@@ -31,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function buttonTop(e) {
-
     bottomButtons.forEach(container => container.classList.add('is-disable'))
     bottomButtons.forEach(container => container.classList.remove('first-button', 'is-active-last', 'last-button'))
 
@@ -67,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     showContainerText(idNumber)
-
   }
 
   function buttonBottom(e) {
@@ -117,14 +120,9 @@ document.addEventListener("DOMContentLoaded", function() {
     showContainerText(idNumber)
   }
 
-  document.querySelectorAll(".uned-poll-slider-participa-button-container").forEach(button => button.addEventListener('click', () => {
-    buttonInside(event)
-  }));
-
   function buttonInside(e) {
-    document.querySelectorAll(".uned-poll-slider-participa-button-container").forEach(button => button.classList.remove('is-active'))
 
-    e.target.classList.add('is-active');
+    e.target.classList.remove('is-hidden');
 
     let {idNumber, idNumberPrev, idNumberNext} = extractId(e)
 
@@ -133,47 +131,38 @@ document.addEventListener("DOMContentLoaded", function() {
     const buttonBottomActivePrev = document.getElementById(`uned-poll-buttons-slider-participa-${idNumberPrev}`)
 
     const containerText = document.getElementById(`uned-poll-participa-content-${idNumber}`)
-    document.querySelectorAll(".uned-poll-slider-participa-content").forEach(container => container.classList.add('is-disable'))
-    document.querySelectorAll(".uned-poll-slider-participa-content").forEach(container => container.classList.remove('is-active'))
-    containerText.classList.remove('is-disable')
-    containerText.classList.add('is-active')
+    const allContainerText = document.querySelectorAll(".uned-poll-slider-participa-content")
 
-    document.querySelectorAll(".uned-poll-slider-participa-button-container").forEach(container => container.classList.add('is-disable'))
+    allContainerText.forEach(container => container.classList.add('is-hidden'))
+    containerText.classList.remove('is-hidden')
+
+    participaButtons.forEach(container => container.classList.add('is-hidden'))
 
     if(e.target.classList.contains('is-active-last') && e.target.id !== 'uned-poll-buttons-slider-participa-1') {
 
-      document.querySelectorAll(".uned-poll-slider-participa-button-container").forEach(button => button.classList.remove('is-active-last'))
-      buttonBottomActivePrev.classList.remove('is-disable', 'is-active-last')
-      buttonBottomActiveNext.classList.remove('is-disable')
-      buttonBottomActivePrev.classList.add('is-active', 'is-active-last')
-      buttonBottomActiveNext.classList.add('is-active')
+      participaButtons.forEach(button => button.classList.remove('is-active-last'))
+      buttonBottomActivePrev.classList.remove('is-hidden', 'is-active-last')
+      buttonBottomActiveNext.classList.remove('is-hidden')
+      buttonBottomActivePrev.classList.add('is-active-last')
 
     } else if(e.target.id === 'uned-poll-buttons-slider-participa-1') {
 
-      buttonBottomActive.classList.remove('is-disable')
-      buttonBottomActiveNext.classList.remove('is-disable')
-      buttonBottomActive.classList.add('is-active')
-      buttonBottomActiveNext.classList.add('is-active')
-      const buttonBottom = document.getElementById(`uned-poll-buttons-slider-participa-${idNumber}`)
-      const buttonBottomSibling = document.getElementById(`uned-poll-buttons-slider-participa-${idNumberNext}`)
-
-      buttonBottom.classList.add('first-button')
+      buttonBottomActive.classList.remove('is-hidden')
+      buttonBottomActiveNext.classList.remove('is-hidden')
+      buttonBottomActive.classList.add('first-button')
 
     } else if(e.target.id === 'uned-poll-buttons-slider-participa-8') {
 
-      buttonBottomActivePrev.classList.remove('is-disable')
-      buttonBottomActive.classList.remove('is-disable')
-      buttonBottomActive.classList.add('is-active')
-      buttonBottomActivePrev.classList.add('is-active', 'is-active-last')
+      buttonBottomActivePrev.classList.remove('is-hidden')
+      buttonBottomActive.classList.remove('is-hidden')
+      buttonBottomActive.classList.add('last-button')
+      buttonBottomActivePrev.classList.add('is-active-last')
 
-      const buttonBottom = document.getElementById(`uned-poll-buttons-slider-participa-${idNumber}`)
-      buttonBottom.classList.add('last-button')
     } else {
-      document.querySelectorAll(".uned-poll-slider-participa-button-container").forEach(button => button.classList.remove('is-active-last'))
-      buttonBottomActivePrev.classList.remove('is-disable')
-      buttonBottomActivePrev.classList.add('is-active', 'is-active-last')
-      buttonBottomActiveNext.classList.remove('is-disable')
-      buttonBottomActiveNext.classList.add('is-active')
+      participaButtons.forEach(button => button.classList.remove('is-active-last'))
+      buttonBottomActivePrev.classList.remove('is-hidden')
+      buttonBottomActivePrev.classList.add('is-active-last')
+      buttonBottomActiveNext.classList.remove('is-hidden')
     }
   }
 });
