@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   include Decidim::NeedsOrganization
 
+  helper_method :care_proposals, :care_proposals_count
+
   private
 
   def prepend_organization_views
@@ -69,6 +71,14 @@ class ApplicationController < ActionController::Base
     Decidim::UnedEngine::SSOClient.log("Created user with #{user.nickname} / #{user.email}")
 
     user
+  end
+
+  def care_proposals
+    Decidim::UnedEngine::QueryHelper.care_proposals(current_organization)
+  end
+
+  def care_proposals_count
+    Decidim::UnedEngine::QueryHelper.care_proposals_count(current_organization)
   end
 
   def host

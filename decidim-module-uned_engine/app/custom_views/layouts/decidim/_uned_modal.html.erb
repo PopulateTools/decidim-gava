@@ -109,7 +109,7 @@
 
         <div id="uned-poll-slider-content-text-5" class="uned-poll-slider-content is-disable">
           <div class="uned-poll-slider-participa">
-            <% Decidim::UnedEngine::QueryHelper.care_proposals(current_organization).each_with_index do |proposal, idx| %>
+            <% care_proposals.each_with_index do |proposal, idx| %>
               <% position = idx + 1 %>
 
               <div id="uned-poll-participa-content-<%= position %>"
@@ -131,7 +131,7 @@
             <% end %>
 
             <div class="uned-poll-slider-participa-buttons">
-              <% Decidim::UnedEngine::QueryHelper.care_proposals(current_organization).each_with_index do |proposal, idx| %>
+              <% care_proposals.each_with_index do |proposal, idx| %>
                 <% position = idx + 1 %>
 
                 <button id="uned-poll-buttons-slider-participa-<%= position %>"
@@ -141,7 +141,7 @@
                       <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-next">SIGUIENTE</span>
                     <% end %>
 
-                    <% if position < Decidim::UnedEngine::QueryHelper.care_proposals_count(current_organization) %>
+                    <% if position < care_proposals_count %>
                       <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-prev <%= position == 1 ? 'is-disable' : nil %>">ANTERIOR</span>
                       <img src="<%= asset_path 'arrow-left-bottom.svg' %>" alt="" class="uned-poll-buttons-bottom-arrow uned-poll-buttons-bottom-arrow-left <%= position == 1 ? 'is-disable' : nil %>">
                     <% end %>
