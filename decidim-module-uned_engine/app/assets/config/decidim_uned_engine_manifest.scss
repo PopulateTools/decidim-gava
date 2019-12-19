@@ -172,7 +172,7 @@ body {
   background-color: rgba(165, 179, 98, .1);
   width: 100%;
   margin: 0 auto;
-  padding: 4rem 20rem;
+  padding: 4rem 14rem;
 }
 
 .uned-poll-buttons-bottom {
@@ -296,7 +296,7 @@ body {
 .uned-poll-slider-content-text {
   font-size: 18px;
   line-height: 27px;
-  color: #3C4657;
+  color: $color-text;
 }
 
 .uned-poll-slider-content-text-list {
@@ -320,7 +320,7 @@ body {
   max-width: 250px;
   position: relative;
   font-size: 18px;
-  color: #3C4657;
+  color: $color-text;
 }
 
 .uned-poll-contet-arrow-left-text {
@@ -347,7 +347,7 @@ body {
 
 .uned-poll-content-table-row-left-title {
   font-size: 24px;
-  color: #3C4657;
+  color: $color-text;
   font-weight: bold;
   max-width: 60%;
   display: inline-block;
@@ -356,13 +356,13 @@ body {
 
 .uned-poll-content-table-row-left-text {
   font-size: 18px;
-  color: #3C4657;
+  color: $color-text;
   opacity: 0.75;
 }
 
 .uned-poll-content-table-row-left-subtitle {
   font-size: 18px;
-  color: #3C4657;
+  color: $color-text;
   opacity: .75;
   font-weight: bold;
 }
@@ -370,12 +370,12 @@ body {
 .uned-poll-content-table-row-bottom-title {
   font-weight: bold;
   font-size: 24px;
-  color: #3C4657;
+  color: $color-text;
 }
 
 .uned-poll-content-table-row-bottom-text {
   font-size: 18px;
-  color: #3C4657;
+  color: $color-text;
 }
 
 .uned-poll-slider-participa {
@@ -414,7 +414,7 @@ body {
 
 .uned-poll-slider-participa-left-text {
   font-size: 18px;
-  color: #3C4657;
+  color: $color-text;
 }
 
 .uned-poll-slider-participa-button-right {
