@@ -22,11 +22,17 @@ body {
   z-index: 2;
 }
 
-#uned-poll-close {
+#uned-poll-close-button {
   position: absolute;
+  cursor: pointer;
   top: 10px;
   right: 10px;
   z-index: 3;
+}
+
+.uned-poll-close-button-img {
+  width: 32px;
+  height: 32px;
 }
 
 .uned-poll-content {
@@ -452,8 +458,6 @@ body {
     display: inline-block;
   }
 }
-
-
 
 .uned-poll-slider-participa-button-comments {
   font-size: 14px;

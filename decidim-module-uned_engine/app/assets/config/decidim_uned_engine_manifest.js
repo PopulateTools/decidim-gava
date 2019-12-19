@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     modal.classList.add('is-hidden')
   }
 
-  const closeButton = document.getElementById('uned-poll-close');
+  const closeButton = document.getElementById('uned-poll-close-button');
   closeButton.addEventListener('click', () => {
     closeModal()
   })

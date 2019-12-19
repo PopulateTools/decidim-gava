@@ -23,6 +23,7 @@ module Decidim
           arrow-left-bottom.svg
           arrow-right.svg
           arrow-right-bottom.svg
+          close.svg
           logo-uned.png
           uned-header-image.png
         )
