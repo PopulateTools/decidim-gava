@@ -20,9 +20,9 @@ class ApplicationController < ActionController::Base
   end
 
   def site_custom_engine
-    if %w(gava.decidim.test gava.populate.tools participa.gavacitat.cat).include?(host)
+    if host.include?("gava")
       "decidim-module-gava_engine"
-    elsif %w(uned.decidim.test uned.populate.tools).include?(host)
+    elsif host.include?("uned")
       "decidim-module-uned_engine"
     end
   end
