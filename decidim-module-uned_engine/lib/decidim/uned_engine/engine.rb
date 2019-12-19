@@ -13,6 +13,7 @@ module Decidim
         # Add engine routes here
         # resources :uned_engine
         # root to: "uned_engine#index"
+        resources :fake_sessions, only: [:new]
       end
 
       initializer "decidim_uned_engine.assets" do |app|
