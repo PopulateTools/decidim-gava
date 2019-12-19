@@ -96,35 +96,35 @@ document.addEventListener("DOMContentLoaded", function() {
     const buttonTop = document.getElementById(`uned-poll-button-top-${idNumber}`)
     buttonTop.classList.add('is-active-btn')
 
-    bottomButtons.forEach(container => container.classList.add('is-disable'))
+    bottomButtons.forEach(container => container.classList.add('is-hidden'))
     bottomButtons.forEach(container => container.classList.remove('first-button', 'last-button'))
 
     if(e.target.classList.contains('is-active-last') && e.target.id !== 'uned-poll-buttons-bottom-slider-1') {
 
       bottomButtons.forEach(button => button.classList.remove('is-active-last'))
-      buttonBottomActivePrev.classList.remove('is-disable', 'is-active-last')
-      buttonBottomActiveNext.classList.remove('is-disable')
+      buttonBottomActivePrev.classList.remove('is-hidden', 'is-active-last')
+      buttonBottomActiveNext.classList.remove('is-hidden')
       buttonBottomActivePrev.classList.add('is-active-last')
 
     } else if(e.target.id === 'uned-poll-buttons-bottom-slider-1') {
 
-      buttonBottomActive.classList.remove('is-disable')
+      buttonBottomActive.classList.remove('is-hidden')
       buttonBottomActive.classList.add('first-button')
-      buttonBottomActiveNext.classList.remove('is-disable')
+      buttonBottomActiveNext.classList.remove('is-hidden')
 
     } else if(e.target.id === 'uned-poll-buttons-bottom-slider-5') {
 
-      buttonBottomActive.classList.remove('is-disable')
-      buttonBottomActivePrev.classList.remove('is-disable')
+      buttonBottomActive.classList.remove('is-hidden')
+      buttonBottomActivePrev.classList.remove('is-hidden')
       buttonBottomActivePrev.classList.add('is-active-last')
       buttonBottomActive.classList.add('last-button')
 
     } else {
       bottomButtons.forEach(button => button.classList.remove('is-active-last'))
 
-      buttonBottomActivePrev.classList.remove('is-disable')
+      buttonBottomActivePrev.classList.remove('is-hidden')
       buttonBottomActivePrev.classList.add('is-active-last')
-      buttonBottomActiveNext.classList.remove('is-disable')
+      buttonBottomActiveNext.classList.remove('is-hidden')
     }
 
     showContainerText(idNumber)
