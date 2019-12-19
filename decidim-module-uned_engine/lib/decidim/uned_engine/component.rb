@@ -2,6 +2,7 @@
 
 require_dependency "decidim/components/namer"
 
+=begin
 Decidim.register_component(:uned_engine) do |component|
   component.engine = Decidim::UnedEngine::Engine
   component.admin_engine = Decidim::UnedEngine::AdminEngine
@@ -38,3 +39,4 @@ Decidim.register_component(:uned_engine) do |component|
   #   # Add some seeds for this component
   # end
 end
+=end
