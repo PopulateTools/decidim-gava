@@ -1,13 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-  document.querySelectorAll(".uned-poll-buttons-top-slider").forEach(button => button.addEventListener('click', () => {
+
+  const bottomButtons = document.querySelectorAll(".uned-poll-button-container")
+  const topButtons = document.querySelectorAll(".uned-poll-buttons-top-slider")
+
+  topButtons.forEach(button => button.addEventListener('click', () => {
     buttonTop(event)
+  }));
+
+  bottomButtons.forEach(button => button.addEventListener('click', () => {
+    buttonBottom(event)
   }));
 
   let extractId = function(e) {
       const stringNumber = e.target.id;
       const reg = /\d+/;
-      const idNumberArray = stringNumber.match(reg)
-      const idNumber = idNumberArray[0]
+      const idNumber = stringNumber.match(reg)[0]
       const idNumberPrev = Number(idNumber) - 1
       const idNumberNext = Number(idNumber) + 1
       return {
@@ -19,124 +26,95 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function showContainerText(id) {
     const containerText = document.getElementById(`uned-poll-slider-content-text-${id}`)
-    document.querySelectorAll(".uned-poll-slider-content").forEach(container => container.classList.add('is-disable'))
-    document.querySelectorAll(".uned-poll-slider-content").forEach(container => container.classList.remove('is-active'))
-    containerText.classList.remove('is-disable')
-    containerText.classList.add('is-active')
+    document.querySelectorAll(".uned-poll-slider-content").forEach(container => container.classList.add('is-hidden'))
+    containerText.classList.remove('is-hidden')
   }
 
-
   function buttonTop(e) {
-    document.querySelectorAll(".uned-poll-buttons-top-slider").forEach(button => button.classList.remove('is-active-btn'))
+
+    bottomButtons.forEach(container => container.classList.add('is-disable'))
+    bottomButtons.forEach(container => container.classList.remove('first-button', 'is-active-last', 'last-button'))
+
+    topButtons.forEach(button => button.classList.remove('is-active-btn'))
 
     e.target.classList.add('is-active-btn');
 
     let {idNumber, idNumberPrev, idNumberNext} = extractId(e)
 
-    document.querySelectorAll(".uned-poll-button-container").forEach(container => container.classList.add('is-disable'))
-    document.querySelectorAll(".uned-poll-button-container").forEach(container => container.classList.remove('is-active', 'first-button', 'is-active-last', 'last-button'))
+    const element = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
+    const elementNext = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberNext}`)
+    const elementPrev = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberPrev}`)
 
     if(e.target.id === 'uned-poll-button-top-1') {
 
-      const element = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
-      const elementNext = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberNext}`)
-
       element.classList.remove('is-disable')
       elementNext.classList.remove('is-disable')
-      element.classList.add('is-active')
-      elementNext.classList.add('is-active')
-
-      const buttonBottom = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
-      const buttonBottomSibling = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberNext}`)
-
-      buttonBottom.classList.add('first-button')
-      buttonBottomSibling.classList.add('first-button')
+      element.classList.add('first-button')
+      elementNext.classList.add('first-button')
 
     } else if (e.target.id === 'uned-poll-button-top-5') {
-      const element = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
-      const elementPrev = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberPrev}`)
 
       element.classList.remove('is-disable')
       elementPrev.classList.remove('is-disable')
-      element.classList.add('is-active')
-      elementPrev.classList.add('is-active', 'is-active-last')
+      element.classList.add('last-button')
+      elementPrev.classList.add('is-active-last')
 
-      const buttonBottom = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
-      buttonBottom.classList.add('last-button')
     } else {
-      const buttonBottom = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberPrev}`)
-      const buttonBottomSibling = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberNext}`)
-      buttonBottom.classList.remove('is-disable', 'is-active-last')
-      buttonBottomSibling.classList.remove('is-disable')
-      buttonBottom.classList.add('is-active', 'is-active-last')
-      buttonBottomSibling.classList.add('is-active')
 
+      elementPrev.classList.remove('is-disable')
+      elementNext.classList.remove('is-disable')
+      elementPrev.classList.add('is-active-last')
     }
 
     showContainerText(idNumber)
 
   }
 
-  document.querySelectorAll(".uned-poll-button-container").forEach(button => button.addEventListener('click', () => {
-    buttonBottom(event)
-  }));
-
-
   function buttonBottom(e) {
-    document.querySelectorAll(".uned-poll-button-container").forEach(button => button.classList.remove('is-active'))
 
-    e.target.classList.add('is-active');
+    e.target.classList.remove('is-disable');
     let {idNumber, idNumberPrev, idNumberNext} = extractId(e)
 
     const buttonBottomActive = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
     const buttonBottomActiveNext = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberNext}`)
     const buttonBottomActivePrev = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberPrev}`)
 
-    document.querySelectorAll(".uned-poll-buttons-top-slider").forEach(button => button.classList.remove('is-active-btn'))
+    topButtons.forEach(button => button.classList.remove('is-active-btn'))
     const buttonTop = document.getElementById(`uned-poll-button-top-${idNumber}`)
     buttonTop.classList.add('is-active-btn')
 
-    showContainerText(idNumber)
-
-    document.querySelectorAll(".uned-poll-button-container").forEach(container => container.classList.add('is-disable'))
-    document.querySelectorAll(".uned-poll-button-container").forEach(container => container.classList.remove('is-active', 'first-button', 'last-button'))
+    bottomButtons.forEach(container => container.classList.add('is-disable'))
+    bottomButtons.forEach(container => container.classList.remove('first-button', 'last-button'))
 
     if(e.target.classList.contains('is-active-last') && e.target.id !== 'uned-poll-buttons-bottom-slider-1') {
 
-      document.querySelectorAll(".uned-poll-button-container").forEach(button => button.classList.remove('is-active-last'))
+      bottomButtons.forEach(button => button.classList.remove('is-active-last'))
       buttonBottomActivePrev.classList.remove('is-disable', 'is-active-last')
       buttonBottomActiveNext.classList.remove('is-disable')
-      buttonBottomActivePrev.classList.add('is-active', 'is-active-last')
-      buttonBottomActiveNext.classList.add('is-active')
+      buttonBottomActivePrev.classList.add('is-active-last')
 
     } else if(e.target.id === 'uned-poll-buttons-bottom-slider-1') {
 
       buttonBottomActive.classList.remove('is-disable')
+      buttonBottomActive.classList.add('first-button')
       buttonBottomActiveNext.classList.remove('is-disable')
-      buttonBottomActive.classList.add('is-active')
-      buttonBottomActiveNext.classList.add('is-active')
-
-      const buttonBottom = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
-      const buttonBottomSibling = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumberNext}`)
-
-      buttonBottom.classList.add('first-button')
 
     } else if(e.target.id === 'uned-poll-buttons-bottom-slider-5') {
 
       buttonBottomActive.classList.remove('is-disable')
       buttonBottomActivePrev.classList.remove('is-disable')
-      buttonBottomActive.classList.add('is-active')
-      buttonBottomActivePrev.classList.add('is-active', 'is-active-last')
+      buttonBottomActivePrev.classList.add('is-active-last')
+      buttonBottomActive.classList.add('last-button')
 
-      const buttonBottom = document.getElementById(`uned-poll-buttons-bottom-slider-${idNumber}`)
-      buttonBottom.classList.add('last-button')
     } else {
-      document.querySelectorAll(".uned-poll-button-container").forEach(button => button.classList.remove('is-active-last'))
+      bottomButtons.forEach(button => button.classList.remove('is-active-last'))
+
       buttonBottomActivePrev.classList.remove('is-disable')
-      buttonBottomActivePrev.classList.add('is-active', 'is-active-last')
+      buttonBottomActivePrev.classList.add('is-active-last')
       buttonBottomActiveNext.classList.remove('is-disable')
-      buttonBottomActiveNext.classList.add('is-active')
     }
+
+    showContainerText(idNumber)
   }
 
   document.querySelectorAll(".uned-poll-slider-participa-button-container").forEach(button => button.addEventListener('click', () => {

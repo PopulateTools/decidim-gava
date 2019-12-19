@@ -159,7 +159,7 @@ body {
   display: inline-block;
 }
 
-.is-disable {
+.is-hidden {
   display: none;
 }
 
@@ -191,6 +191,7 @@ body {
   vertical-align: top;
   cursor: pointer;
   min-height: 120px;
+
   &:after{
     content: '';
     width: 100%;
@@ -203,6 +204,9 @@ body {
   }
   .uned-poll-buttons-bottom-text-top-prev,
   .uned-poll-buttons-bottom-arrow-left {
+    display: none;
+  }
+  &.is-disable {
     display: none;
   }
   &.is-active-last {
