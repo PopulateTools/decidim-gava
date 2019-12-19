@@ -1,3 +1,7 @@
+function hideUnwantedElements() {
+  $("li:contains('Eliminar mi cuenta')").hide();
+}
+
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll(".uned-poll-buttons-top-slider").forEach(button => button.addEventListener('click', () => {
     buttonTop(event)
@@ -191,4 +195,6 @@ document.addEventListener("DOMContentLoaded", function() {
       buttonBottomActiveNext.classList.add('is-active')
     }
   }
+
+  hideUnwantedElements();
 });

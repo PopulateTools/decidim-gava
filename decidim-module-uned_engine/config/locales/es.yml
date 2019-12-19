@@ -4,3 +4,7 @@ es:
     components:
       uned_engine:
         name: UnedEngine
+    pages:
+      terms_and_conditions:
+        refuse:
+          modal_body: Si no aceptas, no podrás utilizar la plataforma.

@@ -6,6 +6,11 @@ require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine/query
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  UNED_ENGINE_ID = "decidim-module-uned_engine"
+  GAVA_ENGINE_ID = "decidim-module-gava_engine"
+
+  before_action :set_site_engine
+  before_action :run_engine_hooks
   before_action :prepend_organization_views
   before_action :check_uned_session
 
@@ -15,20 +20,26 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def prepend_organization_views
-    prepend_view_path "#{site_custom_engine}/app/custom_views" if site_custom_engine
+  def set_site_engine
+    @site_engine = if host.include?("gava")
+                     GAVA_ENGINE_ID
+                   elsif host.include?("uned")
+                     UNED_ENGINE_ID
+                   end
   end
 
-  def site_custom_engine
-    if host.include?("gava")
-      "decidim-module-gava_engine"
-    elsif host.include?("uned")
-      "decidim-module-uned_engine"
-    end
+  def run_engine_hooks
+    return unless @site_engine == UNED_ENGINE_ID
+
+    raise ActionController::RoutingError.new("Not Found") if request.path == "/account/delete"
+  end
+
+  def prepend_organization_views
+    prepend_view_path "#{@site_engine}/app/custom_views" if @site_engine
   end
 
   def check_uned_session
-    return unless site_custom_engine == "decidim-module-uned_engine"
+    return unless @site_engine == UNED_ENGINE_ID
 
     if cookies["usuarioUNEDv2"].blank?
       Decidim::UnedEngine::SSOClient.log("Skipping automatic login: emtpy cookie")
