@@ -4,7 +4,7 @@ module Decidim
   module UnedEngine
     class FakeSessionsController < ::ApplicationController
       def new
-        head :not_found unless Rails.env.development?
+        head :not_found if Rails.env.production?
 
         if params[:cookie]
           cookies["usuarioUNEDv2"] = request.query_string.gsub("cookie=", "")
