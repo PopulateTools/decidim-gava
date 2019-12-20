@@ -9,5 +9,6 @@ module Decidim
   # This namespace holds the logic of the `GavaEngine` component. This component
   # allows users to create gava_engine in a participatory space.
   module GavaEngine
+    GAVA_ENGINE_ID = "decidim-module-gava_engine"
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-require_relative "boot"
 
+require_relative "boot"
+require_relative "../lib/middlewares/site_middleware"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -21,7 +22,8 @@ module DecidimBarcelona
       config.i18n.available_locales = %w(ca es)
     end
     config.i18n.default_locale = :ca
-
     config.i18n.enforce_available_locales = false
+
+    config.middleware.use(SiteMiddleware)
   end
 end

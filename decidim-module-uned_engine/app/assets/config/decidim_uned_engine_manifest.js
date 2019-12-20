@@ -1,3 +1,7 @@
+function hideUnwantedElements() {
+  $("li:contains('Eliminar mi cuenta')").hide();
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
   function closeModal() {
@@ -176,4 +180,6 @@ document.addEventListener("DOMContentLoaded", function() {
       buttonBottomActiveNext.classList.remove('is-hidden')
     }
   }
+
+  hideUnwantedElements();
 });

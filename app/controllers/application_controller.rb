@@ -1,26 +1,36 @@
 # frozen_string_literal: true
 
+require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine"
+require_relative "../../decidim-module-uned_engine/app/helpers/decidim/uned_engine/application_helper"
 require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine/query_helper"
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  before_action :prepend_organization_views
-
   include Decidim::NeedsOrganization
+
+  include Decidim::UnedEngine::ApplicationHelper
+
+  before_action :run_engine_hooks
+  before_action :prepend_organization_views
+  before_action :check_uned_session
+
+  helper_method :care_proposals, :care_proposals_count
 
   private
 
-  def prepend_organization_views
-    prepend_view_path "#{site_custom_engine}/app/custom_views" if site_custom_engine
+  def site_engine
+    request.env["site_engine"]
   end
 
-  def site_custom_engine
-    if %w(gava.decidim.test gava.populate.tools participa.gavacitat.cat).include?(host)
-      "decidim-module-gava_engine"
-    elsif %w(uned.decidim.test uned.populate.tools).include?(host)
-      "decidim-module-uned_engine"
-    end
+  def run_engine_hooks
+    return unless site_engine == Decidim::UnedEngine::UNED_ENGINE_ID
+
+    raise(ActionController::RoutingError, "Not Found") if request.path.include?("/account/delete")
+  end
+
+  def prepend_organization_views
+    prepend_view_path "#{site_engine}/app/custom_views" if site_engine
   end
 
   def host
