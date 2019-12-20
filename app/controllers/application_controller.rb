@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   helper Decidim::Core::Engine.routes.url_helpers
   helper Decidim::ActionAuthorizationHelper
   helper Decidim::Proposals::ProposalVotesHelper
+  helper Decidim::ParticipatoryProcesses::Engine.routes.url_helpers
 
   helper_method(
     :care_proposals,
