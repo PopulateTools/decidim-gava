@@ -4,6 +4,11 @@ es:
     components:
       uned_engine:
         name: UnedEngine
+    devise:
+      sessions:
+        new:
+          authentication_required: Para hacer esta acción es necesario que estés autenticado
+          sign_in: Inicia sesión con tu cuenta de la UNED
     pages:
       terms_and_conditions:
         refuse:
