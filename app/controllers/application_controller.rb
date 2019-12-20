@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   helper Decidim::Proposals::Engine.routes.url_helpers
   helper Decidim::Core::Engine.routes.url_helpers
   helper Decidim::ActionAuthorizationHelper
+  helper Decidim::Proposals::ProposalVotesHelper
 
   private
 
