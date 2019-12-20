@@ -16,6 +16,9 @@ class ApplicationController < ActionController::Base
   before_action :check_uned_session
 
   helper_method :care_proposals, :care_proposals_count
+  helper Decidim::Proposals::Engine.routes.url_helpers
+  helper Decidim::Core::Engine.routes.url_helpers
+  helper Decidim::ActionAuthorizationHelper
 
   private
 

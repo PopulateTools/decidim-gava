@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="uned-poll-slider-participa-right">
-                  <button class="uned-poll-slider-participa-button-right">APOYAR</button>
+                  <%= render partial: "care_proposals/vote_button", locals: { proposal: proposal } %>
                   <button class="uned-poll-slider-participa-button-right is-disable">DEBATIR</button>
                   <button class="uned-poll-slider-participa-button-comments"><%= proposal.comments.count %> comentarios</button>
                 </div>
