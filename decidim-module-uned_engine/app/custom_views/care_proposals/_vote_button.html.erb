@@ -9,7 +9,7 @@
             care_proposal_vote_path(proposal),
             resource: proposal,
             class: care_proposal_vote_button_classes,
-            data: { disable: true, "redirect-url": proposal_path(proposal) }
+            data: { disable: true, "redirect-url": decidim_proposals.proposal_path(proposal) }
           ) %>
     <% else %>
       <% if proposal.voted_by?(current_user) %>
@@ -23,7 +23,7 @@
               disable: true,
               original: t("decidim.proposals.proposals.vote_button.already_voted"),
               replace: t("decidim.proposals.proposals.vote_button.already_voted_hover"),
-              "redirect-url": proposal_path(proposal)
+              "redirect-url": decidim_proposals.proposal_path(proposal)
             },
             class: "#{care_proposal_vote_button_classes} success light",
             id: "vote_button-#{proposal.id}"
@@ -61,7 +61,7 @@
                   care_proposal_vote_path(proposal),
                   resource: proposal,
                   remote: true,
-                  data: { disable: true, "redirect-url": proposal_path(proposal) },
+                  data: { disable: true, "redirect-url": decidim_proposals.proposal_path(proposal) },
                   class: "column button--sc uned-poll-slider-participa-button-right"
                 ) %>
             <% end %>
