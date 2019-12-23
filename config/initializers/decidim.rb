@@ -45,7 +45,7 @@ Decidim::Devise::SessionsController.class_eval do
   def run_engine_hooks
     return unless request.env["site_engine"] == Decidim::UnedEngine::UNED_ENGINE_ID
 
-    redirect_to uned_sso_url if request.path.include?("/users/sign_in")
+    redirect_to uned_sso_url if request.path.include?("/users/sign_in") && Rails.env.production?
   end
 
   def uned_sso_url
