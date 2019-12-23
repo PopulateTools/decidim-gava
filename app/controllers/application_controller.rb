@@ -2,7 +2,7 @@
 
 require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine"
 require_relative "../../decidim-module-uned_engine/app/helpers/decidim/uned_engine/application_helper"
-require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine/query_helper"
+require_relative "../../decidim-module-uned_engine/app/helpers/decidim/uned_engine/care_proposals_helper"
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   include Decidim::Proposals::Engine.routes.url_helpers
   helper Decidim::ActionAuthorizationHelper
   helper Decidim::Proposals::ProposalVotesHelper
+  helper Decidim::UnedEngine::CareProposalsHelper
 
   before_action :set_environment
   before_action :run_engine_hooks
@@ -18,10 +19,6 @@ class ApplicationController < ActionController::Base
   before_action :check_uned_session
 
   helper_method(
-    :care_proposals,
-    :care_proposals_count,
-    :care_proposal_vote_path,
-    :care_proposal_vote_button_classes,
     :proposal_path,
     :current_component,
     :current_participatory_space,
@@ -68,13 +65,5 @@ class ApplicationController < ActionController::Base
 
   def host
     request.host
-  end
-
-  def care_proposal_vote_path(proposal)
-    decidim_proposals.proposal_proposal_vote_path(proposal_id: proposal, from_proposals_list: false)
-  end
-
-  def care_proposal_vote_button_classes
-    "uned-poll-slider-participa-button-right expanded button--sc"
   end
 end

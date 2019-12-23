@@ -118,17 +118,17 @@
               <div id="uned-poll-participa-content-<%= position %>"
                   class="uned-poll-slider-participa-content <%= position == 1 ? nil : 'is-hidden' %>">
 
-                <h3 class="uned-poll-slider-participa-title"><%= proposal.custom_title %></h3>
+                <h3 class="uned-poll-slider-participa-title"><%= proposal[:title] %></h3>
                 <h3 class="uned-poll-slider-participa-subtitle">Del cuidado</h3>
 
                 <div class="uned-poll-slider-participa-left">
-                  <p class="uned-poll-slider-participa-left-text"><%= proposal.body %></p>
+                  <p class="uned-poll-slider-participa-left-text"><%= proposal[:description] %></p>
                 </div>
 
                 <div class="uned-poll-slider-participa-right">
-                  <%= render partial: "care_proposals/vote_button", locals: { proposal: proposal } %>
-                  <%= link_to "DEBATIR", decidim_proposals.proposal_path(proposal), class: "uned-poll-slider-participa-button-right" %>
-                  <button class="uned-poll-slider-participa-button-comments"><%= proposal.comments.count %> comentarios</button>
+                  <%= render partial: "care_proposals/vote_button", locals: { proposal: proposal[:proposal] } %>
+                  <%= link_to "DEBATIR", decidim_proposals.proposal_path(proposal[:proposal]), class: "uned-poll-slider-participa-button-right" %>
+                  <button class="uned-poll-slider-participa-button-comments"><%= proposal[:proposal].comments.count %> comentarios</button>
                 </div>
               </div>
             <% end %>
@@ -144,7 +144,7 @@
                       <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-next">SIGUIENTE</span>
                     <% end %>
 
-                    <% if position < care_proposals_count %>
+                    <% if position < care_proposals.size %>
                       <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-prev <%= position == 1 ? 'is-hidden' : nil %>">ANTERIOR</span>
                       <img src="<%= asset_path 'arrow-left-bottom.svg' %>" alt="" class="uned-poll-buttons-bottom-arrow uned-poll-buttons-bottom-arrow-left <%= position == 1 ? 'is-hidden' : nil %>">
                     <% end %>

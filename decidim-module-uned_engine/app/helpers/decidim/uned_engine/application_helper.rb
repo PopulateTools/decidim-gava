@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../../../../lib/decidim/uned_engine/query_helper"
-
 module Decidim
   module UnedEngine
     # Custom helpers, scoped to the uned_engine engine.
@@ -61,14 +59,6 @@ module Decidim
         Decidim::UnedEngine::SSOClient.log("Created user with #{user.nickname} / #{user.email}")
 
         user
-      end
-
-      def care_proposals
-        Decidim::UnedEngine::QueryHelper.care_proposals(current_organization)
-      end
-
-      def care_proposals_count
-        Decidim::UnedEngine::QueryHelper.care_proposals_count(current_organization)
       end
     end
   end
