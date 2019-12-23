@@ -1,4 +1,4 @@
-<section id="uned-poll" class="uned-poll">
+<section id="uned-poll" class="uned-poll" style="<%= request.path == "/" ? nil : 'display: none' %>">
   <section class="uned-poll-content">
     <button id="uned-poll-close-button">
       <img class="uned-poll-close-button-img" src="<%= asset_path 'close.svg' %>">
