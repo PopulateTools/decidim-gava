@@ -24,7 +24,9 @@ class ApplicationController < ActionController::Base
     :care_proposal_vote_button_classes,
     :proposal_path,
     :current_component,
-    :current_participatory_space
+    :current_participatory_space,
+    :component_settings,
+    :current_settings
   )
 
   private
@@ -40,6 +42,14 @@ class ApplicationController < ActionController::Base
 
   def current_component
     request.env["decidim.current_component"]
+  end
+
+  def component_settings
+    @component_settings ||= current_component.settings
+  end
+
+  def current_settings
+    @current_settings ||= current_component.current_settings
   end
 
   def site_engine
