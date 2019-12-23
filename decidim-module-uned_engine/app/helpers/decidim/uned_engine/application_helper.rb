@@ -45,6 +45,7 @@ module Decidim
         random_password = SecureRandom.hex(16)
 
         user = Decidim::User.create!(
+          name: sso_response.user_nickname,
           email: sso_response.user_email,
           nickname: sso_response.user_nickname,
           organization: current_organization,
