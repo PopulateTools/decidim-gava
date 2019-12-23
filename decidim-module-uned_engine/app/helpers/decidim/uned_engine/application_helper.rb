@@ -12,7 +12,7 @@ module Decidim
       end
 
       def check_uned_session
-        return unless @site_engine == UNED_ENGINE_ID
+        return unless site_engine == UNED_ENGINE_ID
 
         if uned_user_cookie.blank?
           Decidim::UnedEngine::SSOClient.log("Skipping automatic login: emtpy cookie")

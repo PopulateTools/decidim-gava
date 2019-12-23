@@ -9,25 +9,38 @@ class ApplicationController < ActionController::Base
 
   include Decidim::UnedEngine::ApplicationHelper
   include Decidim::Proposals::Engine.routes.url_helpers
+  helper Decidim::ActionAuthorizationHelper
+  helper Decidim::Proposals::ProposalVotesHelper
 
+  before_action :set_environment
   before_action :run_engine_hooks
   before_action :prepend_organization_views
   before_action :check_uned_session
-
-  helper Decidim::Core::Engine.routes.url_helpers
-  helper Decidim::ActionAuthorizationHelper
-  helper Decidim::Proposals::ProposalVotesHelper
-  helper Decidim::ParticipatoryProcesses::Engine.routes.url_helpers
 
   helper_method(
     :care_proposals,
     :care_proposals_count,
     :care_proposal_vote_path,
     :care_proposal_vote_button_classes,
-    :proposal_path
+    :proposal_path,
+    :current_component,
+    :current_participatory_space
   )
 
   private
+
+  def set_environment
+    request.env["decidim.current_component"] = Decidim::Component.find(98)
+    request.env["decidim.current_participatory_space"] = Decidim::ParticipatoryProcess.find(35)
+  end
+
+  def current_participatory_space
+    request.env["decidim.current_participatory_space"]
+  end
+
+  def current_component
+    request.env["decidim.current_component"]
+  end
 
   def site_engine
     request.env["site_engine"]
@@ -48,7 +61,7 @@ class ApplicationController < ActionController::Base
   end
 
   def care_proposal_vote_path(proposal)
-    proposal_proposal_vote_path(proposal_id: proposal, from_proposals_list: false)
+    decidim_proposals.proposal_proposal_vote_path(proposal_id: proposal, from_proposals_list: false)
   end
 
   def care_proposal_vote_button_classes
