@@ -28,6 +28,7 @@ group :development do
   gem "listen"
   gem "spring"
   gem "spring-watcher-listen"
+  gem "faker"
   gem "capistrano"
   gem "capistrano3-puma"
   gem "capistrano-bundler", "~> 1.2"
@@ -37,7 +38,6 @@ end
 
 group :development, :staging do
   gem "letter_opener_web", "~> 1.3.0"
-  gem "faker"
 end
 
 group :production do
