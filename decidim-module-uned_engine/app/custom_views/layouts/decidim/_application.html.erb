@@ -18,10 +18,7 @@
   </head>
 
   <body>
-    <button id="uned-poll-open-button">Abrir modal</button>
-    <% if request.path == "/" %>
-      <%= render partial: "layouts/decidim/uned_modal" %>
-    <% end %>
+    <%= render partial: "layouts/decidim/uned_modal" %>
     <%= render partial: "layouts/decidim/impersonation_warning" %>
     <%= render partial: "layouts/decidim/cookie_warning" %>
     <%= render partial: "layouts/decidim/omnipresent_banner" %>

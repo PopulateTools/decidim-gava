@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", function() {
   })
 
   const openButton = document.getElementById('uned-poll-open-button');
-  openButton.addEventListener('click', () => {
+  openButton.addEventListener('click', (e) => {
+    e.preventDefault()
     openModal()
   })
 
