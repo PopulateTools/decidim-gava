@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function buttonTop(e) {
-    bottomButtons.forEach(container => container.classList.add('is-disable'))
+    bottomButtons.forEach(container => container.classList.add('is-hidden'))
     bottomButtons.forEach(container => container.classList.remove('first-button', 'is-active-last', 'last-button'))
 
     topButtons.forEach(button => button.classList.remove('is-active-btn'))
@@ -76,22 +76,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if(e.target.id === 'uned-poll-button-top-1') {
 
-      element.classList.remove('is-disable')
-      elementNext.classList.remove('is-disable')
+      element.classList.remove('is-hidden')
+      elementNext.classList.remove('is-hidden')
       element.classList.add('first-button')
-      elementNext.classList.add('first-button')
 
     } else if (e.target.id === 'uned-poll-button-top-5') {
 
-      element.classList.remove('is-disable')
-      elementPrev.classList.remove('is-disable')
+      element.classList.remove('is-hidden')
+      elementPrev.classList.remove('is-hidden')
       element.classList.add('last-button')
       elementPrev.classList.add('is-active-last')
 
     } else {
 
-      elementPrev.classList.remove('is-disable')
-      elementNext.classList.remove('is-disable')
+      elementPrev.classList.remove('is-hidden')
+      elementNext.classList.remove('is-hidden')
       elementPrev.classList.add('is-active-last')
     }
 
