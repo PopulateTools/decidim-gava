@@ -452,10 +452,21 @@ body {
   cursor: pointer;
   border-radius: 0;
   margin-bottom: 1rem;
+  display: inline-block;
+  text-align: center;
   &.is-disable {
     opacity: .5;
     pointer-events: none;
     display: inline-block;
+  }
+  &.success {
+    background-color: var(--success);
+    color: #fff;
+  }
+  &.disable {
+    background-color: var(--alert);
+    color: #fff;
+    cursor: not-allowed;
   }
 }
 
@@ -556,10 +567,10 @@ body {
   }
 
   .uned-poll-slider-participa-button-right {
-    width: 49.4%;
+    width: 100%;
     display: inline-block;
     &:not(:last-child) {
-      margin-right: .5%;
+      margin-right: 0;
     }
   }
 
