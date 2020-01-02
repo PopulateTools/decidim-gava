@@ -7,7 +7,7 @@ require "decidim/gava_engine/version"
 Gem::Specification.new do |s|
   s.version = Decidim::GavaEngine.version
   s.authors = ["Alberto Miedes"]
-  s.email = ["albertomg994@gmail.com"]
+  s.email = ["alberto@populate.tools"]
   s.license = "AGPL-3.0"
   s.homepage = "https://github.com/decidim/decidim-module-gava_engine"
   s.required_ruby_version = ">= 2.5"
