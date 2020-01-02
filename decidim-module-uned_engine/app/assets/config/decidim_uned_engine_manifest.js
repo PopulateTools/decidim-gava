@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
       elementNext.classList.remove('is-hidden')
       element.classList.add('first-button')
 
-    } else if (e.target.id === 'uned-poll-button-top-5') {
+    } else if (e.target.id === 'uned-poll-button-top-4') {
 
       element.classList.remove('is-hidden')
       elementPrev.classList.remove('is-hidden')
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
       buttonBottomActive.classList.add('first-button')
       buttonBottomActiveNext.classList.remove('is-hidden')
 
-    } else if(e.target.id === 'uned-poll-buttons-bottom-slider-5') {
+    } else if(e.target.id === 'uned-poll-buttons-bottom-slider-4') {
 
       buttonBottomActive.classList.remove('is-hidden')
       buttonBottomActivePrev.classList.remove('is-hidden')
