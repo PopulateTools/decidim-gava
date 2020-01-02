@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-require_relative "boot"
 
+require_relative "boot"
+require_relative "../lib/middlewares/site_middleware"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -21,7 +22,19 @@ module DecidimBarcelona
       config.i18n.available_locales = %w(ca es)
     end
     config.i18n.default_locale = :ca
-
     config.i18n.enforce_available_locales = false
+
+    config.middleware.use(SiteMiddleware)
+
+    required_files = [
+      "#{Rails.root}/decidim-module-gava_engine/app/services",
+      "#{Rails.root}/decidim-module-uned_engine/lib",
+      "#{Rails.root}/decidim-module-uned_engine/lib/decidim",
+      "#{Rails.root}/decidim-module-uned_engine/lib/decidim/uned_engine",
+      "#{Rails.root}/decidim-module-uned_engine/app",
+      "#{Rails.root}/decidim-module-uned_engine/app/services"
+    ]
+    config.autoload_paths += required_files
+    config.eager_load_paths += required_files
   end
 end

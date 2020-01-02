@@ -1,0 +1,15 @@
+---
+en:
+  decidim:
+    components:
+      uned_engine:
+        name: UnedEngine
+    devise:
+      sessions:
+        new:
+          authentication_required: This action requires being authenticated
+          sign_in: Login with your UNED account
+    pages:
+      terms_and_conditions:
+        refuse:
+          modal_body: If you don't accept, you won't be able to use the platform.

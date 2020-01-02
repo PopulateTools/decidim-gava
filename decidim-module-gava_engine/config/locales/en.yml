@@ -1,0 +1,6 @@
+---
+en:
+  decidim:
+    components:
+      gava_engine:
+        name: GavaEngine

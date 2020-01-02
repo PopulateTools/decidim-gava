@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../../app/services/census_authorization_handler"
+require_relative "../../decidim-module-gava_engine/app/services/census_authorization_handler"
+require_relative "../../decidim-module-uned_engine/app/services/sso_client"
+require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine"
 
 Decidim.configure do |config|
   config.application_name = "Decidim Gavà"
@@ -30,5 +32,23 @@ Decidim::Verifications.register_workflow(:census_authorization_handler) do |auth
   auth.options do |options|
     options.attribute :maximum_age, type: :integer, required: false
     options.attribute :minimum_age, type: :integer, required: false
+  end
+end
+
+## Monkeypatches
+
+Decidim::Devise::SessionsController.class_eval do
+  before_action :run_engine_hooks
+
+  private
+
+  def run_engine_hooks
+    return unless request.env["site_engine"] == Decidim::UnedEngine::UNED_ENGINE_ID
+
+    redirect_to uned_sso_url if request.path.include?("/users/sign_in") && Rails.env.production?
+  end
+
+  def uned_sso_url
+    "#{Decidim::UnedEngine::SSOClient::SSO_URL}?URL=#{root_url}"
   end
 end

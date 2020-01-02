@@ -61,7 +61,14 @@ namespace :dev do
 
     Decidim::Organization.all.each do |organization|
       host = organization.host
-      dev_host = "#{host.split(".").first}.decidim.test"
+
+      dev_host = if host.include?("gava")
+                   "gava.decidim.test"
+                 elsif host.include?("uned")
+                   "uned.decidim.test"
+                 else
+                   host
+                 end
 
       organization.update(host: dev_host)
       puts "#{host} ==> #{dev_host}"
