@@ -64,7 +64,9 @@ module Decidim
 
         def login_authorized?
           # HACK: force our test user to be authorized
-          success? && active? || user_nickname == "palvarez128"
+          return true if user_nickname == "palvarez128"
+
+          student? ? (success? && active?) : success?
         end
       end
 
