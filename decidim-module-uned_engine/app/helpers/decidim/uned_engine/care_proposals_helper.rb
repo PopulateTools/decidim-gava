@@ -92,7 +92,7 @@ module Decidim
             medir. Además, serán mantenidos al día tanto como sea posible. Cuando en el análisis
             se usen encuestas de opinión o se apliquen inferencias estadísticas, la UNED cuidará
             de que la muestra sea sucientemente grande y representativa y de que los resultados
-            sean estadísticamente signicativos. Todos los algoritmos y métricas utilizados serán
+            sean estadísticamente significativos. Todos los algoritmos y métricas utilizados serán
             comprendidos, validados, revisados y mejorados según corresponda por personal calificado
             """,
             proposal: find_proposal("Cautela 6")
