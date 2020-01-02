@@ -21,12 +21,12 @@ module Decidim
         sso_client = Decidim::UnedEngine::SSOClient.new
         response = sso_client.check_user(uned_user_cookie)
 
-        if response.cookie_expired?
+        if !response.login_authorized?
+          Decidim::UnedEngine::SSOClient.log("Can't verify user - #{response.summary}")
+          return
+        else response.cookie_expired?
           Decidim::UnedEngine::SSOClient.log("Signing out user: cookie expired")
           sign_out(current_user)
-          return
-        elsif !response.login_authorized?
-          Decidim::UnedEngine::SSOClient.log("Can't verify user - #{response.summary}")
           return
         end
 
