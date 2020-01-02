@@ -24,7 +24,14 @@ module Decidim
           :error
         )
 
-        def initialize(response)
+        def initialize(response = nil)
+          if response.nil?
+            @response_body = {}
+            @user_attributes = {}
+            @error = nil
+            return
+          end
+
           @response_body = response.body
           @user_attributes = response_body[:autorizar_ext_response][:usuario]
 
@@ -36,7 +43,7 @@ module Decidim
         end
 
         def success?
-          response_body[:autorizar_ext_response][:autorizar_ext_result]
+          response_body[:autorizar_ext_response] && response_body[:autorizar_ext_response][:autorizar_ext_result]
         end
 
         def student?
@@ -44,7 +51,7 @@ module Decidim
         end
 
         def active?
-          user_attributes[:aserciones][:string].include?("ACTIVO:True")
+          user_attributes[:aserciones] && user_attributes[:aserciones][:string].include?("ACTIVO:True")
         end
 
         def cookie_expired?
@@ -71,10 +78,12 @@ module Decidim
         log("message: #{message}") unless Rails.env.production?
 
         response = client.call(:autorizar_ext, message: message)
-
         log("response_body: #{response.body}") unless Rails.env.production?
 
         Response.new(response)
+      rescue Excon::Error::Socket, SocketError => e
+        Rollbar.error("Can't connect to SSO webservice: #{e}")
+        Response.new
       end
 
       private
