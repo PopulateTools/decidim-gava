@@ -24,7 +24,7 @@ module Decidim
           Decidim::UnedEngine::SSOClient.log("Signing out user: cookie expired")
           sign_out(current_user)
           return
-        elsif !response.success? || !response.student?
+        elsif !response.login_authorized?
           Decidim::UnedEngine::SSOClient.log("Can't verify user - #{response.summary}")
           return
         end
