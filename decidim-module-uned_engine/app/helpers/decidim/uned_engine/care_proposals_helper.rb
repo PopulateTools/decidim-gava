@@ -32,7 +32,7 @@ module Decidim
             subtitle: "De la transparencia",
             description: """
             La UNED desarrollará políticas institucionales claras con respecto al uso de tecnologías
-            basadas en datos masivos. Denirá, registrará y comunicará a la comunidad universitaria
+            basadas en datos masivos. Definirá, registrará y comunicará a la comunidad universitaria
             las fuentes de datos, los propósitos de los análisis, las métricas usadas, quién tiene acceso
             a los análisis, los límites de su uso y cómo se interpretan los datos. Cuando los datos
             estén incompletos o se usen como aproximación a otros no disponibles, se aclarará en qué
@@ -49,7 +49,7 @@ module Decidim
             UNED, será informado con explicaciones detalladas acerca del uso previsto de los datos.
             Cuando los datos se usen para intervenir en las decisiones que afectan a la trayectoria de
             una persona en el seno de la institución o al acceso a sus recursos, será necesario obtener
-            consentimiento expreso y especíco para esos usos. La UNED establecerá protocolos para
+            consentimiento expreso y específico para esos usos. La UNED establecerá protocolos para
             permitir la revocación del consentimiento.
             """,
             proposal: find_proposal("Cautela 3")
@@ -87,13 +87,13 @@ module Decidim
             title: "Cautela 6",
             subtitle: "De la validez y la fiabilidad",
             description: """
-            Para asegurar que las aplicaciones de tecnologías basadas en datos son válidas y ables,
+            Para asegurar que las aplicaciones de tecnologías basadas en datos son válidas y fiables,
             la UNED garantizará que los datos son precisos y representativos de aquello que dicen
             medir. Además, serán mantenidos al día tanto como sea posible. Cuando en el análisis
             se usen encuestas de opinión o se apliquen inferencias estadísticas, la UNED cuidará
             de que la muestra sea sucientemente grande y representativa y de que los resultados
             sean estadísticamente signicativos. Todos los algoritmos y métricas utilizados serán
-            comprendidos, validados, revisados y mejorados según corresponda por personal calicado
+            comprendidos, validados, revisados y mejorados según corresponda por personal calificado
             """,
             proposal: find_proposal("Cautela 6")
           },
