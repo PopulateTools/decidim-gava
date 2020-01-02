@@ -13,8 +13,7 @@ class ApplicationController < ActionController::Base
   helper Decidim::Proposals::ProposalVotesHelper
   helper Decidim::UnedEngine::CareProposalsHelper
 
-  before_action :set_environment
-  before_action :run_engine_hooks
+  before_action :run_uned_engine_hooks
   before_action :prepend_organization_views
   before_action :check_uned_session
 
@@ -27,11 +26,6 @@ class ApplicationController < ActionController::Base
   )
 
   private
-
-  def set_environment
-    request.env["decidim.current_component"] = Decidim::Component.find(98)
-    request.env["decidim.current_participatory_space"] = Decidim::ParticipatoryProcess.find(35)
-  end
 
   def current_participatory_space
     request.env["decidim.current_participatory_space"]
@@ -53,8 +47,11 @@ class ApplicationController < ActionController::Base
     request.env["site_engine"]
   end
 
-  def run_engine_hooks
+  def run_uned_engine_hooks
     return unless site_engine == Decidim::UnedEngine::UNED_ENGINE_ID
+
+    request.env["decidim.current_component"] = Decidim::Component.find(98)
+    request.env["decidim.current_participatory_space"] = Decidim::ParticipatoryProcess.find(35)
 
     raise(ActionController::RoutingError, "Not Found") if request.path.include?("/account/delete")
   end
