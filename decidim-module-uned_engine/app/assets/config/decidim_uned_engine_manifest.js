@@ -4,9 +4,9 @@ function hideUnwantedElements() {
 
 document.addEventListener("DOMContentLoaded", function() {
 
-  function openModal() {
+  function toggleModal() {
     const modal = document.getElementById('uned-poll')
-    modal.classList.remove('is-hidden')
+    modal.classList.toggle('is-hidden')
   }
 
   function closeModal() {
@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
     closeModal()
   })
 
-  const openButton = document.getElementById('uned-poll-open-button');
-  openButton.addEventListener('click', (e) => {
+  const toggleButtons = document.querySelectorAll(".uned-poll-toggle-button");
+  toggleButtons.forEach(button => button.addEventListener('click', (e) => {
     e.preventDefault()
-    openModal()
-  })
+    toggleModal()
+  }));
 
   const bottomButtons = document.querySelectorAll(".uned-poll-button-container")
   const topButtons = document.querySelectorAll(".uned-poll-buttons-top-slider")
