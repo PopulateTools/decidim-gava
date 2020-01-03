@@ -143,7 +143,9 @@ module Decidim
         process = Decidim::ParticipatoryProcess.find_by(organization: current_organization)
         component = Decidim::Component.where(participatory_space: process)
 
-        Decidim::Proposals::Proposal.where(component: component).find_by("title ilike ?", "%#{text}%")
+        Decidim::Proposals::Proposal.where(component: component)
+                                    .where("title ilike ?", "%#{text}%")
+                                    .to_a.select(&:official?).first
       end
     end
   end
