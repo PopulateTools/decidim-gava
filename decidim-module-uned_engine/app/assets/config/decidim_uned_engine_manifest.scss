@@ -196,6 +196,10 @@ html {
 
 .uned-poll-slider-content-accordion-title {
   cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 1rem;
 }
 
 .uned-poll-slider-content-accordion {
@@ -203,6 +207,9 @@ html {
   display: none;
   .is-visible {
     display: block;
+  }
+  p {
+    line-height: 26px;
   }
 }
 
