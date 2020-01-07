@@ -191,5 +191,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+  bottomButtons.forEach(button => button.addEventListener('click', (e) => {
+    scrollToTopSection()
+  }));
+
+  function scrollToTopSection() {
+    document.getElementById("uned-poll-button-top-1").scrollIntoView();
+  }
+
   hideUnwantedElements();
 });
