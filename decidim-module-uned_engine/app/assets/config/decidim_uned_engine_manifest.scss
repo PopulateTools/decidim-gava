@@ -6,6 +6,27 @@ $color-text: #3C4657;
 $color-table: rgba(217, 236, 138, .5);
 
 
+:root {
+  --primary: #215140;
+}
+
+/* .main-nav__link a {
+  border-top: 6px solid transparent;
+  transition: border-color .3s ease-in;
+  &:hover {
+    border-color: var(--primary);
+  }
+}
+
+.process-nav li {
+  border-bottom: 3px solid transparent;
+  transition: border-color .3s ease-in;
+  &:hover {
+    border-color: var(--primary);
+  }
+} */
+
+
 body {
   position: relative;
 }
@@ -528,6 +549,26 @@ html {
   width: 100%;
 }
 
+.heading-uned {
+  width: 50%;
+  display: inline-block;
+}
+
+.heading-buttons-uned {
+  width: 49%;
+  display: inline-block;
+  text-align: right;
+  .button {
+    background-color: #fff;
+    border-color: #E8E8E8;
+    color: #215140;
+    &:hover {
+      color: inherit;
+      border-color: #215140;
+    }
+  }
+}
+
 @media (max-width: 1060px) {
   .uned-poll-buttons-top-slider {
     height: 72px;
@@ -649,5 +690,18 @@ html {
 
   .uned-poll-button-container {
     width: 49%;
+  }
+}
+
+
+@media screen and (max-width: 49.9375em) {
+  .heading-buttons-uned {
+    width: 100%;
+    .button {
+      width: 49.5%;
+    }
+  }
+  .heading-uned {
+    width: 100%;
   }
 }
