@@ -6,7 +6,9 @@ module Decidim
     #
     module ApplicationHelper
       def uned_user_cookie
-        CGI.escape(cookies["usuarioUNEDv2"])
+        cookie_value = cookies["usuarioUNEDv2"]
+
+        cookie_value.present? ? CGI.escape(cookie_value) : nil
       end
 
       def check_uned_session
