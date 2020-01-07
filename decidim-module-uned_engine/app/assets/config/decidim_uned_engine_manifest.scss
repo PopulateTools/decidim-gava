@@ -10,6 +10,10 @@ body {
   position: relative;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .uned-poll {
   background-color: rgba(0, 0, 0, .5);
   font-family: $primary-font;
@@ -20,6 +24,9 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
+  * {
+    line-height: 1.3;
+  }
 }
 
 #uned-poll-close-button {
@@ -36,7 +43,7 @@ body {
 }
 
 .uned-poll-content {
-  width: 80%;
+  width: calc(100% - 2rem);
   margin: 0 auto;
   border-radius: 8px;
   background-color: #fff;
@@ -89,6 +96,7 @@ body {
   font-weight: bold;
   color: $color-title;
   margin-bottom: 0;
+  margin-top: 1rem;
 }
 
 .uned-poll-content-subtitle {
@@ -96,16 +104,19 @@ body {
   color: $color-title;
   margin-top: 0;
   max-width: 50%;
+  margin-bottom: 2rem;
 }
 
 .uned-poll-content-text {
   font-size: 24px;
+  line-height: 37px;
   color: $color-text;
 }
 
 .uned-poll-content-table {
   width: 100%;
   background-color: $color-table;
+  margin-top: 2rem;
 }
 
 .uned-poll-content-table-row {
@@ -195,7 +206,7 @@ body {
   min-height: 80px;
   vertical-align: top;
   cursor: pointer;
-  min-height: 120px;
+  min-height: 130px;
   &:after {
     content: '';
     width: 100%;
@@ -317,19 +328,22 @@ body {
   font-weight: bold;
   font-size: 24px;
   color: #A5B362;
+  margin-bottom: 2rem;
 }
 
 .uned-poll-slider-content-text {
   font-size: 18px;
   line-height: 27px;
   color: $color-text;
+  margin-bottom: 1.5rem;
 }
 
 .uned-poll-slider-content-text-list {
   position: relative;
+  margin-bottom: 1.5rem;
   &:before {
     position: absolute;
-    top: 8px;
+    top: 5px;
     left: -30px;
     content: '';
     display: inline-block;
@@ -359,7 +373,7 @@ body {
 .uned-poll-img-arrow-left {
   position: absolute;
   left: -50%;
-  top: 150px;
+  top: 130px;
 }
 
 
@@ -436,6 +450,20 @@ body {
   width: 30%;
   padding-left: 1rem;
   vertical-align: top;
+  .button_to {
+    button {
+      background: #A5B362;
+      font-size: 16px;
+      color: #fff;
+      width: 100%;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      border-radius: 0;
+      margin-bottom: 1rem;
+      display: inline-block;
+      text-align: center;
+    }
+  }
 }
 
 .uned-poll-slider-participa-left-text {
