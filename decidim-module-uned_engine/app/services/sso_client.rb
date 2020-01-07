@@ -77,10 +77,10 @@ module Decidim
       def check_user(cookie_value)
         message = build_message(cookie_value)
 
-        log("message: #{message}") unless Rails.env.production?
+        log("message: #{message}") #unless Rails.env.production?
 
         response = client.call(:autorizar_ext, message: message)
-        log("response_body: #{response.body}") unless Rails.env.production?
+        log("response_body: #{response.body}") #unless Rails.env.production?
 
         Response.new(response)
       rescue Excon::Error::Socket, SocketError => e
