@@ -26,7 +26,7 @@ module Decidim
         if !response.login_authorized?
           Decidim::UnedEngine::SSOClient.log("Can't verify user - #{response.summary}")
           return
-        else response.cookie_expired?
+        elsif response.cookie_expired?
           Decidim::UnedEngine::SSOClient.log("Signing out user: cookie expired")
           sign_out(current_user)
           return
