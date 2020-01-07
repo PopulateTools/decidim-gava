@@ -199,5 +199,21 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("uned-poll-button-top-1").scrollIntoView();
   }
 
+  const toggleQuestionsButton = document.querySelectorAll(".uned-poll-slider-content-accordion-title");
+
+  toggleQuestionsButton.forEach(button => button.addEventListener('click', (e) => {
+    toggleQuestions(e)
+  }));
+
+  function toggleQuestions(e) {
+    const toggleQuestionsContent = document.querySelectorAll(".uned-poll-slider-content-accordion");
+    for (var i = 0; i < toggleQuestionsContent.length; i++) {
+        toggleQuestionsContent[i].classList.remove('is-visible')
+      }
+    const element = e.target
+    const elementToggle = element.nextElementSibling
+    elementToggle.classList.toggle('is-visible')
+  }
+
   hideUnwantedElements();
 });
