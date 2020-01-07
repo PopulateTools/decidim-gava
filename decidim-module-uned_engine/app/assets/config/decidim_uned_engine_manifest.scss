@@ -43,7 +43,7 @@ html {
 }
 
 .uned-poll-content {
-  width: 80%;
+  width: calc(100% - 2rem);
   margin: 0 auto;
   border-radius: 8px;
   background-color: #fff;
@@ -70,7 +70,7 @@ html {
 }
 
 .uned-poll-content-medium {
-  width: calc(100% - 2rem);
+  width: 80%;
   margin: .5rem auto;
 }
 
@@ -300,7 +300,7 @@ html {
 }
 
 .uned-poll-content-footer {
-  width: calc(100% - 2rem);
+  width: 95%;
   margin: 0 auto;
 }
 
