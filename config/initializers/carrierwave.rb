@@ -7,11 +7,13 @@ CarrierWave.configure do |config|
   config.storage = :file
   config.enable_processing = !Rails.env.test?
   config.asset_host = proc do |file|
-    if file.model.respond_to?(:attached_to)
-      file.model.attached_to&.organization&.host
-    elsif file.model.respond_to?(:content_block)
-      file.model.content_block&.organization&.host
-    end
+    host = if file.model.respond_to?(:attached_to)
+             file.model.attached_to&.organization&.host
+           elsif file.model.respond_to?(:content_block)
+             file.model.content_block&.organization&.host
+           end
+
+    host ? "https://#{host}" : nil
   end
 end
 
