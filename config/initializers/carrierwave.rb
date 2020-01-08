@@ -8,9 +8,9 @@ CarrierWave.configure do |config|
   config.enable_processing = !Rails.env.test?
   config.asset_host = proc do |file|
     if file.model.respond_to?(:attached_to)
-      file.model.attached_to&.organization
+      file.model.attached_to&.organization&.host
     elsif file.model.respond_to?(:content_block)
-      file.model.content_block&.organization
+      file.model.content_block&.organization&.host
     end
   end
 end
