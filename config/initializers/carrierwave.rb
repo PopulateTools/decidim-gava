@@ -7,7 +7,11 @@ CarrierWave.configure do |config|
   config.storage = :file
   config.enable_processing = !Rails.env.test?
   config.asset_host = proc do |file|
-    file.model&.attached_to&.organization
+    if file.model.respond_to?(:attached_to)
+      file.model.attached_to&.organization
+    elsif file.model.respond_to?(:content_block)
+      file.model.content_block&.organization
+    end
   end
 end
 
