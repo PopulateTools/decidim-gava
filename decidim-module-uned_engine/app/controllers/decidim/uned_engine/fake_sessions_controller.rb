@@ -7,7 +7,7 @@ module Decidim
         head :not_found if Rails.env.production?
 
         if params[:cookie]
-          cookies["usuarioUNEDv2"] = request.query_string.gsub("cookie=", "")
+          cookies["usuarioUNEDv2"] = params[:cookie]
           Rails.logger.info("[SSO] Fake cookie set to #{cookies["usuarioUNEDv2"]}")
           head :ok
         else
