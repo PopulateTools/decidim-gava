@@ -44,11 +44,21 @@ Decidim::Devise::SessionsController.class_eval do
 
   def run_engine_hooks
     return unless request.env["site_engine"] == Decidim::UnedEngine::UNED_ENGINE_ID
+    return if Rails.env.staging? # VPN is not set up in staging
 
-    redirect_to uned_sso_url if request.path.include?("/users/sign_in") && (Rails.env.production? || Rails.env.development?)
+    redirect_to uned_sso_url if request.path.include?("/users/sign_in")
+
+    if request.path.include?("/users/sign_out")
+      cookies.delete("usuarioUNEDv2") if Rails.env.development?
+      redirect_to uned_sign_out_url
+    end
   end
 
   def uned_sso_url
     "#{Decidim::UnedEngine::SSOClient::SSO_URL}?URL=#{root_url}"
+  end
+
+  def uned_sign_out_url
+    "https://sso.uned.es/sso/index.aspx"
   end
 end

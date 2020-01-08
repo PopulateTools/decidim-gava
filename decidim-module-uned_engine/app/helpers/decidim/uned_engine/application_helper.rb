@@ -17,6 +17,12 @@ module Decidim
 
         if uned_user_cookie.blank?
           Decidim::UnedEngine::SSOClient.log("Skipping automatic login: emtpy cookie")
+
+          if current_user
+            Decidim::UnedEngine::SSOClient.log("Signing out user: emtpy cookie")
+            sign_out(current_user)
+          end
+
           return
         end
 
