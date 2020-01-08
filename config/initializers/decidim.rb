@@ -50,6 +50,7 @@ Decidim::Devise::SessionsController.class_eval do
 
     if request.path.include?("/users/sign_out")
       cookies.delete("usuarioUNEDv2") if Rails.env.development?
+      sign_out(current_user) if current_user
       redirect_to uned_sign_out_url
     end
   end
