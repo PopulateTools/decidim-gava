@@ -6,7 +6,9 @@ CarrierWave.configure do |config|
   config.directory_permissions = 0o777
   config.storage = :file
   config.enable_processing = !Rails.env.test?
-  config.asset_host = "https://#{ENV["MAIN_HOST"]}" unless Rails.env.development?
+  config.asset_host = proc do |file|
+    file.model&.attached_to&.organization
+  end
 end
 
 if Rails.application.secrets.aws_access_key_id.present?
