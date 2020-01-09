@@ -182,6 +182,8 @@ document.addEventListener("DOMContentLoaded", function() {
       buttonBottomActive.classList.remove('is-hidden')
       buttonBottomActive.classList.add('last-button')
       buttonBottomActivePrev.classList.add('is-active-last')
+      const containerInsideButtons = document.getElementById('uned-poll-container-participa-buttons')
+      containerInsideButtons.classList.add('is-hidden')
 
     } else {
       participaButtons.forEach(button => button.classList.remove('is-active-last', 'last-button', 'first-button'))
