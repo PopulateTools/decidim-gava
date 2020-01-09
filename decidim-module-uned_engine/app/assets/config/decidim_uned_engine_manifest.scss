@@ -213,8 +213,22 @@ html {
   }
 }
 
+.uned-poll-slider-participa-content {
+  .uned-poll-slider-participa-content-thanks {
+    + .uned-poll-slider-participa-buttons {
+      display: none;
+    }
+    &.is-hidden {
+      + .uned-poll-slider-participa-buttons {
+        display: block;
+      }
+    }
+  }
+}
+
 
 .uned-poll-button-container,
+.uned-poll-button-thanks,
 .uned-poll-slider-participa-button-container {
   width: 49.5%;
   background-color: #A5B362;
@@ -276,6 +290,19 @@ html {
     .uned-poll-buttons-bottom-text-top-next {
       opacity: 0;
     }
+  }
+}
+
+.uned-poll-slider-participa-content-thanks {
+  .uned-poll-slider-participa-title {
+    margin-bottom: 1rem;
+  }
+}
+
+.uned-poll-button-thanks {
+  width: 49%;
+  &:not(:last-child) {
+    margin-right: 2%;
   }
 }
 
