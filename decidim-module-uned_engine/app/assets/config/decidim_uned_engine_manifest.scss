@@ -215,10 +215,13 @@ html {
   p {
     line-height: 26px;
   }
+  p.uned-poll-content-text {
+    line-height: 37px;
+  }
 }
 
-
 .uned-poll-button-container,
+.uned-poll-button-thanks,
 .uned-poll-slider-participa-button-container {
   width: 49.5%;
   background-color: #A5B362;
@@ -280,6 +283,46 @@ html {
     .uned-poll-buttons-bottom-text-top-next {
       opacity: 0;
     }
+  }
+}
+
+.uned-poll-accordion {
+  cursor: pointer;
+  &:before {
+    transition: transform .3s ease-in;
+    content: '';
+    background-image: image-url('chevron-down-solid.svg');
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    margin-right: .25rem;
+    vertical-align: middle;
+    transform: rotate(-90deg);
+  }
+  &.is-open {
+    &:before {
+      transform: rotate(0deg);
+    }
+  }
+
+}
+
+.uned-poll-slider-participa-content-thanks {
+  .uned-poll-slider-participa-title {
+    margin-bottom: 1rem;
+  }
+  .uned-poll-buttons-bottom-text-bottom {
+    padding-top: 2rem;
+  }
+}
+
+.uned-poll-button-thanks {
+  width: 49%;
+  display: inline-block;
+  margin-top: 1rem;
+  &:not(:last-child) {
+    margin-right: 2%;
   }
 }
 

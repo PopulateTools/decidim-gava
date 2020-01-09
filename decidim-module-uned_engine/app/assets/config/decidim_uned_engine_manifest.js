@@ -200,6 +200,8 @@ document.addEventListener("DOMContentLoaded", function() {
       buttonBottomActive.classList.remove('is-hidden')
       buttonBottomActive.classList.add('last-button')
       buttonBottomActivePrev.classList.add('is-active-last')
+      const containerInsideButtons = document.getElementById('uned-poll-container-participa-buttons')
+      containerInsideButtons.classList.add('is-hidden')
 
     } else {
       participaButtons.forEach(button => button.classList.remove('is-active-last', 'last-button', 'first-button'))
@@ -218,17 +220,19 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function toggleQuestions() {
-    const toggleQuestionsButton = document.querySelectorAll(".uned-poll-slider-content-accordion-title");
+    const toggleQuestionsButton = document.querySelectorAll(".uned-poll-accordion");
 
     for (var i = 0, l = toggleQuestionsButton.length; i < l; i++) {
       toggleQuestionsButton[i].onclick = function() {
         for (var j = 0; j < l; j++) {
           if (toggleQuestionsButton[j] != this) {
             toggleQuestionsButton[j].nextElementSibling.classList.remove('is-visible')
+            toggleQuestionsButton[j].classList.remove('is-open')
           }
         }
         const element = this;
         const elementToggle = element.nextElementSibling
+        element.classList.toggle('is-open')
         elementToggle.classList.toggle('is-visible')
       }
     }
