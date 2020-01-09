@@ -211,21 +211,10 @@ html {
   p {
     line-height: 26px;
   }
-}
-
-.uned-poll-slider-participa-content {
-  .uned-poll-slider-participa-content-thanks {
-    + .uned-poll-slider-participa-buttons {
-      display: none;
-    }
-    &.is-hidden {
-      + .uned-poll-slider-participa-buttons {
-        display: block;
-      }
-    }
+  p.uned-poll-content-text {
+    line-height: 37px;
   }
 }
-
 
 .uned-poll-button-container,
 .uned-poll-button-thanks,
@@ -312,6 +301,7 @@ html {
       transform: rotate(0deg);
     }
   }
+
 }
 
 .uned-poll-slider-participa-content-thanks {
