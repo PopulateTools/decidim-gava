@@ -14,6 +14,8 @@
       <%= f.url_field :personal_url %>
       <%= f.text_area :about, rows: 5 %>
 
+      <!-- Hidden -->
+      <span style="display: none">
       <% if @account.errors[:password].any? || @account.errors[:password_confirmation].any? %>
         <%= render partial: "password_fields", locals: { form: f } %>
       <% else %>
@@ -24,6 +26,8 @@
           <%= render partial: "password_fields", locals: { form: f } %>
         </div>
       <% end %>
+      </span>
+      <!-- ./ Hidden -->
 
       <%= f.submit t(".update_account"), disable_with: true %>
     <% end %>
