@@ -312,6 +312,7 @@ html {
 
 .uned-poll-button-thanks {
   width: 49%;
+  display: inline-block;
   &:not(:last-child) {
     margin-right: 2%;
   }
