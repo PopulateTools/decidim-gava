@@ -21,8 +21,8 @@ module Decidim
             subtitle: "De la responsabilidad",
             description: """
             La UNED asume su responsabilidad en el uso de datos y determinará una autoridad
-            reconocible que será responsable del uso legal, ético y eciente de las tecnologías basadas
-            en datos. Además, será necesario jar quién tiene responsabilidades especícas sobre la
+            reconocible que será responsable del uso legal, ético y eficiente de las tecnologías basadas
+            en datos. Además, será necesario fijar quién tiene responsabilidades específicas sobre la
             anonimización de los datos así como su recolección, conservación y administración.
             """,
             proposal: find_proposal("Cautela 1")
@@ -61,7 +61,7 @@ module Decidim
             El acceso a los datos y a los análisis derivados de ellos estará restringido a quienes tengan
             una causa legítima, que será determinada por la UNED en función del nivel de agregación
             de los datos y las competencias de quienes lo soliciten. Cuando los datos sean anónimos, la
-            UNED cuidará de que no sea posible reidenticar a los individuos a partir de los metadatos
+            UNED cuidará de que no sea posible reidentificar a los individuos a partir de los metadatos
             ni por agregación de múltiples fuentes de datos. La UNED tendrá particular cuidado,
             en el caso de que los datos sean cedidos a terceras partes, de que estas se adhieran a las
             cautelas aquí expresadas y a los principios de la institución, evitando particularmente
@@ -91,9 +91,9 @@ module Decidim
             la UNED garantizará que los datos son precisos y representativos de aquello que dicen
             medir. Además, serán mantenidos al día tanto como sea posible. Cuando en el análisis
             se usen encuestas de opinión o se apliquen inferencias estadísticas, la UNED cuidará
-            de que la muestra sea sucientemente grande y representativa y de que los resultados
+            de que la muestra sea suficientemente grande y representativa y de que los resultados
             sean estadísticamente significativos. Todos los algoritmos y métricas utilizados serán
-            comprendidos, validados, revisados y mejorados según corresponda por personal calificado
+            comprendidos, validados, revisados y mejorados según corresponda por personal cualificado
             """,
             proposal: find_proposal("Cautela 6")
           },
