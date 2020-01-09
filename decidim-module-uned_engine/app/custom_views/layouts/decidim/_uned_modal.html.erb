@@ -194,11 +194,13 @@
                   <p class="uned-poll-slider-participa-left-text"><%= proposal[:description] %></p>
                 </div>
 
-                <div class="uned-poll-slider-participa-right">
-                  <%= render partial: "care_proposals/vote_button", locals: { proposal: proposal[:proposal] } %>
-                  <%= link_to "DEBATIR", decidim_proposals.proposal_path(proposal[:proposal]), class: "uned-poll-slider-participa-button-right" %>
-                  <button class="uned-poll-slider-participa-button-comments"><%= proposal[:proposal].comments.count %> comentarios</button>
-                </div>
+                <% if proposal[:proposal] %>
+                  <div class="uned-poll-slider-participa-right">
+                    <%= render partial: "care_proposals/vote_button", locals: { proposal: proposal[:proposal] } %>
+                    <%= link_to "DEBATIR", decidim_proposals.proposal_path(proposal[:proposal]), class: "uned-poll-slider-participa-button-right" %>
+                    <button class="uned-poll-slider-participa-button-comments"><%= proposal[:proposal].comments.count %> comentarios</button>
+                  </div>
+                <% end %>
               </div>
             <% end %>
 
