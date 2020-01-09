@@ -191,11 +191,22 @@
                   <button class="uned-poll-slider-participa-button-comments"><%= proposal[:proposal].comments.count %> comentarios</button>
                 </div>
               </div>
+
+              <div id="uned-poll-participa-content-<%= care_proposals.size + 1 %>"
+                  class="uned-poll-slider-participa-content is-hidden">
+
+                <h3 class="uned-poll-slider-participa-title">Gracias por participar</h3>
+
+                <div class="uned-poll-slider-participa-left">
+                  <p class="uned-poll-slider-participa-left-text">Si después de leer y apoyar (en sucaso) estas cautles consideras que existen otras que se deberían incluir te invitamos a crearlas en la <a href="/processes/uso-responsable-de-datos/f/98/proposals/new">plataforma</a>.</p>
+                  <p class="uned-poll-slider-participa-left-text">Durante las próximas semanas seguiremos recogiendo participaciones y analizándolas. Publicaremos más información concluya el proceso.</p>
+                </div>
+              </div>
             <% end %>
 
             <div class="uned-poll-slider-participa-buttons">
-              <% care_proposals.each_with_index do |proposal, idx| %>
-                <% position = idx + 1 %>
+              <% (care_proposals.size + 1).times do |i| %>
+                <% position = i + 1 %>
 
                 <button id="uned-poll-buttons-slider-participa-<%= position %>"
                         class="uned-poll-slider-participa-button-container <%= position > 2 ? 'is-hidden' : nil %> <%= position == 1 ? 'first-button' : nil %>">
@@ -204,16 +215,22 @@
                       <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-next">SIGUIENTE</span>
                     <% end %>
 
-                    <% if position < care_proposals.size %>
+                    <% if position < care_proposals.size  + 1 %>
                       <span class="uned-poll-buttons-bottom-text-top uned-poll-buttons-bottom-text-top-prev <%= position == 1 ? 'is-hidden' : nil %>">ANTERIOR</span>
                       <img src="<%= asset_path 'arrow-left-bottom.svg' %>" alt="" class="uned-poll-buttons-bottom-arrow uned-poll-buttons-bottom-arrow-left <%= position == 1 ? 'is-hidden' : nil %>">
                     <% end %>
 
-                    <% if position > 1 %>
+                    <% if position > 1 && position < 10  %>
                       <img src="<%= asset_path 'arrow-right-bottom.svg' %>" alt="" class="uned-poll-buttons-bottom-arrow uned-poll-buttons-bottom-arrow-right">
                     <% end %>
 
-                  <span class="uned-poll-buttons-bottom-text-bottom">CAUTELA <%= idx %></span>
+                  <span class="uned-poll-buttons-bottom-text-bottom">
+                    <% if i < care_proposals.size %>
+                      CAUTELA <%= i %>
+                    <% else %>
+                      TERMINAR
+                    <% end %>
+                  </span>
                 </button>
               <% end %>
             </div>
