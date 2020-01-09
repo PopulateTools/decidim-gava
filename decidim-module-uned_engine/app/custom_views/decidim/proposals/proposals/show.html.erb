@@ -24,20 +24,19 @@ edit_link(
 <%= emendation_announcement_for @proposal %>
 <div class="row column view-header">
   <% if @proposal.emendation? %>
-    <h2 class="heading2"><%= t(".changes_at_title", title: present(@proposal.amendable).title(links: true, html_escape: true)) %></h2>
+    <h2 id="proposal-title" class="heading2 heading-uned"><%= t(".changes_at_title", title: present(@proposal.amendable).title(links: true, html_escape: true)) %></h2>
   <% else %>
-    <h2 class="heading2"><%= present(@proposal).title(links: true, html_escape: true) %></h2>
+    <h2 id="proposal-title" class="heading2 heading-uned"><%= present(@proposal).title(links: true, html_escape: true) %></h2>
   <% end %>
+  <div class="heading-buttons-uned">
+    <button class="uned-poll-toggle-button button button--sc hollow">Guía</button>
+    <% if @proposal.official? && @proposal != care_proposals.last[:proposal] %>
+      <%= link_to "Siguiente cautela", nil, class: "button button--sc hollow", id: "show-next-proposal" %>
+    <% end %>
+  </div>
   <% unless component_settings.participatory_texts_enabled? %>
     <%= cell("decidim/coauthorships", @proposal, has_actions: true, size: 3, context: { current_user: current_user }) %>
   <% end %>
-
-  <!-- TODO: adjust markup and styles -->
-  <div class="author--inline" style="width: 20%">
-    <button class="uned-poll-toggle-button button button--sc hollow">Guía</button>
-    <%= link_to "Siguiente cautela", decidim_proposals.proposal_path(@proposal), class: "button button--sc hollow" %>
-  </div>
-  <!-- ./ TODO -->
 </div>
 <div class="row">
   <div class="columns section view-side mediumlarge-4 mediumlarge-push-8 large-3 large-push-9">
