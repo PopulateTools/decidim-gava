@@ -2,6 +2,23 @@ function hideUnwantedElements() {
   $("li:contains('Eliminar mi cuenta')").hide();
 }
 
+function openModal() {
+  const modal = document.getElementById('uned-poll')
+  modal.classList.remove('is-hidden')
+}
+
+function showNextProposalInModal(e) {
+  e.preventDefault();
+
+  var proposalTitle = $("#proposal-title").text()
+  var proposalPosition = parseInt(proposalTitle.split(" ")[1]);
+
+  openModal()
+  $(`#uned-poll-button-top-4`).click()  // Click proposals tab
+  $(`#uned-poll-buttons-slider-participa-${proposalPosition + 2}`).click()  // Display next proposal
+  $(".uned-poll-content-footer")[0].scrollIntoView(); // Focus
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
   function toggleModal() {
@@ -36,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
   bottomButtons.forEach(button => button.addEventListener('click', () => {
     buttonBottom(event)
   }));
+
 
   participaButtons.forEach(button => button.addEventListener('click', () => {
     buttonInside(event)
@@ -218,4 +236,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
   toggleQuestions();
   hideUnwantedElements();
+
+  $("#show-next-proposal").click(showNextProposalInModal);
 });
