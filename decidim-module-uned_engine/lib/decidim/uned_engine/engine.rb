@@ -27,6 +27,7 @@ module Decidim
           close.svg
           logo-uned.png
           uned-header-image.png
+          chevron-down-solid.svg
         )
       end
     end
