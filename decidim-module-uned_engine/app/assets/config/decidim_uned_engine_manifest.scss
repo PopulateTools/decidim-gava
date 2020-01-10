@@ -215,6 +215,20 @@ html {
   margin: 1rem 0;
 }
 
+.iframe-container {
+  position: relative;
+  overflow: hidden;
+  padding-top: 56.25%;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
 .uned-poll-slider-content-accordion-title {
   cursor: pointer;
   text-decoration: underline;
@@ -653,6 +667,10 @@ html {
     padding: 2rem;
   }
 
+  .uned-poll-slider-content-text-list:before {
+    left: -20px;
+  }
+
 }
 
 @media (max-width: 500px) {
@@ -661,8 +679,10 @@ html {
     font-size: 24px;
   }
 
-  .uned-poll-content-text {
+  .uned-poll-content-text,
+  .uned-poll-slider-content-accordion p.uned-poll-content-text {
     font-size: 16px;
+    line-height: 24px;
   }
 
   .uned-poll-content-table-row-left,
@@ -735,6 +755,18 @@ html {
 
   .uned-poll-button-container {
     width: 49%;
+  }
+
+  .uned-poll-buttons-bottom-text-top-prev {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+  }
+
+  .uned-poll-buttons-bottom-text-top-next {
+      position: absolute;
+      top: 6px;
+      left: 6px;
   }
 }
 
