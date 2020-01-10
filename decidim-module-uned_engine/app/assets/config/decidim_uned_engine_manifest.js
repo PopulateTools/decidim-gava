@@ -215,6 +215,10 @@ document.addEventListener("DOMContentLoaded", function() {
     scrollToTopSection()
   }));
 
+  topButtons.forEach(button => button.addEventListener('click', (e) => {
+    scrollToTopSection()
+  }));
+
   function scrollToTopSection() {
     document.getElementById("uned-poll-button-top-1").scrollIntoView();
   }
