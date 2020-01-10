@@ -215,12 +215,19 @@ document.addEventListener("DOMContentLoaded", function() {
     scrollToTopSection()
   }));
 
+  topButtons.forEach(button => button.addEventListener('click', (e) => {
+    scrollToTopSection()
+  }));
+
   function scrollToTopSection() {
     document.getElementById("uned-poll-button-top-1").scrollIntoView();
   }
 
-  function toggleQuestions() {
-    const toggleQuestionsButton = document.querySelectorAll(".uned-poll-accordion");
+  const toggleParent = '.uned-poll-accordion-parent'
+  const toggleChild = '.uned-poll-accordion-child'
+
+  function toggleQuestions(elementClick) {
+    const toggleQuestionsButton = document.querySelectorAll(elementClick);
 
     for (var i = 0, l = toggleQuestionsButton.length; i < l; i++) {
       toggleQuestionsButton[i].onclick = function() {
@@ -238,7 +245,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  toggleQuestions();
+  toggleQuestions(toggleParent);
+  toggleQuestions(toggleChild);
   hideUnwantedElements();
 
   $("#show-next-proposal").click(showNextProposalInModal);
