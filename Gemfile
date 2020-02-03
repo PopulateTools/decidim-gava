@@ -8,14 +8,15 @@ else
   gem "decidim", DECIDIM_VERSION
 end
 
-gem "uglifier", ">= 1.3.0"
-gem "figaro", ">= 1.1.1"
-gem "rollbar"
-gem "progressbar"
-gem "sidekiq", "~> 5.2"
 gem "data_migrate"
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem "figaro", ">= 1.1.1"
 gem "foundation-rails", "~> 6.4.1.3"
+gem "httparty"
+gem "progressbar"
+gem "rollbar"
+gem "uglifier", ">= 1.3.0"
+gem "sidekiq", "~> 5.2"
+gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development, :test do
   gem "byebug", platform: :mri

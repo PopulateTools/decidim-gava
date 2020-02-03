@@ -73,52 +73,34 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   private
 
   def registered_in_town
-    return if errors.any? || response.blank?
+    return if errors.any?
 
-    errors.add(:document_number, i18_error_msg(:not_in_census)) unless first_person_element.present? && first_person_element.text != ""
-  end
-
-  def first_person_element
-    response.xpath("//ssagavaVigents").first
-  end
-
-  def first_age_element
-    response.xpath("//ssagavaVigents//ssagavaVigent//edat").first
-  end
-
-  def first_date_of_birth_element
-    response.xpath("//ssagavaVigents//ssagavaVigent//habfecnac").first
+    errors.add(:document_number, i18_error_msg(:not_in_census)) if response.not_registered_in_census?
   end
 
   def district_is_blank_or_over_16
-    return if errors.any? || response.blank?
-    return if @response_wrapper.district_not_registered?
+    return if errors.any? || response.blank_district?
 
-    old_enough = first_age_element.present? && first_age_element.text.to_i > 15
-
-    errors.add(:date_of_birth, i18_error_msg(:not_old_enough)) unless old_enough
+    errors.add(:date_of_birth, i18_error_msg(:not_old_enough)) if response.too_young?
   end
 
   def census_date_of_birth_coincidence
-    return if errors.any? || @response_wrapper.district_not_registered?
+    return if errors.any? || response.blank_district?
 
-    unless first_person_element&.text&.blank? || first_date_of_birth_element && date_of_birth == Date.parse(first_date_of_birth_element.text)
+    if response.age.blank? || response.age != Utils.age_from_birthdate(date_of_birth)
       errors.add(:date_of_birth, i18_error_msg(:invalid_date_of_birth))
     end
   end
 
   def response
-    return if errors.any?
+    @response = begin
+      return if errors.any?
 
-    @response ||= begin
-      @response_wrapper ||= CensusClient::Response.new(
-        document_number: document_number,
-        date_of_birth: date_of_birth
-      )
+      @response = CensusRestClient::Response.new(document_number: document_number)
 
       log_census_request(@response_wrapper.raw_response)
 
-      @response_wrapper.raw_response_body
+      @response
     end
   end
 
@@ -129,23 +111,15 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def log_census_request(response)
     compact_document = document_number.gsub(/\s+/, "").upcase
 
-    Rails.logger.debug "[Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{compact_document.gsub(/(?!^).(?!$)(?!.{3,4}$)/,"*")} birthdate: #{date_of_birth.try(:year)}-**-#{date_of_birth.try(:day)}"
-    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.status} body: #{obfuscated_response_body(response)}"
+    Rails.logger.debug """
+      [Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{AttributeObfuscator.secret_attribute_hint(document_number)}
+      birthdate: #{date_of_birth.try(:year)}-**-#{date_of_birth.try(:day)}
+    """
+    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.response.code} body: #{response.obfuscated_response}"
   end
 
   def i18_error_msg(error_key)
     I18n.t("census_authorization_handler.#{error_key}")
-  end
-
-  def obfuscated_response_body(response)
-    response.body.gsub(/<edat>.*<\/edat>/, "<edat>**</edat>")
-                 .gsub(/<haborddir>.*<\/haborddir>/, "<haborddir>*****</haborddir>")
-                 .gsub(/<habtoddir>.*<\/habtoddir>/, "<habtoddir>*****</habtoddir>")
-                 .gsub(/<sexe>.*<\/sexe>/, "<sexe>*</sexe>")
-                 .gsub(/<habap2hab>.*<\/habap2hab>/, "<habap2hab>*****</habap2hab>")
-                 .gsub(/<habfecnac>.*<\/habfecnac>/, "<habfecnac>****-**-**</habfecnac>")
-                 .gsub(/<habnomcom>.*<\/habnomcom>/, "<habnomcom>*****</habnomcom>")
-                 .gsub(/<habnomhab>.*<\/habnomhab>/, "<habnomhab>*****</habnomhab>")
   end
 
   class ActionAuthorizer < Decidim::Verifications::DefaultActionAuthorizer

@@ -36,7 +36,7 @@ module CensusClient
   <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <ssagavaVigents>
   <ssagavaVigent>
-  <edat>#{age_from_birthdate(birthdate)}</edat>
+  <edat>#{Utils.age_from_birthdate(birthdate)}</edat>
   <habap1hab>SURNAME1</habap1hab>
   <habap2hab>SURNAME2</habap2hab>
   <habfecnac>#{birthdate}</habfecnac>
@@ -75,11 +75,6 @@ TEXT
 <ssagavaVigents></ssagavaVigents>
 TEXT
       xml_body
-    end
-
-    def self.age_from_birthdate(dob)
-      now = Time.now.utc.to_date
-      now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
     end
 
     private
