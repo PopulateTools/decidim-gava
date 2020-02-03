@@ -6,10 +6,10 @@ require "census_client/response"
 class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   include ActionView::Helpers::SanitizeHelper
 
-  DNI_REGEXP = /\d{8}[a-zA-Z]/
-  NIE_REGEXP = /[a-zA-Z]\d{7}[a-zA-Z]/
-  DOCUMENT_REGEXP_PROD = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})\z/
-  DOCUMENT_REGEXP_TEST = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})(\+|-|!)?\z/
+  DNI_REGEXP = /\d{8}[a-zA-Z]/.freeze
+  NIE_REGEXP = /[a-zA-Z]\d{7}[a-zA-Z]/.freeze
+  DOCUMENT_REGEXP_PROD = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})\z/.freeze
+  DOCUMENT_REGEXP_TEST = /\A(#{DNI_REGEXP}|#{NIE_REGEXP})(\+|-|!)?\z/.freeze
 
   attribute :document_number, String
   attribute :date_of_birth, Date
@@ -109,8 +109,6 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   end
 
   def log_census_request(response)
-    compact_document = document_number.gsub(/\s+/, "").upcase
-
     Rails.logger.debug """
       [Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{AttributeObfuscator.secret_attribute_hint(document_number)}
       birthdate: #{date_of_birth.try(:year)}-**-#{date_of_birth.try(:day)}
