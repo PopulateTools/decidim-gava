@@ -2,7 +2,6 @@
 
 require "rails_helper"
 require "decidim/dev/test/authorization_shared_examples"
-require "census_client/response"
 
 describe CensusAuthorizationHandler do
   let(:registered_dni) { "12345678a" }

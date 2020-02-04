@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "digest/md5"
-require "census_client/response"
 
 class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   include ActionView::Helpers::SanitizeHelper
