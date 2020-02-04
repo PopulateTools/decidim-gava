@@ -11,11 +11,20 @@ module CensusRestClient
     end
 
     def self.build_resident(params = {})
-      age = params[:age] || 35
+      if params[:age]
+        age = params[:age]
+        date_of_birth = (Time.current - age.years)
+      elsif params[:date_of_birth]
+        age = Utils.age_from_birthdate(params[:date_of_birth])
+        date_of_birth = params[:date_of_birth]
+      else
+        age = 35
+        date_of_birth = 35.years.ago
+      end
 
       [
         base_attrs.merge(
-          "habfecnac" => (Time.current - age.years).iso8601,
+          "habfecnac" => date_of_birth.iso8601,
           "edat" => age,
           "barri" => "ANGELA ROCA-CAN SERRA BALET"
         )

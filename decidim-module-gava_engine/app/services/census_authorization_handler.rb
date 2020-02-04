@@ -28,7 +28,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   )
   validates :date_of_birth, presence: true
   validate :registered_in_town
-  validate :district_is_blank_or_over_16
+  validate :old_enough
   validate :census_date_of_birth_coincidence
 
   def self.from_params(params, additional_params = {})
@@ -55,9 +55,9 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   # You must return a Hash that will be serialized to the authorization when
   # it's created, and available though authorization.metadata
   def metadata
-    if first_date_of_birth_element
+    if response.date_of_birth
       super.merge(
-        date_of_birth: Date.parse(first_date_of_birth_element.text).to_s
+        date_of_birth: response.date_of_birth.iso8601
       )
     else
       super
@@ -75,19 +75,22 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def registered_in_town
     return if errors.any?
 
-    errors.add(:document_number, i18_error_msg(:not_in_census)) if response.not_registered_in_census?
+    if !response.current_resident? && !response.pays_taxes_in_city?
+      errors.add(:document_number, i18_error_msg(:not_in_census))
+    end
   end
 
-  def district_is_blank_or_over_16
-    return if errors.any? || response.blank_district?
+  def old_enough
+    return if errors.any?
+    return if response.pays_taxes_in_city? # always allowed to participate
 
-    errors.add(:date_of_birth, i18_error_msg(:not_old_enough)) if response.too_young?
+    errors.add(:date_of_birth, i18_error_msg(:not_old_enough)) unless response.age.present? && response.age >= 16
   end
 
   def census_date_of_birth_coincidence
-    return if errors.any? || response.blank_district?
+    return if errors.any? || response.pays_taxes_in_city?
 
-    if response.age.blank? || response.age != Utils.age_from_birthdate(date_of_birth)
+    if response.age != Utils.age_from_birthdate(date_of_birth)
       errors.add(:date_of_birth, i18_error_msg(:invalid_date_of_birth))
     end
   end
@@ -98,7 +101,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
 
       @response = CensusRestClient::Response.new(document_number: document_number)
 
-      log_census_request(@response_wrapper.raw_response)
+      log_census_request(@response)
 
       @response
     end
@@ -113,7 +116,7 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
       [Census Service][#{user.id}][request] unique_id: #{unique_id} document_filtered: #{AttributeObfuscator.secret_attribute_hint(document_number)}
       birthdate: #{date_of_birth.try(:year)}-**-#{date_of_birth.try(:day)}
     """
-    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.response.code} body: #{response.obfuscated_response}"
+    Rails.logger.debug "[Census Service][#{user.id}][response] status: #{response.response_code} body: #{response.obfuscated_response}"
   end
 
   def i18_error_msg(error_key)

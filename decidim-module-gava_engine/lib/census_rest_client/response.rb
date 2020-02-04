@@ -8,7 +8,7 @@ module CensusRestClient
 
     attr_accessor(
       :document_number,
-      :raw_response,
+      :response_code,
       :age,
       :district,
       :date_of_birth
@@ -38,7 +38,8 @@ module CensusRestClient
     private
 
     def make_request
-      self.raw_response = HTTParty.get("#{webservice_url}?dni=#{document_number}")
+      raw_response = HTTParty.get("#{webservice_url}?dni=#{document_number}")
+      self.response_code = raw_response.response.code
       @parsed_response = raw_response.parsed_response
     end
 

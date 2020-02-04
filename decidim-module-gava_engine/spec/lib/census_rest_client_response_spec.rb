@@ -7,12 +7,15 @@ describe CensusRestClient::Response do
 
   let(:document_number) { "12345678A" }
   let(:httparty_response) { double }
+  let(:inner_httparty_response) { double }
   let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_no_data }
   let(:census_url) { Rails.application.secrets.census_url }
 
   before do
     allow(HTTParty).to(receive(:get).and_return(httparty_response))
     allow(httparty_response).to(receive(:parsed_response).and_return(response_json))
+    allow(httparty_response).to(receive(:response).and_return(inner_httparty_response))
+    allow(inner_httparty_response).to(receive(:code).and_return(200))
   end
 
   describe "current_resident?" do
