@@ -10,24 +10,9 @@ module CensusRestClient
       :document_number,
       :raw_response,
       :age,
-      :district
+      :district,
+      :date_of_birth
     )
-
-    def self.build_stubbed_response(params = {})
-      return [] if params[:failure]
-
-      [
-        {
-          "habnomhab" => "RODRIGO",
-          "habap1hab" => "DÍAZ",
-          "habap2hab" => "DE VIVAR",
-          "habnomcom" => "DÍAZ DE VIVAR,RODRIGO",
-          "edat" => params[:age] || 0,
-          "barri" => params[:district] || "-",
-          "sexe" => "-"
-        }
-      ]
-    end
 
     def initialize(params = {})
       self.document_number = params[:document_number].upcase
@@ -35,16 +20,12 @@ module CensusRestClient
       process_response
     end
 
-    def not_registered_in_census?
-      parsed_response.empty?
+    def current_resident?
+      district.present? && age.present? && age.positive?
     end
 
-    def blank_district?
-      district.blank?
-    end
-
-    def too_young?
-      age.present? ? (age < 16) : nil
+    def pays_taxes_in_city?
+      district.present? && age.blank?
     end
 
     # for logging
@@ -62,11 +43,12 @@ module CensusRestClient
     end
 
     def process_response
-      return if not_registered_in_census?
+      return if parsed_response.empty?
 
       data = parsed_response.first
-      self.age = data["edat"]
-      self.district = data["barri"] != "-" ? data["barri"] : nil
+      self.age = (data["edat"] == "-" || data["edat"].to_i.zero?) ? nil : data["edat"].to_i
+      self.district = data["barri"] == "-" ? nil : data["barri"]
+      self.date_of_birth = data["habfecnac"].present? ? Time.zone.parse(data["habfecnac"]) : nil
     end
 
     def webservice_url
@@ -77,11 +59,11 @@ module CensusRestClient
       if Rails.env.production?
         @parsed_response
       elsif document_number.match?(STUB_SUCCESS_REGEX)
-        self.class.stubbed_response(age: 25, district: "Centre")
+        CensusRestClient::StubbedResponseBuilder.build_resident
       elsif document_number.match?(STUB_SUCCESS_NO_BIRTHDATE_REGEX)
-        self.class.stubbed_response(district: "Centre")
+        CensusRestClient::StubbedResponseBuilder.build_not_resident_but_pays_taxes
       elsif document_number.match?(STUB_FAILURE_REGEX)
-        self.class.stubbed_response(failure: true)
+        CensusRestClient::StubbedResponseBuilder.build_ex_resident
       else
         @parsed_response
       end

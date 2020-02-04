@@ -7,67 +7,117 @@ describe CensusRestClient::Response do
 
   let(:document_number) { "12345678A" }
   let(:httparty_response) { double }
-  let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response }
+  let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_no_data }
   let(:census_url) { Rails.application.secrets.census_url }
 
   before do
     allow(HTTParty).to(receive(:get).and_return(httparty_response))
-    allow(httparty_response).to(receive(:parsed_response).and_return(stubbed_response))
+    allow(httparty_response).to(receive(:parsed_response).and_return(response_json))
   end
 
-  describe "not_registered_in_census?" do
-    subject { response.not_registered_in_census? }
+  describe "current_resident?" do
+    subject { response.current_resident? }
 
-    context "when user is in census" do
+    context "when no data" do
       it { is_expected.to be false }
     end
 
-    context "when user is not in census" do
-      let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response(failure: true) }
-
-      it { is_expected.to be true }
-    end
-  end
-
-  describe "blank_district?" do
-    subject { response.blank_district? }
-
-    context "when user is in census and has a district" do
-      let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response(district: "Center") }
+    context "when former resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_ex_resident }
 
       it { is_expected.to be false }
     end
 
-    context "when user is in census and district is blank" do
-      let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response(district: "-") }
+    context "when current resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident }
 
       it { is_expected.to be true }
     end
 
-    context "when user is not in census" do
-      let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response(failure: true) }
+    context "when not resident but pays taxes in city" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_not_resident_but_pays_taxes }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe "pays_taxes_in_city?" do
+    subject { response.pays_taxes_in_city? }
+
+    context "when no data" do
+      it { is_expected.to be false }
+    end
+
+    context "when former resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_ex_resident }
+
+      it { is_expected.to be false }
+    end
+
+    context "when current resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident }
+
+      it { is_expected.to be false }
+    end
+
+    context "when not resident but pays taxes in city" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_not_resident_but_pays_taxes }
 
       it { is_expected.to be true }
     end
   end
 
-  describe "too_young?" do
-    subject { response.too_young? }
+  describe "age" do
+    subject { response.age }
 
-    context "when user is in census and is under 16" do
-      let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response(age: 10) }
-
-      it { is_expected.to be true }
+    context "when no data" do
+      it { is_expected.to be_nil }
     end
 
-    context "when user is in census and is over 16" do
-      let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response(age: 20) }
+    context "when former resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_ex_resident }
 
-      it { is_expected.to be false }
+      it { is_expected.to be_nil }
     end
 
-    context "when user is not in census" do
-      let(:stubbed_response) { CensusRestClient::Response.build_stubbed_response(failure: true) }
+    context "when current resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident(age: 123) }
+
+      it "returns the age" do
+        expect(subject).to eq(123)
+      end
+    end
+
+    context "when not resident but pays taxes in city" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_not_resident_but_pays_taxes }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe "date_of_birth" do
+    subject { response.date_of_birth }
+
+    context "when no data" do
+      it { is_expected.to be_nil }
+    end
+
+    context "when former resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_ex_resident }
+
+      it { is_expected.to be_nil }
+    end
+
+    context "when current resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident(age: 123) }
+
+      it "returns the age" do
+        expect(subject).to be_present
+      end
+    end
+
+    context "when not resident but pays taxes in city" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_not_resident_but_pays_taxes }
 
       it { is_expected.to be_nil }
     end
@@ -76,12 +126,15 @@ describe CensusRestClient::Response do
   describe "obfuscated_response" do
     subject { response.obfuscated_response }
 
+    let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident }
+
     it "obfuscates personal information" do
       expect(subject).to eq([{
-        "barri" => "*",
-        "edat" => "*",
+        "barri" => "A*************************T",
+        "edat" => "**",
         "habap1hab" => "****",
         "habap2hab" => "D******R",
+        "habfecnac"=>"1***********************0",
         "habnomcom" => "D*******************O",
         "habnomhab" => "R*****O",
         "sexe" => "*"
