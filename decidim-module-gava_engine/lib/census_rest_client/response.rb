@@ -30,6 +30,8 @@ module CensusRestClient
 
     # for logging
     def obfuscated_response
+      return parsed_response unless parsed_response.is_a?(Array)
+
       parsed_response.map do |item|
         item.map { |k, v| [k, AttributeObfuscator.secret_attribute_hint(v)] }.to_h
       end

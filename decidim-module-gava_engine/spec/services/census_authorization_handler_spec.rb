@@ -36,6 +36,15 @@ describe CensusAuthorizationHandler do
 
   it_behaves_like "an authorization handler"
 
+  context "with invalid response" do
+    let(:response_json) { "SOME ERROR!" }
+
+    it "is not valid" do
+      expect(handler).not_to be_valid
+      expect(handler_errors[:document_number]).to eq(["No empadronat"])
+    end
+  end
+
   context "when user is registered in census" do
     context "when it's under the minimum age" do
       let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident(age: 10) }
