@@ -2,7 +2,7 @@ ca:
   census_authorization_handler:
     invalid_date_of_birth: Data de naixement incorrecta
     invalid_document: Número de document incorrecte
-    not_in_census: No empadronat
+    not_in_census: No empadronat o menor de 16 anys
     not_old_enough: Menor de 16 anys
   activemodel:
     attributes:
