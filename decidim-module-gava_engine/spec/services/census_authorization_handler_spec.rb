@@ -2,7 +2,6 @@
 
 require "rails_helper"
 require "decidim/dev/test/authorization_shared_examples"
-require "census_client/response"
 
 describe CensusAuthorizationHandler do
   let(:registered_dni) { "12345678a" }
@@ -10,11 +9,8 @@ describe CensusAuthorizationHandler do
   let(:invalid_dni) { "(╯°□°）╯︵ ┻━┻" }
   let(:document_number) { registered_dni }
 
-  let(:date_of_birth) { Date.civil(1987, 9, 17) }
-  let(:date_of_birth_under_age) { Date.civil(Time.current.year - 10, 9, 17) }
+  let(:date_of_birth) { Time.zone.parse("1987-09-17") }
 
-  let(:census_url) { Rails.application.secrets.census_url }
-  let(:stubbed_response) { CensusClient::Response.registered_stubbed_body(date_of_birth) }
   let(:user) { create(:user, nickname: "nickname") }
   let(:subject) { handler }
   let(:handler) { described_class.from_params(params) }
@@ -27,39 +23,21 @@ describe CensusAuthorizationHandler do
     }
   end
 
+  let(:httparty_response) { double }
+  let(:inner_httparty_response) { double }
+  let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_no_data }
+
   before do
-    stub_request(:any, "#{census_url}/findEmpadronat?dni=#{document_number.try(:upcase)}").to_return(
-      status: 200,
-      body: stubbed_response,
-      headers: {}
-    )
+    allow(HTTParty).to(receive(:get).and_return(httparty_response))
+    allow(httparty_response).to(receive(:parsed_response).and_return(response_json))
+    allow(httparty_response).to(receive(:response).and_return(inner_httparty_response))
+    allow(inner_httparty_response).to(receive(:code).and_return(200))
   end
 
   it_behaves_like "an authorization handler"
 
-  context "when user is registered in census" do
-    context "when it's under the minimum age" do
-      let(:date_of_birth) { date_of_birth_under_age }
-
-      it "is not valid" do
-        expect(handler).not_to be_valid
-        expect(handler_errors[:date_of_birth]).to eq(["Menor de 16 anys"])
-      end
-    end
-
-    context "when date of birth and district are not registered" do
-      let(:stubbed_response) { CensusClient::Response.registered_stubbed_body_no_birthdate }
-
-      it { is_expected.to be_valid }
-    end
-
-    context "when everything is OK" do
-      it { is_expected.to be_valid }
-    end
-  end
-
-  context "when user is not registered in cesus" do
-    let(:stubbed_response) { CensusClient::Response.not_registered_stubbed_body }
+  context "with invalid response" do
+    let(:response_json) { "SOME ERROR!" }
 
     it "is not valid" do
       expect(handler).not_to be_valid
@@ -67,15 +45,41 @@ describe CensusAuthorizationHandler do
     end
   end
 
-  context "with an invalid response" do
-    context "with a malformed response" do
-      before do
-        allow(handler)
-          .to receive(:response)
-          .and_return(Nokogiri::XML("Messed up response!").remove_namespaces!)
+  context "when user is registered in census" do
+    context "when it's under the minimum age" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident(age: 10) }
+
+      it "is not valid" do
+        expect(handler).not_to be_valid
+        expect(handler_errors[:date_of_birth]).to eq(["Menor de 16 anys"])
       end
+    end
+
+    context "when it's someone who pays taxes in city" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_not_resident_but_pays_taxes }
+
+      it { is_expected.to be_valid }
+    end
+
+    context "when it's a former resident" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_ex_resident }
 
       it { is_expected.not_to be_valid }
+    end
+
+    context "when everyghint is OK" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident(date_of_birth: date_of_birth) }
+
+      it { is_expected.to be_valid }
+    end
+  end
+
+  context "when user is not registered in cesus" do
+    let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_no_data }
+
+    it "is not valid" do
+      expect(handler).not_to be_valid
+      expect(handler_errors[:document_number]).to eq(["No empadronat"])
     end
   end
 
@@ -109,8 +113,6 @@ describe CensusAuthorizationHandler do
     end
 
     context "when data from a date field is provided" do
-      let(:date_of_birth) { nil }
-      let(:stubbed_response) { CensusClient::Response.registered_stubbed_body(Date.parse("2010-8-16")) }
       let(:params) do
         {
           "date_of_birth(1i)" => "2010",
@@ -158,13 +160,15 @@ describe CensusAuthorizationHandler do
 
   describe "metadata" do
     context "when date_of_birth is required" do
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_resident(date_of_birth: date_of_birth) }
+
       it "includes the date of birth" do
-        expect(subject.metadata).to include(date_of_birth: date_of_birth.to_s)
+        expect(subject.metadata).to include(date_of_birth: date_of_birth.iso8601)
       end
     end
 
     context "when date_of_birth is not required" do
-      let(:stubbed_response) { CensusClient::Response.registered_stubbed_body_no_birthdate }
+      let(:response_json) { CensusRestClient::StubbedResponseBuilder.build_not_resident_but_pays_taxes }
 
       it "is empty" do
         expect(subject.metadata).to eq({})

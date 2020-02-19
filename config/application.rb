@@ -27,7 +27,10 @@ module DecidimBarcelona
     config.middleware.use(SiteMiddleware)
 
     required_files = [
+      "#{Rails.root}/lib",
       "#{Rails.root}/decidim-module-gava_engine/app/services",
+      "#{Rails.root}/decidim-module-gava_engine/lib",
+      "#{Rails.root}/decidim-module-gava_engine/lib/census_rest_client",
       "#{Rails.root}/decidim-module-uned_engine/lib",
       "#{Rails.root}/decidim-module-uned_engine/lib/decidim",
       "#{Rails.root}/decidim-module-uned_engine/lib/decidim/uned_engine",
