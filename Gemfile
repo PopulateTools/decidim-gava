@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-DECIDIM_VERSION = "0.19.1"
+DECIDIM_VERSION = "0.20.0"
 
 if ENV["USE_LOCAL_DECIDIM"] == "true"
   gem "decidim", path: "~/dev/decidim"
