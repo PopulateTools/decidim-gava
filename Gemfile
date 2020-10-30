@@ -10,7 +10,7 @@ end
 
 gem "data_migrate"
 gem "figaro", ">= 1.1.1"
-gem "foundation-rails", "~> 6.4.1.3"
+gem "foundation-rails"
 gem "httparty"
 gem "progressbar"
 gem "rollbar"
