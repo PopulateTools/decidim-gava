@@ -12,6 +12,8 @@ module Decidim
       end
 
       def check_uned_session
+        # 2020-12-16 Disabled because UNED doesn't provide valid credentials for their SSO
+        return
         # SSO is not accesible from staging
         return unless site_engine == UNED_ENGINE_ID && (Rails.env.development? || Rails.env.production?)
 
