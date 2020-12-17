@@ -134,9 +134,14 @@ html {
 }
 
 .uned-poll-content-table {
+  padding: 2rem;
   width: 100%;
   background-color: $color-table;
   margin: 2rem 0;
+}
+
+.uned-poll-content-table-text {
+  font-size: 18px;
 }
 
 .uned-poll-content-table-row {
@@ -400,6 +405,7 @@ html {
 .uned-poll-content-footer {
   width: 95%;
   margin: 0 auto;
+  margin-top: 200px;
 }
 
 .uned-poll-slider-container-content {
@@ -677,6 +683,10 @@ html {
 
   .uned-poll-content-subtitle {
     font-size: 24px;
+  }
+
+  .uned-poll-content-footer {
+    margin-top: 0;
   }
 
   .uned-poll-content-text,
