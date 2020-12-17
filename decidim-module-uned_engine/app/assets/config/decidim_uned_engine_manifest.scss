@@ -200,6 +200,13 @@ html {
   box-sizing: border-box;
 }
 
+.uned-poll-buttons-top-slider {
+  &:hover {
+    text-decoration: none;
+    color: #A5B362;
+  }
+}
+
 .uned-poll-buttons-top-slider.is-active-btn {
   background-color: #A5B362;
   color: #fff;
