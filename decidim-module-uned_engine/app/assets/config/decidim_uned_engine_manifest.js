@@ -45,6 +45,12 @@ document.addEventListener("DOMContentLoaded", function() {
   const bottomButtons = document.querySelectorAll(".uned-poll-button-container")
   const topButtons = document.querySelectorAll(".uned-poll-buttons-top-slider")
   const participaButtons = document.querySelectorAll(".uned-poll-slider-participa-button-container")
+  const ethicButton = document.getElementById('uned-poll-button-top-5')
+  const cautelaButton = document.getElementById('uned-poll-button-top-4')
+
+  ethicButton.addEventListener('click', () => {
+    cautelaButton.dispatchEvent(new Event('click'));
+  })
 
   topButtons.forEach(button => button.addEventListener('click', () => {
     buttonTop(event)
@@ -250,4 +256,9 @@ document.addEventListener("DOMContentLoaded", function() {
   hideUnwantedElements();
 
   $("#show-next-proposal").click(showNextProposalInModal);
+
+  let url = window.location.href
+  if(url.includes('marco-etico')) {
+    cautelaButton.dispatchEvent(new Event('click'));
+  }
 });
