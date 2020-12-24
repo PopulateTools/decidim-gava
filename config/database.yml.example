@@ -1,15 +1,16 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: 5
-  host: localhost
-  username: decidim-gava
-  password:
+  username: <%= ENV["PG_USERNAME"] %>
+  password: <%= ENV["PG_PASSWORD"] %>
+  host: <%= ENV["PG_HOST"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: decidim-gava_development
+  database: decidim-populate_development
 
 test:
   <<: *default
-  database: decidim-gava_test
+  database: decidim-populate_test
