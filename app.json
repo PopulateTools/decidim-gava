@@ -1,6 +1,6 @@
 {
-  "name": "decidim-gava",
-  "description": "TODO: Add a short description about decidim-gava",
+  "name": "decidim-populate",
+  "description": "Populate Decidim version",
   "keywords": [],
   "addons": [
     "heroku-postgresql:hobby-dev",

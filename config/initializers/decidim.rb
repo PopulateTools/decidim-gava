@@ -5,7 +5,7 @@ require_relative "../../decidim-module-uned_engine/app/services/sso_client"
 require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine"
 
 Decidim.configure do |config|
-  config.application_name = "Decidim Gavà"
+  config.application_name = "Decidim Populate"
   config.mailer_sender = Rails.application.secrets.mailer_sender
   config.maximum_attachment_size = 150.megabytes
 
