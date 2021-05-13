@@ -22,8 +22,6 @@ class SiteMiddleware
   def each(&block); end
 
   def site_engine
-    return Decidim::CivisEngine::CIVIS_ENGINE_ID
-
     if request.host.include?("gava")
       Decidim::GavaEngine::GAVA_ENGINE_ID
     elsif request.host.include?("uned")
