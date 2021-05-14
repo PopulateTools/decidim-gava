@@ -26,6 +26,8 @@ class SiteMiddleware
       Decidim::GavaEngine::GAVA_ENGINE_ID
     elsif request.host.include?("uned")
       Decidim::UnedEngine::UNED_ENGINE_ID
+    elsif request.host.include?("civis")
+      Decidim::CivisEngine::CIVIS_ENGINE_ID
     end
   end
 end
