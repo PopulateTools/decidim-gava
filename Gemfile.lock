@@ -1,10 +1,4 @@
 PATH
-  remote: decidim-module-civis_engine
-  specs:
-    decidim-civis_engine (0.22.0)
-      decidim-core (= 0.22.0)
-
-PATH
   remote: decidim-module-gava_engine
   specs:
     decidim-gava_engine (0.22.0)
@@ -864,7 +858,6 @@ DEPENDENCIES
   data_migrate
   database_cleaner
   decidim (= 0.22.0)
-  decidim-civis_engine!
   decidim-dev (= 0.22.0)
   decidim-gava_engine!
   decidim-uned_engine!
