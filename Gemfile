@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-DECIDIM_VERSION = "0.24.0"
+DECIDIM_VERSION = "0.24.2"
 
 if ENV["USE_LOCAL_DECIDIM"] == "true"
   gem "decidim", path: "~/dev/decidim"
@@ -17,6 +17,7 @@ gem "rollbar"
 gem "uglifier", ">= 1.3.0"
 gem "sidekiq", "~> 5.2"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem "decidim-term_customizer", "~> 0.24.0", git: "https://github.com/mainio/decidim-module-term_customizer.git"
 
 group :development, :test do
   gem "byebug", platform: :mri
