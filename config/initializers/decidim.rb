@@ -9,12 +9,7 @@ Decidim.configure do |config|
   config.mailer_sender = Rails.application.secrets.mailer_sender
   config.maximum_attachment_size = 150.megabytes
 
-  # TODO: investigate why Faker fails if en is not available
-  if Rails.env.development?
-    config.available_locales = %i(ca es en)
-  else
-    config.available_locales = %i(ca es)
-  end
+  config.available_locales = %i(ca es en)
 
   if Rails.application.secrets.geocoder
     config.geocoder = {
