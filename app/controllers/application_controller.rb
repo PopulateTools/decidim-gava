@@ -18,30 +18,10 @@ class ApplicationController < ActionController::Base
   before_action :check_uned_session
 
   helper_method(
-    :proposal_path,
-    :current_component,
-    :current_participatory_space,
-    :component_settings,
-    :current_settings
+    :proposal_path
   )
 
   private
-
-  def current_participatory_space
-    request.env["decidim.current_participatory_space"]
-  end
-
-  def current_component
-    request.env["decidim.current_component"]
-  end
-
-  def component_settings
-    @component_settings ||= current_component.settings
-  end
-
-  def current_settings
-    @current_settings ||= current_component.current_settings
-  end
 
   def site_engine
     request.env["site_engine"]
