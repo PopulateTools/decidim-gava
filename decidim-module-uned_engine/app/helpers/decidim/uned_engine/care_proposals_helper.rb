@@ -144,7 +144,7 @@ module Decidim
         component = Decidim::Component.where(participatory_space: process)
 
         Decidim::Proposals::Proposal.where(component: component)
-                                    .where("title ilike ?", "%#{text}%")
+                                    .where("title::text ilike ?", "%#{text}%")
                                     .to_a.select(&:official?).first
       end
     end
