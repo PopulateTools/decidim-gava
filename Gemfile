@@ -28,7 +28,6 @@ group :development, :test do
 end
 
 group :development do
-  gem "rainbow", "~>2.2.0"
   gem "decidim-dev", DECIDIM_VERSION
   gem "web-console"
   gem "listen"
@@ -37,7 +36,7 @@ group :development do
   gem "faker"
   gem "capistrano"
   gem "capistrano3-puma"
-  gem "capistrano-bundler", "~> 1.2"
+  gem "capistrano-bundler"
   gem "puma"
   gem "pry-remote"
 end
