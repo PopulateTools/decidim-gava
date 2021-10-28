@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_dependency "decidim/components/namer"
-
 =begin
 Decidim.register_component(:uned_engine) do |component|
   component.engine = Decidim::UnedEngine::Engine
