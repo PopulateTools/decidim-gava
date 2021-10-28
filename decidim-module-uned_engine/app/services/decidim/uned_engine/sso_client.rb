@@ -4,7 +4,7 @@ require "savon"
 
 module Decidim
   module UnedEngine
-    class SSOClient
+    class SsoClient
       attr_accessor :client
 
       WDSL_URL = Rails.application.secrets[:uned][:sso_wsdl_url]

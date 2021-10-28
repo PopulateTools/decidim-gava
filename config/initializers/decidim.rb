@@ -50,7 +50,7 @@ Decidim::Devise::SessionsController.class_eval do
   end
 
   def uned_sso_url
-    "#{Decidim::UnedEngine::SSOClient::SSO_URL}?URL=#{root_url}"
+    "#{Decidim::UnedEngine::SsoClient::SSO_URL}?URL=#{root_url}"
   end
 
   def uned_sign_out_url
