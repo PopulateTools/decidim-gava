@@ -1,11 +1,11 @@
 <section id="uned-poll" class="uned-poll <%= request.path == "/" ? nil : 'is-hidden' %>">
   <section class="uned-poll-content">
     <button id="uned-poll-close-button">
-      <img class="uned-poll-close-button-img" src="<%= asset_path 'close.svg' %>">
+      <img class="uned-poll-close-button-img" src="<%= asset_pack_path 'media/images/close.svg' %>">
     </button>
     <article class="uned-poll-content-header">
-      <img class="uned-poll-content-header-img" src="<%= asset_path 'uned-header-image.png' %>">
-      <img class="uned-poll-content-header-logoimg" src="<%= asset_path 'logo-uned.png' %>">
+      <img class="uned-poll-content-header-img" src="<%= asset_pack_path 'media/images/uned-header-image.png' %>">
+      <img class="uned-poll-content-header-logoimg" src="<%= asset_pack_path 'media/images/logo-uned.png' %>">
     </article>
 
     <article class="uned-poll-content-medium">
@@ -56,7 +56,7 @@
     </article>
 
     <p class="uned-poll-contet-arrow-left-text">Te invitamos a que repases los materiales que hemos preparado para dar contexto a esta consulta.
-      <img class="uned-poll-img-arrow-left" src="<%= asset_path 'arrow-left.svg' %>"></p>
+      <img class="uned-poll-img-arrow-left" src="<%= asset_pack_path 'media/images/arrow-left.svg' %>"></p>
 
     <article class="uned-poll-content-footer">
       <div class="uned-poll-content-buttons-top">

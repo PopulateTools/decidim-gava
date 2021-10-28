@@ -14,10 +14,6 @@ module Decidim
         # resources :gava_engine
         # root to: "gava_engine#index"
       end
-
-      initializer "decidim_gava_engine.assets" do |app|
-        app.config.assets.precompile += %w[decidim_gava_engine_manifest.js decidim_gava_engine_manifest.scss]
-      end
     end
   end
 end

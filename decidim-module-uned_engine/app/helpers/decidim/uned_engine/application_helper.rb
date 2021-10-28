@@ -18,24 +18,24 @@ module Decidim
         return unless site_engine == UNED_ENGINE_ID && (Rails.env.development? || Rails.env.production?)
 
         if uned_user_cookie.blank?
-          Decidim::UnedEngine::SSOClient.log("Skipping automatic login: emtpy cookie")
+          Decidim::UnedEngine::SsoClient.log("Skipping automatic login: emtpy cookie")
 
           if current_user
-            Decidim::UnedEngine::SSOClient.log("Signing out user: emtpy cookie")
+            Decidim::UnedEngine::SsoClient.log("Signing out user: emtpy cookie")
             sign_out(current_user)
           end
 
           return
         end
 
-        sso_client = Decidim::UnedEngine::SSOClient.new
+        sso_client = Decidim::UnedEngine::SsoClient.new
         response = sso_client.check_user(uned_user_cookie)
 
         if !response.login_authorized?
-          Decidim::UnedEngine::SSOClient.log("Can't verify user - #{response.summary}")
+          Decidim::UnedEngine::SsoClient.log("Can't verify user - #{response.summary}")
           return
         elsif response.cookie_expired?
-          Decidim::UnedEngine::SSOClient.log("Signing out user: cookie expired")
+          Decidim::UnedEngine::SsoClient.log("Signing out user: cookie expired")
           sign_out(current_user)
           return
         end
@@ -43,11 +43,11 @@ module Decidim
         user = Decidim::User.find_by(nickname: response.user_nickname)
 
         if user.nil?
-          Decidim::UnedEngine::SSOClient.log("User #{response.user_nickname} not found. Creating a new one.")
+          Decidim::UnedEngine::SsoClient.log("User #{response.user_nickname} not found. Creating a new one.")
           user = create_uned_user(response)
         end
 
-        Decidim::UnedEngine::SSOClient.log("Signing in user #{response.user_nickname}")
+        Decidim::UnedEngine::SsoClient.log("Signing in user #{response.user_nickname}")
 
         sign_in(user)
       end
@@ -69,7 +69,7 @@ module Decidim
           tos_agreement: true
         )
 
-        Decidim::UnedEngine::SSOClient.log("Created user with #{user.nickname} / #{user.email}")
+        Decidim::UnedEngine::SsoClient.log("Created user with #{user.nickname} / #{user.email}")
 
         user
       end

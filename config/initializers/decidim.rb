@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../../decidim-module-gava_engine/app/services/census_authorization_handler"
-require_relative "../../decidim-module-uned_engine/app/services/sso_client"
-require_relative "../../decidim-module-uned_engine/lib/decidim/uned_engine"
-
 Decidim.configure do |config|
   config.application_name = "Decidim Populate"
   config.mailer_sender = Rails.application.secrets.mailer_sender
@@ -50,7 +46,7 @@ Decidim::Devise::SessionsController.class_eval do
   end
 
   def uned_sso_url
-    "#{Decidim::UnedEngine::SSOClient::SSO_URL}?URL=#{root_url}"
+    "#{Decidim::UnedEngine::SsoClient::SSO_URL}?URL=#{root_url}"
   end
 
   def uned_sign_out_url
