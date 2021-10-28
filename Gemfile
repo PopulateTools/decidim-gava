@@ -42,7 +42,7 @@ group :development do
 end
 
 group :development, :staging do
-  gem "letter_opener_web", "~> 1.3.0"
+  gem "letter_opener_web", "~> 1.4"
 end
 
 group :production do
