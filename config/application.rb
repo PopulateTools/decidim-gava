@@ -2,7 +2,8 @@
 
 require_relative "boot"
 require_relative "../lib/middlewares/site_middleware"
-require "rails/all"
+require "decidim/rails"
+require "action_cable"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
