@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_dependency "decidim/components/namer"
-
 Decidim.register_component(:gava_engine) do |component|
   component.engine = Decidim::GavaEngine::Engine
   component.admin_engine = Decidim::GavaEngine::AdminEngine

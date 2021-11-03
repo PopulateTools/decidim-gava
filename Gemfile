@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
-DECIDIM_VERSION = "0.24.2"
+ruby "2.7.3"
+
+# DECIDIM_VERSION = "0.25.0"
+DECIDIM_VERSION = { git: 'https://github.com/decidim/decidim.git', branch: 'as_migration_debug' }
 
 if ENV["USE_LOCAL_DECIDIM"] == "true"
   gem "decidim", path: "~/dev/decidim"
@@ -17,14 +22,13 @@ gem "rollbar"
 gem "uglifier", ">= 1.3.0"
 gem "sidekiq", "~> 5.2"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem "decidim-term_customizer", "~> 0.24.0", git: "https://github.com/mainio/decidim-module-term_customizer.git"
+gem "decidim-term_customizer", git: "https://github.com/mainio/decidim-module-term_customizer.git", branch: "develop"
 
 group :development, :test do
   gem "byebug", platform: :mri
 end
 
 group :development do
-  gem "rainbow", "~>2.2.0"
   gem "decidim-dev", DECIDIM_VERSION
   gem "web-console"
   gem "listen"
@@ -33,13 +37,13 @@ group :development do
   gem "faker"
   gem "capistrano"
   gem "capistrano3-puma"
-  gem "capistrano-bundler", "~> 1.2"
+  gem "capistrano-bundler"
   gem "puma"
   gem "pry-remote"
 end
 
 group :development, :staging do
-  gem "letter_opener_web", "~> 1.3.0"
+  gem "letter_opener_web", "~> 1.4"
 end
 
 group :production do
