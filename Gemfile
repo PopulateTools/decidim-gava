@@ -20,7 +20,7 @@ gem "httparty"
 gem "progressbar"
 gem "rollbar"
 gem "uglifier", ">= 1.3.0"
-gem "sidekiq", "~> 5.2"
+gem "sidekiq"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "decidim-term_customizer", git: "https://github.com/mainio/decidim-module-term_customizer.git", branch: "develop"
 
