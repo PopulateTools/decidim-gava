@@ -23,6 +23,9 @@ gem "sidekiq"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "decidim-term_customizer", git: "https://github.com/mainio/decidim-module-term_customizer.git", branch: "develop"
 
+# Performance
+gem "appsignal", "= 3.0.6"
+
 group :development, :test do
   gem "byebug", platform: :mri
 end
