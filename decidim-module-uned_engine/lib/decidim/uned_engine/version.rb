@@ -4,7 +4,7 @@ module Decidim
   # This holds the decidim-meetings version.
   module UnedEngine
     def self.version
-      "0.25.0"
+      "0.25.2"
     end
   end
 end

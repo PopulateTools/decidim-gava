@@ -4,8 +4,7 @@ source "https://rubygems.org"
 
 ruby "2.7.3"
 
-# DECIDIM_VERSION = "0.25.0"
-DECIDIM_VERSION = { git: 'https://github.com/decidim/decidim.git', branch: 'as_migration_debug' }
+DECIDIM_VERSION = "0.25.2"
 
 if ENV["USE_LOCAL_DECIDIM"] == "true"
   gem "decidim", path: "~/dev/decidim"
@@ -23,6 +22,9 @@ gem "uglifier", ">= 1.3.0"
 gem "sidekiq"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "decidim-term_customizer", git: "https://github.com/mainio/decidim-module-term_customizer.git", branch: "develop"
+
+# Performance
+gem "appsignal", "= 3.0.6"
 
 group :development, :test do
   gem "byebug", platform: :mri
