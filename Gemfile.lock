@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/Platoniq/decidim-module-decidim_awesome
+  revision: 4c64924882988267386d0131efe1be227ff0cf0f
+  branch: fix_zeitwerk_issues
+  specs:
+    decidim-decidim_awesome (0.8.0)
+      decidim-admin (>= 0.25.0, < 0.26)
+      decidim-core (>= 0.25.0, < 0.26)
+      sassc (~> 2.3)
+
+GIT
   remote: https://github.com/mainio/decidim-module-term_customizer.git
   revision: 12fbd0ee45100aff16f4feb341286b76325804f6
   branch: develop
@@ -786,6 +796,8 @@ GEM
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     savon (2.12.1)
       akami (~> 1.2)
       builder (>= 2.1.2)
@@ -916,6 +928,7 @@ DEPENDENCIES
   data_migrate
   database_cleaner
   decidim (= 0.25.2)
+  decidim-decidim_awesome!
   decidim-dev (= 0.25.2)
   decidim-gava_engine!
   decidim-term_customizer!
