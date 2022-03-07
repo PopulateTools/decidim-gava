@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/PopulateTools/decidim-module-question_captcha.git
+  revision: 4001a6bf7b2fea8a02f63e539d50e4ec4108beaa
+  branch: 0.26_update
+  specs:
+    decidim-question_captcha (0.26.0)
+      acts_as_textcaptcha (~> 4.5.1)
+      decidim-core (= 0.26.0)
+
+GIT
   remote: https://github.com/mainio/decidim-module-term_customizer.git
   revision: 6b5e50d9ae4cf16897cf193da4a55cd07d3fce81
   branch: develop
@@ -83,6 +92,7 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     acts_as_list (0.9.19)
       activerecord (>= 3.0)
+    acts_as_textcaptcha (4.5.2)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
@@ -867,6 +877,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_textcaptcha (~> 4.5.1)
   appsignal (= 3.0.6)
   byebug
   capistrano
@@ -879,6 +890,7 @@ DEPENDENCIES
   decidim-decidim_awesome (~> 0.8)
   decidim-dev (= 0.26.0)
   decidim-gava_engine!
+  decidim-question_captcha!
   decidim-term_customizer!
   decidim-uned_engine!
   faker
