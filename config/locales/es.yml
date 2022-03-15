@@ -48,6 +48,11 @@ es:
         dni: DNI
         nie: NIE
         passport: Pasaporte
+    devise:
+      registrations:
+        new:
+          captcha_instructions: Complete su respuesta a continuación usando caracteres de texto, sin números
+          textcaptcha_answer: Respuesta con caracteres sólamente de texto, no numéricos
   pages:
     home:
       extended:
