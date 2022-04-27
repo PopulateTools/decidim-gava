@@ -1,5 +1,7 @@
 en:
   decidim:
+    accessibility:
+      front_page_link: link home
     authorization_handlers:
       census_authorization_handler: Census authorization
     census_authorization_handler:

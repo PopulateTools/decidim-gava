@@ -20,6 +20,8 @@ es:
         month: "Mes"
         year: "Año"
   decidim:
+    accessibility:
+      front_page_link: link home
     authorizations:
       new:
         authorize: Verificar
