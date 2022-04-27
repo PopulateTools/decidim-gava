@@ -27,29 +27,30 @@ end
 
 ## Monkeypatches
 
-Decidim::Devise::SessionsController.class_eval do
-  before_action :run_engine_hooks
-
-  private
-
-  def run_engine_hooks
-    return unless request.env["site_engine"] == Decidim::UnedEngine::UNED_ENGINE_ID
-    return if Rails.env.staging? # VPN is not set up in staging
-
-    redirect_to uned_sso_url if request.path.include?("/users/sign_in")
-
-    if request.path.include?("/users/sign_out")
-      cookies.delete("usuarioUNEDv2") if Rails.env.development?
-      sign_out(current_user) if current_user
-      redirect_to uned_sign_out_url
-    end
-  end
-
-  def uned_sso_url
-    "#{Decidim::UnedEngine::SsoClient::SSO_URL}?URL=#{root_url}"
-  end
-
-  def uned_sign_out_url
-    "https://sso.uned.es/sso/index.aspx"
-  end
-end
+## UNED SSO
+## Decidim::Devise::SessionsController.class_eval do
+##   before_action :run_engine_hooks
+##
+##   private
+##
+##   def run_engine_hooks
+##     return unless request.env["site_engine"] == Decidim::UnedEngine::UNED_ENGINE_ID
+##     return if Rails.env.staging? # VPN is not set up in staging
+##
+##     redirect_to uned_sso_url if request.path.include?("/users/sign_in")
+##
+##     if request.path.include?("/users/sign_out")
+##       cookies.delete("usuarioUNEDv2") if Rails.env.development?
+##       sign_out(current_user) if current_user
+##       redirect_to uned_sign_out_url
+##     end
+##   end
+##
+##   def uned_sso_url
+##     "#{Decidim::UnedEngine::SsoClient::SSO_URL}?URL=#{root_url}"
+##   end
+##
+##   def uned_sign_out_url
+##     "https://sso.uned.es/sso/index.aspx"
+##   end
+## end
