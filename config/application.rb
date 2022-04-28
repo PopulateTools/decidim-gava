@@ -18,8 +18,9 @@ module DecidimBarcelona
 
     # Locales
     config.i18n.available_locales = %w(ca es en)
-    config.i18n.default_locale = :ca
+    config.i18n.default_locale = :en
     config.i18n.enforce_available_locales = false
+    config.i18n.fallbacks = {ca: [:en], es: [:en]}
 
     config.middleware.use(SiteMiddleware)
 
