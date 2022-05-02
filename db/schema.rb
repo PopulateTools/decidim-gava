@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 2022_03_02_125951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
-  enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -589,8 +588,8 @@ ActiveRecord::Schema.define(version: 2022_03_02_125951) do
   end
 
   create_table "decidim_forms_answers", id: :serial, force: :cascade do |t|
-    t.text "body"
     t.integer "decidim_user_id"
+    t.text "body"
     t.integer "decidim_questionnaire_id"
     t.integer "decidim_question_id"
     t.datetime "created_at", null: false

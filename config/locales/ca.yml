@@ -20,6 +20,8 @@ ca:
         month: "Mes"
         year: "Any"
   decidim:
+    accessibility:
+      front_page_link: link home
     authorizations:
       new:
         authorize: Verificar
