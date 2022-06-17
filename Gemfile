@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby "2.7.4"
 
-DECIDIM_VERSION = "0.26.1"
+DECIDIM_VERSION = "0.26.2"
 
 if ENV["USE_LOCAL_DECIDIM"] == "true"
   gem "decidim", path: "~/dev/decidim"
@@ -23,7 +23,7 @@ gem "sidekiq"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "decidim-term_customizer", git: "https://github.com/mainio/decidim-module-term_customizer.git", branch: "develop"
 gem "decidim-decidim_awesome", "~> 0.8"
-gem "decidim-question_captcha", git: "https://github.com/PopulateTools/decidim-module-question_captcha.git", branch: "0.26_1_update"
+gem "decidim-question_captcha", git: "https://github.com/PopulateTools/decidim-module-question_captcha.git", branch: "0.26_2_update"
 gem "acts_as_textcaptcha", "~> 4.5.1"
 
 # Performance
