@@ -1,5 +1,4 @@
 # Config files
-config/database.yml
 config/application.yml
 
 # Bundler config.
