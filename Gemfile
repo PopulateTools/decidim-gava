@@ -29,6 +29,8 @@ gem "acts_as_textcaptcha", "~> 4.5.1"
 # Performance
 gem "appsignal", "= 3.0.6"
 
+gem "puma"
+
 group :development, :test do
   gem "byebug", platform: :mri
 end
@@ -43,7 +45,6 @@ group :development do
   gem "capistrano"
   gem "capistrano3-puma"
   gem "capistrano-bundler"
-  gem "puma"
   gem "pry-remote"
 end
 
