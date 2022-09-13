@@ -31,6 +31,8 @@ gem "appsignal", "= 3.0.6"
 
 gem "puma"
 
+gem "aws-sdk-s3", require: false
+
 group :development, :test do
   gem "byebug", platform: :mri
 end
