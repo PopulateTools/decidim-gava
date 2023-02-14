@@ -74,20 +74,19 @@ class CensusAuthorizationHandler < Decidim::AuthorizationHandler
   def registered_in_town
     return if errors.any?
 
-    if !response.current_resident? && !response.pays_taxes_in_city?
+    if !response.current_resident?
       errors.add(:document_number, i18_error_msg(:not_in_census))
     end
   end
 
   def old_enough
     return if errors.any?
-    return if response.pays_taxes_in_city? # always allowed to participate
 
     errors.add(:date_of_birth, i18_error_msg(:not_old_enough)) unless response.age.present? && response.age >= 16
   end
 
   def census_date_of_birth_coincidence
-    return if errors.any? || response.pays_taxes_in_city?
+    return if errors.any?
 
     if response.age != Utils.age_from_birthdate(date_of_birth)
       errors.add(:date_of_birth, i18_error_msg(:invalid_date_of_birth))
