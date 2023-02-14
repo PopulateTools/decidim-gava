@@ -10,7 +10,6 @@ module CensusRestClient
       :document_number,
       :response_code,
       :age,
-      :district,
       :date_of_birth
     )
 
@@ -21,11 +20,7 @@ module CensusRestClient
     end
 
     def current_resident?
-      district.present? && age.present? && age.positive?
-    end
-
-    def pays_taxes_in_city?
-      district.present? && age.blank?
+      age.present? && age.positive?
     end
 
     # for logging
@@ -50,7 +45,6 @@ module CensusRestClient
 
       data = parsed_response.first
       self.age = (data["edat"] == "-" || data["edat"].to_i.zero?) ? nil : data["edat"].to_i
-      self.district = data["barri"] == "-" ? nil : data["barri"]
       self.date_of_birth = data["habfecnac"].present? ? Time.zone.parse(data["habfecnac"]) : nil
     end
 
