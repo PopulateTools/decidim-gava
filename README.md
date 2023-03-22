@@ -1,7 +1,6 @@
 
-# decidim-populate
-
-This is the opensource code repository for "decidim-populate", based on [Decidim](https://github.com/decidim/decidim)
+# Decidim Gava
+This is the opensource code repository for "decidim-gava", based on [Decidim](https://github.com/decidim/decidim)
 
 ## Development environment setup
 

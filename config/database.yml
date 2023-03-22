@@ -9,11 +9,11 @@ default: &default
 
 development:
   <<: *default
-  database: decidim-populate_development
+  database: decidim-gava_development
 
 test:
   <<: *default
-  database: decidim-populate_test
+  database: decidim-gava_test
 
 staging:
   <<: *default

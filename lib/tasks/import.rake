@@ -64,8 +64,6 @@ namespace :dev do
 
       dev_host = if host.include?("gava")
                    "gava.decidim.test"
-                 elsif host.include?("uned")
-                   "uned.decidim.test"
                  else
                    host
                  end

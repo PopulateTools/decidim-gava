@@ -44,8 +44,6 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen"
   gem "faker"
-  gem "capistrano"
-  gem "capistrano3-puma"
   gem "capistrano-bundler"
   gem "pry-remote"
 end
@@ -65,7 +63,3 @@ group :test do
   gem "rspec-rails"
   gem "database_cleaner"
 end
-
-# Site engines
-gem "decidim-gava_engine", path: "decidim-module-gava_engine"
-gem "decidim-uned_engine", path: "decidim-module-uned_engine"
