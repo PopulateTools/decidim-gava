@@ -1,16 +1,20 @@
-
 # Decidim Gava
+
 This is the opensource code repository for "decidim-gava", based on [Decidim](https://github.com/decidim/decidim)
 
 ## Development environment setup
 
+- Ruby version: 2.7.4
+- Node version: 16.13.0
+
 Copy config files:
 
 ```bash
-cp config/database.yml.example config/database.yml
 cp .env.example .env
 ln -s .env .rbenv-vars
 ```
+
+Review `config/database.yml` and adjust the credentials at your preference.
 
 Install dependencies:
 
@@ -38,6 +42,23 @@ Create and migrate the DB:
 bin/rails db:create db:migrate
 bin/rails db:seed # WARNING: this is not idempotent. If a unqueness validations fails, drop and re-create
 ```
+
+## Customizations
+
+### Census integration
+
+- `app/views/census_authorization/_form.html.erb`: defines the form
+- `app/services/census_authorization_handler.rb`: defines a service to deal with the authorization
+- `lib/census_rest_client`: defines a client to interact with the census API
+
+### Custom reports
+
+At `lib/reports/` you can find some custom reports the client requested. They shoudl be executed with `rails runner`
+
+### Custom anominization
+
+At `lib/tasks/anonymize.rake` you can find a task to anonymize the database.
+
 
 ## Licence
 
