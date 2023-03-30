@@ -42,7 +42,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Background Processing
-  config.active_job.queue_adapter = :sidekiq
+  # config.active_job.queue_adapter = :sidekiq
 
   ## Mailing
   config.action_mailer.delivery_method = :letter_opener_web

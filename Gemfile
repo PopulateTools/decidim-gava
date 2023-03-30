@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby "2.7.4"
+ruby "2.7.7"
 
 DECIDIM_VERSION = "0.26.2"
 
@@ -17,17 +17,15 @@ gem "figaro", ">= 1.1.1"
 gem "foundation-rails"
 gem "httparty"
 gem "progressbar"
-gem "rollbar"
 gem "uglifier", ">= 1.3.0"
-gem "sidekiq"
+gem "daemons"
+gem "delayed_job_active_record"
+gem "whenever"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "decidim-term_customizer", git: "https://github.com/mainio/decidim-module-term_customizer.git", branch: "develop"
 gem "decidim-decidim_awesome", "~> 0.8"
 gem "decidim-question_captcha", git: "https://github.com/PopulateTools/decidim-module-question_captcha.git", branch: "0.26_2_update"
 gem "acts_as_textcaptcha", "~> 4.5.1"
-
-# Performance
-gem "appsignal", "= 3.0.6"
 
 gem "puma"
 
